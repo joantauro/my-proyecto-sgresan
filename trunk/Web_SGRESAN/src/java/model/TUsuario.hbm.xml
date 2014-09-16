@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 13/09/2014 07:59:21 PM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="model.TUsuario" table="t_usuario" catalog="sgresan">
+        <id name="nombreUsuario" type="string">
+            <column name="nombreUsuario" length="25" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="TPerfil" class="model.TPerfil" fetch="select">
+            <column name="Perfil_idPerfil" not-null="true" />
+        </many-to-one>
+        <property name="contrasena" type="string">
+            <column name="contrasena" length="45" not-null="true" />
+        </property>
+        <property name="estado" type="string">
+            <column name="estado" length="45" not-null="true" />
+        </property>
+        <one-to-one name="TPersona" class="model.TPersona"></one-to-one>
+    </class>
+</hibernate-mapping>

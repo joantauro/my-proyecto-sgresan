@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 13/09/2014 07:59:21 PM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="model.TReservadetalle" table="t_reservadetalle" catalog="sgresan">
+        <id name="idTReservaDetalle" type="java.lang.Integer">
+            <column name="idT_ReservaDetalle" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="THabitacion" class="model.THabitacion" fetch="select">
+            <column name="T_Habitacion_nroHabitacion" not-null="true" />
+        </many-to-one>
+        <many-to-one name="TReserva" class="model.TReserva" fetch="select">
+            <column name="T_Reserva_idReserva" not-null="true" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>

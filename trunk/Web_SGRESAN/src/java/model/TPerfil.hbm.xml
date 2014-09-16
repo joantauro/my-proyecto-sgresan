@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 13/09/2014 07:59:21 PM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="model.TPerfil" table="t_perfil" catalog="sgresan">
+        <id name="idPerfil" type="int">
+            <column name="idPerfil" />
+            <generator class="assigned" />
+        </id>
+        <property name="nombrePrf" type="string">
+            <column name="nombrePrf" length="45" not-null="true" />
+        </property>
+        <property name="descripPrf" type="string">
+            <column name="descripPrf" length="45" not-null="true" />
+        </property>
+        <property name="estado" type="string">
+            <column name="estado" length="45" not-null="true" />
+        </property>
+        <property name="accesoHotelIdAccesoHotel" type="int">
+            <column name="AccesoHotel_idAccesoHotel" not-null="true" />
+        </property>
+        <set name="TUsuarios" table="t_usuario" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="Perfil_idPerfil" not-null="true" />
+            </key>
+            <one-to-many class="model.TUsuario" />
+        </set>
+    </class>
+</hibernate-mapping>
