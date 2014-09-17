@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 13/09/2014 07:59:21 PM by Hibernate Tools 3.6.0 -->
+<!-- Generated 17/09/2014 12:29:15 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="model.TCliente" table="t_cliente" catalog="sgresan">
+    <class name="model.TCliente" table="t_cliente" catalog="sgresan" optimistic-lock="version">
         <id name="idCliente" type="int">
             <column name="idCliente" />
             <generator class="assigned" />

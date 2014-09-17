@@ -42,8 +42,9 @@ public class LoginBean {
         persona.setTUbigeo(new TUbigeo());
     }
     
-     public void logueo()
+     public String logueo()
     {
+        String ruta="";
         RequestContext context = RequestContext.getCurrentInstance();  
         FacesMessage msg = null;  
         boolean loggedIn = false;  
@@ -58,14 +59,17 @@ public class LoginBean {
             msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome", usuario.getNombreUsuario());  
              persona = pers.BuscaporId(usuario.getNombreUsuario());
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuario", usuario);
+            ruta="index";
         }else
         {
             loggedIn = false; 
               msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Login Error", "Invalid credentials"); 
               System.out.println("Falla");
+              ruta="#";
         }
         FacesContext.getCurrentInstance().addMessage(null, msg); 
         context.addCallbackParam("loggedIn", loggedIn);  
+        return ruta;
     }
 
      

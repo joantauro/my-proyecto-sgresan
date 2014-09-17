@@ -1,5 +1,5 @@
 package model;
-// Generated 13/09/2014 07:59:20 PM by Hibernate Tools 3.6.0
+// Generated 17/09/2014 12:29:13 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -16,6 +16,8 @@ public class TReserva  implements java.io.Serializable {
      private TCliente TCliente;
      private String estado;
      private Date fechaRegistro;
+     private Date fechaEntrada;
+     private Date fechaSalida;
      private String descripcion;
      private Set TReservadetalles = new HashSet(0);
 
@@ -29,11 +31,13 @@ public class TReserva  implements java.io.Serializable {
         this.estado = estado;
         this.descripcion = descripcion;
     }
-    public TReserva(int idReserva, TCliente TCliente, String estado, Date fechaRegistro, String descripcion, Set TReservadetalles) {
+    public TReserva(int idReserva, TCliente TCliente, String estado, Date fechaRegistro, Date fechaEntrada, Date fechaSalida, String descripcion, Set TReservadetalles) {
        this.idReserva = idReserva;
        this.TCliente = TCliente;
        this.estado = estado;
        this.fechaRegistro = fechaRegistro;
+       this.fechaEntrada = fechaEntrada;
+       this.fechaSalida = fechaSalida;
        this.descripcion = descripcion;
        this.TReservadetalles = TReservadetalles;
     }
@@ -65,6 +69,20 @@ public class TReserva  implements java.io.Serializable {
     
     public void setFechaRegistro(Date fechaRegistro) {
         this.fechaRegistro = fechaRegistro;
+    }
+    public Date getFechaEntrada() {
+        return this.fechaEntrada;
+    }
+    
+    public void setFechaEntrada(Date fechaEntrada) {
+        this.fechaEntrada = fechaEntrada;
+    }
+    public Date getFechaSalida() {
+        return this.fechaSalida;
+    }
+    
+    public void setFechaSalida(Date fechaSalida) {
+        this.fechaSalida = fechaSalida;
     }
     public String getDescripcion() {
         return this.descripcion;

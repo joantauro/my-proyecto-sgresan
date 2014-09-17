@@ -1,5 +1,5 @@
 package model;
-// Generated 13/09/2014 07:59:20 PM by Hibernate Tools 3.6.0
+// Generated 17/09/2014 12:29:13 PM by Hibernate Tools 4.3.1
 
 
 
@@ -12,13 +12,20 @@ public class TReservadetalle  implements java.io.Serializable {
      private Integer idTReservaDetalle;
      private THabitacion THabitacion;
      private TReserva TReserva;
+     private Double costo;
 
     public TReservadetalle() {
     }
 
+	
     public TReservadetalle(THabitacion THabitacion, TReserva TReserva) {
+        this.THabitacion = THabitacion;
+        this.TReserva = TReserva;
+    }
+    public TReservadetalle(THabitacion THabitacion, TReserva TReserva, Double costo) {
        this.THabitacion = THabitacion;
        this.TReserva = TReserva;
+       this.costo = costo;
     }
    
     public Integer getIdTReservaDetalle() {
@@ -41,6 +48,13 @@ public class TReservadetalle  implements java.io.Serializable {
     
     public void setTReserva(TReserva TReserva) {
         this.TReserva = TReserva;
+    }
+    public Double getCosto() {
+        return this.costo;
+    }
+    
+    public void setCosto(Double costo) {
+        this.costo = costo;
     }
 
 
