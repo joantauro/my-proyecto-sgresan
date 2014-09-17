@@ -6,6 +6,7 @@
 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link href="${request.contextPath}/resources/css/estiloDisponibilidad.css" rel="stylesheet" type="text/css" />
         <link href="${request.contextPath}/resources/css/estilos.css" rel="stylesheet" type="text/css" />
         <title>Sistema Web</title>
     </h:head>
@@ -26,7 +27,7 @@
         </div>
 
         <div class='cFL cPosRel' id="Content">
-            
+             <ui:include src="/vista/menu.xhtml"  />
                         <ui:insert name="content"></ui:insert>
 
         </div>

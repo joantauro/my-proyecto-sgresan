@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 13/09/2014 07:59:21 PM by Hibernate Tools 3.6.0 -->
+<!-- Generated 17/09/2014 12:29:15 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="model.TReserva" table="t_reserva" catalog="sgresan">
+    <class name="model.TReserva" table="t_reserva" catalog="sgresan" optimistic-lock="version">
         <id name="idReserva" type="int">
             <column name="idReserva" />
             <generator class="assigned" />
@@ -16,6 +16,12 @@
         </property>
         <property name="fechaRegistro" type="timestamp">
             <column name="fechaRegistro" length="19" />
+        </property>
+        <property name="fechaEntrada" type="timestamp">
+            <column name="fechaEntrada" length="19" />
+        </property>
+        <property name="fechaSalida" type="timestamp">
+            <column name="fechaSalida" length="19" />
         </property>
         <property name="descripcion" type="string">
             <column name="descripcion" length="200" not-null="true" />
