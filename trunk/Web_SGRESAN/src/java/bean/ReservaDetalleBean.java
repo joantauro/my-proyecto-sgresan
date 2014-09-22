@@ -6,14 +6,20 @@
 
 package bean;
 
+import dao.HabitacionDao;
 import dao.ReservaDao;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+import model.TCliente;
 import model.THabitacion;
+import model.THotel;
 import model.TReserva;
 import model.TReservadetalle;
 import org.primefaces.extensions.event.timeline.TimelineAddEvent;
@@ -31,6 +37,9 @@ public class ReservaDetalleBean {
 
     private List<TReservadetalle> listareservas;
     private TReservadetalle reserva;
+    private TReserva reserv;
+    private THabitacion hab;
+     public ArrayList<String> lista ;
     
     
     private TimelineModel model;  
@@ -51,11 +60,24 @@ public class ReservaDetalleBean {
         reserva.setTHabitacion(new THabitacion());
         reserva.setTReserva(new TReserva());
         
+        reserv = new TReserva();
+            reserv.setTCliente(new TCliente());
+        hab = new THabitacion();
+        hab.setTHotel(new THotel());
+        createLista();
         llenar();
     }
     
     
-    
+    public void createLista()
+    {
+        HabitacionDao dao = new HabitacionDao();
+        lista= new ArrayList<String>();
+        for(int i=0;i<dao.listareserva().size();i++)
+        {
+            lista.add(dao.listareserva().get(i).getDescripcion());
+        } 
+    }
     public void createTimeline() {
         model = new TimelineModel();
     }
@@ -68,6 +90,8 @@ public class ReservaDetalleBean {
             System.out.println("Ex menor");
         }else
         {
+            
+            reserv.setFechaEntrada(e.getStartDate());
             model.add(event); 
             System.out.println("Es mayor");
         }
@@ -82,6 +106,33 @@ public class ReservaDetalleBean {
         // get clone of the TimelineEvent to be deleted  
         event = e.getTimelineEvent();
     } 
+    public void saveDetails() {  
+        
+        ReservaDao rdao = new ReservaDao();
+        
+        TCliente cli = new TCliente();
+        cli.setIdCliente(reserv.getTCliente().getIdCliente());
+        reserv.setIdReserva(2);
+        reserv.setEstado("pre-reserva");
+        reserv.setDescripcion("Ninguna");
+        reserv.setTCliente(cli);
+        rdao.InsetartReserva(reserv);
+        hab.setNroHabitacion(Integer.parseInt(lista.get(0)));
+        reserva.setTReserva(reserv);
+        reserva.setTHabitacion(hab);
+        rdao.InsetartReservaDetalle(reserva);
+        
+        
+        
+        model = new TimelineModel(); 
+        /*for(int i=0;i<cdao.listar().size();i++)
+         {
+           model.add(new TimelineEvent(cdao.listar().get(i), cdao.listar().get(i).getStart(), cdao.listar().get(i).getEnd()));
+         }*/
+        llenar();
+    }
+     
+     
      public void llenar()
     {// set initial start / end dates for the axis of the timeline  
          Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));  
@@ -179,6 +230,30 @@ public class ReservaDetalleBean {
 
     public void setReserva(TReservadetalle reserva) {
         this.reserva = reserva;
+    }
+
+    public TReserva getReserv() {
+        return reserv;
+    }
+
+    public void setReserv(TReserva reserv) {
+        this.reserv = reserv;
+    }
+
+    public THabitacion getHab() {
+        return hab;
+    }
+
+    public void setHab(THabitacion hab) {
+        this.hab = hab;
+    }
+
+    public ArrayList<String> getLista() {
+        return lista;
+    }
+
+    public void setLista(ArrayList<String> lista) {
+        this.lista = lista;
     }
      
      
