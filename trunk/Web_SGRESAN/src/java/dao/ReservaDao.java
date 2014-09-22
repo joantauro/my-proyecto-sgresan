@@ -21,4 +21,5 @@ public class ReservaDao {
         Session session = HibernateUtil.getSessionFactory().openSession();
         return session.createQuery("from TReservadetalle").list();
     }
+    
 }

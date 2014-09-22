@@ -41,6 +41,7 @@ public class ReservaDetalleBean {
     private TimeZone timeZone = TimeZone.getTimeZone("America/Lima");  
     private boolean timeChangeable = true; 
     
+    //private boolean editable=true;
     /**
      * Creates a new instance of ReservaDetalleBean
      */
@@ -59,8 +60,18 @@ public class ReservaDetalleBean {
         model = new TimelineModel();
     }
     
-    public void onAdd(TimelineAddEvent e) {    
-        model.add(event);  
+    public void onAdd(TimelineAddEvent e) {
+        
+        if(e.getStartDate().before(new Date()))
+        {
+            llenar();
+            System.out.println("Ex menor");
+        }else
+        {
+            model.add(event); 
+            System.out.println("Es mayor");
+        }
+         
     }  
     
      public void onEdit(TimelineModificationEvent e) {  

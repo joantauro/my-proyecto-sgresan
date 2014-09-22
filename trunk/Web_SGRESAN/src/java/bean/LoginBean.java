@@ -59,7 +59,15 @@ public class LoginBean {
             msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome", usuario.getNombreUsuario());  
              persona = pers.BuscaporId(usuario.getNombreUsuario());
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuario", usuario);
-            ruta="index";
+            
+            if(persona.getTUsuario().getTPerfil().getDescripPrf().equals("2"))
+            {
+                ruta="ReservaRecepcionista";
+            }else
+            {
+               ruta="index_1"; 
+            }
+            
         }else
         {
             loggedIn = false; 
