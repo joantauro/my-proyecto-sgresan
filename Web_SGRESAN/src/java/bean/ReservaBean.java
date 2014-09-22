@@ -6,9 +6,11 @@
 
 package bean;
 
+import dao.ReservaDao;
 import java.util.ArrayList;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import model.TReserva;
 
 /**
  *
@@ -18,6 +20,15 @@ import javax.faces.bean.SessionScoped;
 @SessionScoped
 public class ReservaBean {
 
+    private TReserva reserva;
+
+    public TReserva getReserva() {
+        return reserva;
+    }
+
+    public void setReserva(TReserva reserva) {
+        this.reserva = reserva;
+    }
     
     public ArrayList<String> lista ;
     
@@ -32,8 +43,17 @@ public class ReservaBean {
        createLista(nrohabitacion);
        editable=true;
        sino="no";
+       
+       reserva = new TReserva();
     }
 
+    public void InsertarReserva()
+    {
+        ReservaDao dao = new ReservaDao();
+         
+    }
+    
+    
     public void createLista(int n)
     {
  

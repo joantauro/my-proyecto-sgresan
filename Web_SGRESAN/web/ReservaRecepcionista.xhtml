@@ -15,17 +15,21 @@
 
     <ui:define name="content">
         <h:form id="mainForm" >
-         <p:growl id="growl" showSummary="true" showDetail="false" autoUpdate="true"/>  
+            <p:growl id="growl" showSummary="true" showDetail="false" autoUpdate="true"/>  
 
-         <poue:timeline id="timeline" value="#{reservaDetalleBean.model}" var="booking"  
-                       timeZone="#{reservaDetalleBean.timeZone}"   
-                     zoomMax="#{reservaDetalleBean.zoomMax}"   zoomMin="1200000000"
-                     start="#{reservaDetalleBean.start}"  
-                     end="#{reservaDetalleBean.end}"   axisOnTop="true"
-                     editable="true" timeChangeable="#{reservaDetalleBean.timeChangeable}"  
-                     showButtonNew="true" minHeight="200" widgetVar="timelineWdgt" style="width: 80%">  
-        </poue:timeline>
-         </h:form>
+            <poue:timeline id="timeline" value="#{reservaDetalleBean.model}" var="booking"  
+                           timeZone="#{reservaDetalleBean.timeZone}"   
+                           zoomMax="#{reservaDetalleBean.zoomMax}"   zoomMin="1200000000"
+                           start="#{reservaDetalleBean.start}" 
+                           end="#{reservaDetalleBean.end}" stackEvents="false"  axisOnTop="true"
+                           editable="true"  timeChangeable="#{reservaDetalleBean.timeChangeable}"  
+                           showButtonNew="false" minHeight="200" widgetVar="timelineWdgt" style="width: 80%">
+
+                <p:ajax event="add" listener="#{reservaDetalleBean.onAdd}" update=":mainForm:timeline" />
+
+            </poue:timeline>
+        </h:form>
+         
     </ui:define>
 
     <ui:define name="bottom">
