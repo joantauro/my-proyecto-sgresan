@@ -4,7 +4,9 @@
                 template="./vista/Plantilla_1.xhtml"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:poue="http://primefaces.org/ui/extensions">
+                xmlns:poue="http://primefaces.org/ui/extensions"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <ui:define name="top">
         top
     </ui:define>
@@ -14,8 +16,8 @@
     </ui:define>
 
     <ui:define name="content">
-        <h:form id="mainForm" >
-            <p:growl id="growl" showSummary="true" showDetail="false" autoUpdate="true"/>  
+        <h:form id="formRecep" >
+           
 
             <poue:timeline id="timeline" value="#{reservaDetalleBean.model}" var="booking"  
                            timeZone="#{reservaDetalleBean.timeZone}"   
@@ -25,11 +27,64 @@
                            editable="true"  timeChangeable="#{reservaDetalleBean.timeChangeable}"  
                            showButtonNew="false" minHeight="200" widgetVar="timelineWdgt" style="width: 80%">
 
-                <p:ajax event="add" listener="#{reservaDetalleBean.onAdd}" update=":mainForm:timeline" />
-
+                <p:ajax event="add" listener="#{reservaDetalleBean.onAdd}" update=":formVentana:detailsBookingInner"
+                        oncomplete="PF('detailsBookingWdgt').show()"/>
+ 
             </poue:timeline>
         </h:form>
          
+        <h:form id="formVentana" >
+            <p:dialog id="detailsBookingDlg" header="Detalles de Reserva" widgetVar="detailsBookingWdgt"  
+                  showEffect="clip" hideEffect="clip">  
+            <h:panelGroup id="detailsBookingInner" layout="block">  
+                <p:panelGrid   columns="2" style="margin-right:  auto" id="panelfecha"  >
+                    <h:outputText value="Fecha de Entrada" />
+                    <p:calendar value="#{reservaDetalleBean.reserv.fechaEntrada}" pattern="dd/MM/yyyy HH:mm" />
+                    <h:outputText value="Fecha de Salida" />
+                    <p:calendar value="#{reservaDetalleBean.reserv.fechaSalida}" pattern="dd/MM/yyyy" />
+                    <h:outputText value="Cliente" />
+                    <p:selectOneMenu  value="#{reservaDetalleBean.reserv.TCliente.idCliente}" >  
+                        <f:selectItems value="#{clienteBean.clientes}" var="lista" 
+                                       itemLabel="#{lista.TPersona.nombres} #{lista.TPersona.apellidoP} #{lista.TPersona.apellidoM}" itemValue="#{lista.idCliente}"/> 
+                    </p:selectOneMenu>
+                </p:panelGrid>
+                
+                 <p:panelGrid   columns="2" style="margin-right:  auto" id="panelreserva"  >
+                    <h:outputText value="Cantidad de Habitaciones"  />
+                    <p:selectOneMenu  id="seleccion1" value="#{reservaBean.nrohabitacion}"  >
+                        <f:selectItem itemLabel="1" itemValue="1"  />
+                        <f:selectItem itemLabel="2" itemValue="2" />
+                        <f:selectItem itemLabel="3" itemValue="3" />
+                        <f:selectItem itemLabel="4" itemValue="4" />
+                        <p:ajax update="panelista"   listener="#{reservaBean.ElegirNroCuarto(reservaBean.nrohabitacion)}" />
+                    </p:selectOneMenu>
+
+                </p:panelGrid>
+                <p:panel id="panelista" >
+                    <c:forEach items="#{reservaDetalleBean.lista}" var="item"     >
+
+                        <div> 
+                            <h:outputText value="Tipo de Habitación" />
+                            <p:selectOneMenu value="${item}">
+                                <f:selectItem itemLabel="Seleccione" itemValue="" />
+                                <f:selectItems value="#{habitacionBean.habitaciones}" var="hab" itemLabel="#{hab.descripcion}" itemValue="#{hab.nroHabitacion}" />
+                            </p:selectOneMenu>
+                        </div> 
+                    </c:forEach>
+                </p:panel>
+            </h:panelGroup>  
+<f:facet name="footer">  
+                <h:panelGroup layout="block" style="text-align:right; padding:2px; white-space:nowrap;">  
+                    <p:commandButton value="Save" process="detailsBookingDlg" update=":formRecep:timeline"  
+                                     action="#{reservaDetalleBean.saveDetails()}"  
+                                     oncomplete="if(!args.validationFailed){PF('detailsBookingWdgt').hide();}"/>  
+                    <p:commandButton type="button" value="Close" onclick="PF('detailsBookingWdgt').hide()"/>  
+                </h:panelGroup>  
+            </f:facet>  
+   
+        </p:dialog>  
+        </h:form>
+        
     </ui:define>
 
     <ui:define name="bottom">

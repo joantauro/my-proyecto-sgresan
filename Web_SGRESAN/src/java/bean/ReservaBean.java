@@ -22,13 +22,7 @@ public class ReservaBean {
 
     private TReserva reserva;
 
-    public TReserva getReserva() {
-        return reserva;
-    }
-
-    public void setReserva(TReserva reserva) {
-        this.reserva = reserva;
-    }
+  
     
     public ArrayList<String> lista ;
     
@@ -50,6 +44,7 @@ public class ReservaBean {
     public void InsertarReserva()
     {
         ReservaDao dao = new ReservaDao();
+        dao.InsetartReserva(reserva);
          
     }
     
@@ -150,7 +145,13 @@ public class ReservaBean {
         this.sino = sino;
     }
     
-    
+     public TReserva getReserva() {
+        return reserva;
+    }
+
+    public void setReserva(TReserva reserva) {
+        this.reserva = reserva;
+    }
     
     
 }
