@@ -48,31 +48,34 @@
                                        itemLabel="#{lista.TPersona.nombres} #{lista.TPersona.apellidoP} #{lista.TPersona.apellidoM}" itemValue="#{lista.idCliente}"/> 
                     </p:selectOneMenu>
                 </p:panelGrid>
-                
-                 <p:panelGrid   columns="2" style="margin-right:  auto" id="panelreserva"  >
+              
+            </h:panelGroup>
+                            <p:panel header="Información de Habitación">
+                <p:panelGrid   columns="2" style="margin-right:  auto" id="panelsito"  >
                     <h:outputText value="Cantidad de Habitaciones"  />
-                    <p:selectOneMenu  id="seleccion1" value="#{reservaBean.nrohabitacion}"  >
+                    <p:selectOneMenu  id="seleccion1" value="#{reservaDetalleBean.nrohabitacion}"  >
                         <f:selectItem itemLabel="1" itemValue="1"  />
                         <f:selectItem itemLabel="2" itemValue="2" />
                         <f:selectItem itemLabel="3" itemValue="3" />
                         <f:selectItem itemLabel="4" itemValue="4" />
-                        <p:ajax update="panelista"   listener="#{reservaBean.ElegirNroCuarto(reservaBean.nrohabitacion)}" />
+                        <p:ajax update="pan"   listener="#{reservaDetalleBean.ElegirNroCuarto(reservaDetalleBean.nrohabitacion)}" />
                     </p:selectOneMenu>
 
                 </p:panelGrid>
-                <p:panel id="panelista" >
+                <p:panel id="pan" >
                     <c:forEach items="#{reservaDetalleBean.lista}" var="item"     >
 
                         <div> 
                             <h:outputText value="Tipo de Habitación" />
                             <p:selectOneMenu value="${item}">
                                 <f:selectItem itemLabel="Seleccione" itemValue="" />
-                                <f:selectItems value="#{habitacionBean.habitaciones}" var="hab" itemLabel="#{hab.descripcion}" itemValue="#{hab.nroHabitacion}" />
+                                <f:selectItems value="#{habitacionBean.habitaciones}" var="habs" itemLabel="#{habs.descripcion}" itemValue="#{habs.nroHabitacion}" /> 
                             </p:selectOneMenu>
                         </div> 
                     </c:forEach>
                 </p:panel>
-            </h:panelGroup>  
+                
+            </p:panel>
 <f:facet name="footer">  
                 <h:panelGroup layout="block" style="text-align:right; padding:2px; white-space:nowrap;">  
                     <p:commandButton value="Save" process="detailsBookingDlg" update=":formRecep:timeline"  
@@ -84,7 +87,7 @@
    
         </p:dialog>  
         </h:form>
-        
+      
     </ui:define>
 
     <ui:define name="bottom">
