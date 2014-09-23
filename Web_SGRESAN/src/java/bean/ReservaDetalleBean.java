@@ -6,17 +6,14 @@
 
 package bean;
 
-import dao.HabitacionDao;
 import dao.ReservaDao;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 import model.TCliente;
 import model.THabitacion;
 import model.THotel;
@@ -42,6 +39,8 @@ public class ReservaDetalleBean {
      public ArrayList<String> lista ;
     
     
+     public int nrohabitacion;
+     
     private TimelineModel model;  
     private TimelineEvent event; // current event to be changed, edited, deleted or added  
     private long zoomMax;  
@@ -56,28 +55,45 @@ public class ReservaDetalleBean {
      */
     public ReservaDetalleBean() {
         event = new TimelineEvent();
+        
+       nrohabitacion=1;
+       createLista(nrohabitacion);
+        
         reserva = new TReservadetalle();
         reserva.setTHabitacion(new THabitacion());
         reserva.setTReserva(new TReserva());
         
         reserv = new TReserva();
-            reserv.setTCliente(new TCliente());
+        reserv.setTCliente(new TCliente());
         hab = new THabitacion();
         hab.setTHotel(new THotel());
-        createLista();
+       
         llenar();
     }
     
     
-    public void createLista()
+    public void createLista(int n)
     {
-        HabitacionDao dao = new HabitacionDao();
+       
+        //HabitacionDao dao = new HabitacionDao();
         lista= new ArrayList<String>();
-        for(int i=0;i<dao.listareserva().size();i++)
+        for(int i=0;i<n;i++)
         {
-            lista.add(dao.listareserva().get(i).getDescripcion());
+           // lista.add(dao.listareserva().get(i).getDescripcion());
+            lista.add("dobles");
         } 
     }
+    
+     public void ElegirNroCuarto(int n)
+    {
+        System.out.println("Valor de n : "+n);
+        nrohabitacion=n;
+         createLista(n);
+        System.out.println("Tamaño : " + lista.size());
+        System.out.println("Nro : " + nrohabitacion); 
+    }
+    
+    
     public void createTimeline() {
         model = new TimelineModel();
     }
@@ -112,17 +128,21 @@ public class ReservaDetalleBean {
         
         TCliente cli = new TCliente();
         cli.setIdCliente(reserv.getTCliente().getIdCliente());
-        reserv.setIdReserva(2);
+        reserv.setIdReserva(rdao.PK());
         reserv.setEstado("pre-reserva");
         reserv.setDescripcion("Ninguna");
         reserv.setTCliente(cli);
         rdao.InsetartReserva(reserv);
-        hab.setNroHabitacion(Integer.parseInt(lista.get(0)));
+        
         reserva.setTReserva(reserv);
-        reserva.setTHabitacion(hab);
-        rdao.InsetartReservaDetalle(reserva);
         
         
+        
+        for (int i = 0; i < nrohabitacion; i++) {
+            hab.setNroHabitacion(Integer.parseInt(lista.get(i)));
+            reserva.setTHabitacion(hab);
+            rdao.InsetartReservaDetalle(reserva);
+        }
         
         model = new TimelineModel(); 
         /*for(int i=0;i<cdao.listar().size();i++)
@@ -255,6 +275,16 @@ public class ReservaDetalleBean {
     public void setLista(ArrayList<String> lista) {
         this.lista = lista;
     }
+
+    public int getNrohabitacion() {
+        return nrohabitacion;
+    }
+
+    public void setNrohabitacion(int nrohabitacion) {
+        this.nrohabitacion = nrohabitacion;
+    }
+
+ 
      
      
      

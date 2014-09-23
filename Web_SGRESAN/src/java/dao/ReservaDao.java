@@ -37,6 +37,12 @@ public class ReservaDao {
     
     }
     
+     public int PK() {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        int pk = (Integer.parseInt(session.createQuery("select count(*) from TReserva").uniqueResult().toString()))+1;
+        return  pk;
+    }
+    
     public void InsetartReservaDetalle(TReservadetalle reserva)
     { 
         Session sesion = HibernateUtil.getSessionFactory().openSession();
