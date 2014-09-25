@@ -13,7 +13,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
-import model.TPerfil;
 import model.TPersona;
 import model.TUbigeo;
 import model.TUsuario;
@@ -35,7 +34,7 @@ public class LoginBean {
      */
     public LoginBean() {
         usuario= new TUsuario();
-        usuario.setTPerfil(new TPerfil());
+        
         
         persona = new TPersona();
         persona.setTUsuario(new TUsuario());
@@ -60,7 +59,7 @@ public class LoginBean {
              persona = pers.BuscaporId(usuario.getNombreUsuario());
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuario", usuario);
             
-            if(persona.getTUsuario().getTPerfil().getDescripPrf().equals("2"))
+            if(persona.getTUsuario().getTipoUsuario().equals("recepcionista"))
             {
                 ruta="ReservaRecepcionista";
             }else
@@ -75,7 +74,7 @@ public class LoginBean {
               System.out.println("Falla");
               ruta="#";
         }
-        FacesContext.getCurrentInstance().addMessage(null, msg); 
+        //FacesContext.getCurrentInstance().addMessage(null, msg); 
         context.addCallbackParam("loggedIn", loggedIn);  
         return ruta;
     }
@@ -89,7 +88,7 @@ public class LoginBean {
         sesion.invalidate();
         //usuario = new TUsuario();
         System.out.println(usuario.getNombreUsuario().length());
-        return "index.xhtml";
+        return "index";
         //
     }
      

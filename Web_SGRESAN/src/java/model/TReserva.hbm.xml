@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 17/09/2014 12:29:15 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated 25/09/2014 10:40:57 AM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="model.TReserva" table="t_reserva" catalog="sgresan" optimistic-lock="version">
         <id name="idReserva" type="int">
@@ -25,6 +25,15 @@
         </property>
         <property name="descripcion" type="string">
             <column name="descripcion" length="200" not-null="true" />
+        </property>
+        <property name="modalidadPago" type="string">
+            <column name="modalidadPago" length="25" />
+        </property>
+        <property name="voucher" type="binary">
+            <column name="voucher" />
+        </property>
+        <property name="precio" type="java.lang.Double">
+            <column name="precio" precision="22" scale="0" />
         </property>
         <set name="TReservadetalles" table="t_reservadetalle" inverse="true" lazy="true" fetch="select">
             <key>

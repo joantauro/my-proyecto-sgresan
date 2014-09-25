@@ -4,23 +4,16 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
-    <ui:composition>
+    <ui:composition >
         <h:form  id="menu" >
             <p:menubar>
-                <p:submenu label="Inicio" icon="ui-icon-document">
-                    <p:submenu label="New" icon="ui-icon-contact">
-                        <p:menuitem value="Project" url="#" />
-                        <p:menuitem value="Other" url="#" />
-                    </p:submenu>
-                    <p:menuitem value="Open" url="#" />
-                    <p:separator />
-                    <p:menuitem value="Quit" url="#" />
-                </p:submenu> 
+               <p:menuitem value="Inicio" url="index.xhtml" />
                 <p:submenu label="Perfil" icon="ui-icon-document">
                     
                 </p:submenu>
                 <p:submenu label="Reservas" icon="ui-icon-document">
-                    
+                    <p:menuitem value="Disponibilidad" url="ReservaRecepcionista.xhtml" rendered="#{loginBean.usuario.tipoUsuario eq 'recepcionista'}" />
+                    <p:menuitem value="Confirmación" url="ConfirmacionReserva.xhtml" rendered="#{loginBean.usuario.tipoUsuario eq 'recepcionista'}" />
                 </p:submenu>
                 <p:submenu label="Noticias" icon="ui-icon-document">
                     

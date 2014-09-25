@@ -8,6 +8,7 @@ package bean;
 
 import dao.ReservaDao;
 import java.util.ArrayList;
+import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import model.TReserva;
@@ -21,7 +22,7 @@ import model.TReserva;
 public class ReservaBean {
 
     private TReserva reserva;
-
+    private List<TReserva> estadodereservas;
   
     
     public ArrayList<String> lista ;
@@ -151,6 +152,13 @@ public class ReservaBean {
 
     public void setReserva(TReserva reserva) {
         this.reserva = reserva;
+    }
+
+    public List<TReserva> getEstadodereservas() {
+        ReservaDao dao = new ReservaDao();
+        estadodereservas=dao.listarestadoreserva();
+        
+        return estadodereservas;
     }
     
     

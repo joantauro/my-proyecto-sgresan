@@ -1,5 +1,5 @@
 package model;
-// Generated 17/09/2014 12:29:13 PM by Hibernate Tools 4.3.1
+// Generated 25/09/2014 10:40:56 AM by Hibernate Tools 4.3.1
 
 
 
@@ -10,26 +10,26 @@ public class TUsuario  implements java.io.Serializable {
 
 
      private String nombreUsuario;
-     private TPerfil TPerfil;
      private String contrasena;
      private String estado;
+     private String tipoUsuario;
      private TPersona TPersona;
 
     public TUsuario() {
     }
 
 	
-    public TUsuario(String nombreUsuario, TPerfil TPerfil, String contrasena, String estado) {
+    public TUsuario(String nombreUsuario, String contrasena, String estado, String tipoUsuario) {
         this.nombreUsuario = nombreUsuario;
-        this.TPerfil = TPerfil;
         this.contrasena = contrasena;
         this.estado = estado;
+        this.tipoUsuario = tipoUsuario;
     }
-    public TUsuario(String nombreUsuario, TPerfil TPerfil, String contrasena, String estado, TPersona TPersona) {
+    public TUsuario(String nombreUsuario, String contrasena, String estado, String tipoUsuario, TPersona TPersona) {
        this.nombreUsuario = nombreUsuario;
-       this.TPerfil = TPerfil;
        this.contrasena = contrasena;
        this.estado = estado;
+       this.tipoUsuario = tipoUsuario;
        this.TPersona = TPersona;
     }
    
@@ -39,13 +39,6 @@ public class TUsuario  implements java.io.Serializable {
     
     public void setNombreUsuario(String nombreUsuario) {
         this.nombreUsuario = nombreUsuario;
-    }
-    public TPerfil getTPerfil() {
-        return this.TPerfil;
-    }
-    
-    public void setTPerfil(TPerfil TPerfil) {
-        this.TPerfil = TPerfil;
     }
     public String getContrasena() {
         return this.contrasena;
@@ -60,6 +53,13 @@ public class TUsuario  implements java.io.Serializable {
     
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+    public String getTipoUsuario() {
+        return this.tipoUsuario;
+    }
+    
+    public void setTipoUsuario(String tipoUsuario) {
+        this.tipoUsuario = tipoUsuario;
     }
     public TPersona getTPersona() {
         return this.TPersona;
