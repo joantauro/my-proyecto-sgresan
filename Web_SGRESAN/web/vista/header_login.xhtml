@@ -13,22 +13,8 @@
                <p:inputText value="#{loginBean.usuario.nombreUsuario}" />
                <h:outputText value="Contraseña : " />
                <h:inputSecret value="#{loginBean.usuario.contrasena}" />
-               <p:commandButton value="Entrar" action="#{loginBean.logueo()}" />
+               <h:commandButton value="Entrar" action="#{loginBean.logueo()}" />
            </p:panel>
        </h:form>
-       <script type="text/javascript">
-    function handleLoginRequest(xhr, status, args) {
-        if(args.validationFailed || !args.loggedIn) {
-            PF('dlg').jq.effect("shake", {times:5}, 100);
-        }
-        else {
-            PF('dlg').hide();
-              $('#loginLink').fadeOut(); 
-              window.location="/Web_SGRESAN/index.xhtml";
-        }
-    }
-       </script>
- 
    </ui:composition>
-
 </html>
