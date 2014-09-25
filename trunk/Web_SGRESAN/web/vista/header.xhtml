@@ -7,15 +7,11 @@
 
    <ui:composition>
        <h:form id="formulario" >
-          
+          <p:growl id="growl" showDetail="true" life="3000" /> 
            <p:panel id="p" >
-               <p:commandLink id="ajax" style="margin-left: auto" onclick="PF('dlg').show();" 
-                              title="Iniciar Sesión" rendered="#{loginBean.usuario.nombreUsuario eq ''}" >
-                   <h:outputText value="Iniciar Sesión" />
-               </p:commandLink>
-
+          
                <p:commandLink id="cerrar" style="margin-left: auto" action="#{loginBean.logoud()}" 
-                              update=":formulario:p,:formulario:ajax,:formulario:cerrar" title="Cerrar Sesión" 
+                              update=":formulario:p" title="Cerrar Sesión" 
                               rendered="#{loginBean.usuario.nombreUsuario ne ''}" >
                    <h:outputText value="Cerrar Sesión" />
                </p:commandLink>
@@ -23,44 +19,7 @@
            </p:panel>
            
             
-           
-           <p:commandButton value="prueba"  action="#{loginBean.PRUEBA()}" />
-       
-         <p:dialog id="dialog" header="Acceso Restringido" widgetVar="dlg" modal="true">  
-                        <p:growl id="growl" showDetail="true" life="3000" /> 
-                        <h:form  id="fmrLogin">
-                             
-                            <p:outputPanel autoUpdate="true">
-                                <h:panelGrid columns="3">
-                                    <p:panel >
-                                        <p:graphicImage value="${request.contextPath}/../img/i_users.png"  /> 
-                                    </p:panel>
-                                    <h:panelGrid columns="2">
-                                        <label for="userin">Usuario</label>
-                                        <h:inputText id="userin" value="#{loginBean.usuario.nombreUsuario}"  />
-                                        <div></div>
-
-                                        <label for="pass">Password:</label>
-                                        <h:inputSecret id="password" value="#{loginBean.usuario.contrasena}"   />
-                                        <div></div>
-
-                                    </h:panelGrid>
-                                    <div class="sep">
-                                        
-                                    </div>
-                                </h:panelGrid>
-                                 
-                                <div class="sep"></div>
-                                <div align="center">
-                                    <h:panelGrid columns="2">
-                                        <p:commandButton title="Save" icon="ui-icon-key" value="Ingresar" action="#{loginBean.logueo()}"  
-                                                         oncomplete="handleLoginRequest(xhr, status, args)" update=":formulario:ds,:formulario:p" />   
-                                    </h:panelGrid>
-                                </div>
-                            </p:outputPanel>
-                        </h:form>
-                     
-                      </p:dialog>
+      
        </h:form>
        <script type="text/javascript">
     function handleLoginRequest(xhr, status, args) {

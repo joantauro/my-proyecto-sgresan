@@ -24,6 +24,12 @@ public class ReservaDao {
         return session.createQuery("from TReservadetalle").list();
     }
     
+    public List<TReserva> listarestadoreserva()
+    {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        return session.createQuery("from TReserva where Estado<>'reserva'").list();
+    }
+    
     public void InsetartReserva(TReserva reserva)
     { 
         Session sesion = HibernateUtil.getSessionFactory().openSession();

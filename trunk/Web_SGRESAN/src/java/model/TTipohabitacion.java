@@ -1,5 +1,5 @@
 package model;
-// Generated 17/09/2014 12:29:13 PM by Hibernate Tools 4.3.1
+// Generated 25/09/2014 10:40:56 AM by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -12,6 +12,7 @@ public class TTipohabitacion  implements java.io.Serializable {
 
 
      private int idTTipoHabitacion;
+     private Promociones promociones;
      private String nombre;
      private Set THabitaciondetalles = new HashSet(0);
 
@@ -19,11 +20,13 @@ public class TTipohabitacion  implements java.io.Serializable {
     }
 
 	
-    public TTipohabitacion(int idTTipoHabitacion) {
+    public TTipohabitacion(int idTTipoHabitacion, Promociones promociones) {
         this.idTTipoHabitacion = idTTipoHabitacion;
+        this.promociones = promociones;
     }
-    public TTipohabitacion(int idTTipoHabitacion, String nombre, Set THabitaciondetalles) {
+    public TTipohabitacion(int idTTipoHabitacion, Promociones promociones, String nombre, Set THabitaciondetalles) {
        this.idTTipoHabitacion = idTTipoHabitacion;
+       this.promociones = promociones;
        this.nombre = nombre;
        this.THabitaciondetalles = THabitaciondetalles;
     }
@@ -34,6 +37,13 @@ public class TTipohabitacion  implements java.io.Serializable {
     
     public void setIdTTipoHabitacion(int idTTipoHabitacion) {
         this.idTTipoHabitacion = idTTipoHabitacion;
+    }
+    public Promociones getPromociones() {
+        return this.promociones;
+    }
+    
+    public void setPromociones(Promociones promociones) {
+        this.promociones = promociones;
     }
     public String getNombre() {
         return this.nombre;

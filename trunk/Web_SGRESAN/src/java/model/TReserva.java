@@ -1,5 +1,5 @@
 package model;
-// Generated 17/09/2014 12:29:13 PM by Hibernate Tools 4.3.1
+// Generated 25/09/2014 10:40:56 AM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -19,6 +19,9 @@ public class TReserva  implements java.io.Serializable {
      private Date fechaEntrada;
      private Date fechaSalida;
      private String descripcion;
+     private String modalidadPago;
+     private byte[] voucher;
+     private Double precio;
      private Set TReservadetalles = new HashSet(0);
 
     public TReserva() {
@@ -31,7 +34,7 @@ public class TReserva  implements java.io.Serializable {
         this.estado = estado;
         this.descripcion = descripcion;
     }
-    public TReserva(int idReserva, TCliente TCliente, String estado, Date fechaRegistro, Date fechaEntrada, Date fechaSalida, String descripcion, Set TReservadetalles) {
+    public TReserva(int idReserva, TCliente TCliente, String estado, Date fechaRegistro, Date fechaEntrada, Date fechaSalida, String descripcion, String modalidadPago, byte[] voucher, Double precio, Set TReservadetalles) {
        this.idReserva = idReserva;
        this.TCliente = TCliente;
        this.estado = estado;
@@ -39,6 +42,9 @@ public class TReserva  implements java.io.Serializable {
        this.fechaEntrada = fechaEntrada;
        this.fechaSalida = fechaSalida;
        this.descripcion = descripcion;
+       this.modalidadPago = modalidadPago;
+       this.voucher = voucher;
+       this.precio = precio;
        this.TReservadetalles = TReservadetalles;
     }
    
@@ -90,6 +96,27 @@ public class TReserva  implements java.io.Serializable {
     
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+    public String getModalidadPago() {
+        return this.modalidadPago;
+    }
+    
+    public void setModalidadPago(String modalidadPago) {
+        this.modalidadPago = modalidadPago;
+    }
+    public byte[] getVoucher() {
+        return this.voucher;
+    }
+    
+    public void setVoucher(byte[] voucher) {
+        this.voucher = voucher;
+    }
+    public Double getPrecio() {
+        return this.precio;
+    }
+    
+    public void setPrecio(Double precio) {
+        this.precio = precio;
     }
     public Set getTReservadetalles() {
         return this.TReservadetalles;
