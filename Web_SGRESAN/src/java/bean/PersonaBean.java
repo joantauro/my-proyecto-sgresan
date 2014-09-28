@@ -47,6 +47,16 @@ public class PersonaBean {
         return "nuevapersona";
     }
     
+    public String irActualizar() {
+        setEsEdicion(true);
+        setPersona((TPersona) listapersona.getRowData());
+        int codigoUb = persona.getTUbigeo().getIdTUbigeo();
+        persona.setTUbigeo(new TUbigeo(codigoUb, "", false));
+        String cod = persona.getIdPersona();
+        persona.setIdPersona(cod);
+        return "nuevapersona";
+    }
+    
     public DataModel getListapersona() {
          PersonaDao profMgd = new PersonaDao();
         listapersona = new ListDataModel(profMgd.obtenerPersonaTodos());
