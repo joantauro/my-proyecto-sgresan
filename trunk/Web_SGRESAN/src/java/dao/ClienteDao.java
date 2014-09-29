@@ -33,7 +33,7 @@ public class ClienteDao {
             if (idcl.equals("")) {
                 return false;
             }
-            cliente.setCdCliente(idcl);
+//            corregir     cliente.setCdCliente(idcl);
             sesion.save(cliente);
             trans.commit();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Se  agrego Trabajador correctamente", "Verificar")); 
