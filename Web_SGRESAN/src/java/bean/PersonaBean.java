@@ -51,7 +51,7 @@ public class PersonaBean {
         setEsEdicion(true);
         setPersona((TPersona) listapersona.getRowData());
         int codigoUb = persona.getTUbigeo().getIdTUbigeo();
-        persona.setTUbigeo(new TUbigeo(codigoUb, "", false));
+//    corregir    persona.setTUbigeo(new TUbigeo(codigoUb, "", false));
         String cod = persona.getIdPersona();
         persona.setIdPersona(cod);
         return "nuevapersona";
@@ -84,12 +84,6 @@ public class PersonaBean {
         PersonaDao objTrb = new PersonaDao();
         listarUbigeoSel = objTrb.listarUbigeo();
         return listarUbigeoSel;
-    }
-
-    public List<TPersona> getPersonas() {
-        PersonaDao dao = new PersonaDao();
-        clientes = dao.listareserva();
-        return clientes;
     }
 
      public void setListarUbigeoSel(List<TUbigeo> listarUbigeoSel) {
