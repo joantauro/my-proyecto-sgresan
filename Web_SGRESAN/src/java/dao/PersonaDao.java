@@ -12,6 +12,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import model.TCliente;
 import model.TPersona;
+import model.TUbigeo;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -116,7 +117,7 @@ public class PersonaDao {
       /*  try {*/
             sesion = HibernateUtil.getSessionFactory().openSession();
             trans = sesion.beginTransaction();
-            qry = sesion.createQuery("FROM TTrabajador");
+            qry = sesion.createQuery("FROM TPersona");
             listapersona = (List<TPersona>) qry.list();
        /* } catch (Exception ex) {
             ex.printStackTrace();
