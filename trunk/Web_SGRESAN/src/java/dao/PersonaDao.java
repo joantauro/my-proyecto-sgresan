@@ -35,7 +35,7 @@ public class PersonaDao {
             if (idcl.equals("")) {
                 return false;
             }
-            persona.setCdPersona(idcl);
+            persona.setIdPersona(idcl);
             sesion.save(persona);
             trans.commit();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Se  agrego Cliente correctamente", "Verificar")); 
@@ -48,6 +48,35 @@ public class PersonaDao {
             sesion.close();
         }
         return true;
+    }
+    public boolean actualizarPersona(TPersona persona) {
+            sesion = HibernateUtil.getSessionFactory().openSession();
+            try {
+                 sesion.beginTransaction();
+                 sesion.merge(persona);
+                 sesion.beginTransaction().commit();
+                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Se  Actualizó Cliente "+persona.getNombres()+" correctamente", "Verificar"));    
+            } catch (Exception e) {
+                 System.out.println("Error en actualizar" + e.getMessage());
+                 sesion.beginTransaction().rollback();
+                 return false;
+             }
+            finally {
+                 sesion.close();
+             }
+            return true;
+    }
+    
+    public void actualizarUbigeo(TUbigeo ubigeo) {
+        sesion = HibernateUtil.getSessionFactory().openSession();
+       /* try {*/
+            sesion.beginTransaction();
+            sesion.merge(ubigeo);
+            sesion.beginTransaction().commit();
+      /*  } catch (Exception e) {
+            System.out.println("Error en actualizar" + e.getMessage());
+            sesion.beginTransaction().rollback();
+        }*/
     }
     
     private String obtenerIDPersona() {
