@@ -80,7 +80,7 @@ and open the template in the editor.
                             <h:outputText value="#{persona.dni}"/>
                         </p:column>
 
-                        <p:column filterBy="#{persona.TTipopersona.nombre}" filterMatchMode="contains">
+       <!--                 <p:column filterBy="#{persona.TTipopersona.nombre}" filterMatchMode="contains">
                             <f:facet name="header">  
                                 <h:outputText value="Tipo Persona" />  
                             </f:facet> 
@@ -93,6 +93,7 @@ and open the template in the editor.
                             </f:facet> 
                             <h:outputText value="#{persona.TUbigeo.nombre}"/>
                         </p:column>
+       -->
 
                         <p:column filterBy="#{persona.telefono}" filterMatchMode="contains">
                             <f:facet name="header">  
@@ -132,11 +133,11 @@ and open the template in the editor.
                             <h:outputText value="Nombre(s) :" />  
                             <h:outputText value="#{personaBean.persona.nombres}" style="font-weight:bold"/>  
                             <h:outputText value="Apellidos :" />  
-                            <h:outputText value="#{personaBean.persona.apellidos}" style="font-weight:bold"/>  
+                            <h:outputText value="#{personaBean.persona.apellidoP}" style="font-weight:bold"/>  
                             <h:outputText value="DNI :" />  
                             <h:outputText value="#{personaBean.persona.dni}" style="font-weight:bold"/>  
                             <h:outputText value="Tipo Persona :" />  
-                            <h:outputText value="#{personaBean.persona.TTipopersona.nombre}" style="font-weight:bold"/>  
+                            <h:outputText value="#{personaBean.persona.TUsuario.tipoUsuario}" style="font-weight:bold"/>  
                             <h:outputText value="Residencia :" />  
                             <h:outputText value="#{personaBean.persona.TUbigeo.nombre}" style="font-weight:bold"/>  
                             <h:outputText value="Teléfono :" />  
@@ -152,13 +153,10 @@ and open the template in the editor.
                         <p:separator/>
                         <h:panelGrid id="display3" columns="2" cellpadding="4" >
                             <h:outputText value="Usuario :" />  
-                            <h:outputText value="#{personaBean.persona.TUsuario.nomUsu}" style="font-weight:bold"/>
-                            <h:outputText value="Acceso Web :" />  
-                            <h:outputText value="#{personaBean.persona.TUsuario.accesoWeb}" style="font-weight:bold"/>
-                            <h:outputText value="Acceso Mobile:" />  
-                            <h:outputText value="#{personaBean.persona.TUsuario.accesoMobile}" style="font-weight:bold"/>
+                            <h:outputText value="#{personaBean.persona.TUsuario.nombreUsuario}" style="font-weight:bold"/>
+                          
                         </h:panelGrid>
-                    </p:dialog>
+                  
 
                 </h:form>
             </ui:define> 

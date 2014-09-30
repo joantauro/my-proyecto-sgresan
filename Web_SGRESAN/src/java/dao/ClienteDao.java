@@ -64,4 +64,15 @@ public class ClienteDao {
         Session session = HibernateUtil.getSessionFactory().openSession();
         return session.createQuery("from TCliente").list();
     }
+    
+    public TCliente buscarCliente(String id)
+    {
+        Session sesion =HibernateUtil.getSessionFactory().openSession();
+        String sql="select u from TCliente u where TPersona=:user"; 
+       
+        Query query = sesion.createQuery(sql);
+        query.setString("user", id);
+       
+        return (TCliente) query.uniqueResult();
+    }
 }

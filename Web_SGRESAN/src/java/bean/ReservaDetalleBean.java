@@ -6,19 +6,23 @@
 
 package bean;
 
+import dao.ClienteDao;
 import dao.ReservaDao;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import model.TCliente;
 import model.THabitacion;
 import model.THotel;
 import model.TReserva;
 import model.TReservadetalle;
+import model.TUsuario;
 import org.primefaces.extensions.event.timeline.TimelineAddEvent;
 import org.primefaces.extensions.event.timeline.TimelineModificationEvent;
 import org.primefaces.extensions.model.timeline.TimelineEvent;
@@ -49,6 +53,7 @@ public class ReservaDetalleBean {
     private TimeZone timeZone = TimeZone.getTimeZone("America/Lima");  
     private boolean timeChangeable = true; 
     
+    ReservaDao dao  = new ReservaDao();
     //private boolean editable=true;
     /**
      * Creates a new instance of ReservaDetalleBean
@@ -121,18 +126,57 @@ public class ReservaDetalleBean {
      public void onDelete(TimelineModificationEvent e) {  
         // get clone of the TimelineEvent to be deleted  
         event = e.getTimelineEvent();
+        
+        //reserva = dao.BuscaporId(((TReservadetalle)event.getData()).getIdTReservaDetalle());
+        reserva =((TReservadetalle)event.getData());
+        reserv = reserva.getTReserva();
+        
+       //  System.out.println(reserva.getIdTReservaDetalle());
+       //  System.out.println(((TReservadetalle)event.getData()).getIdTReservaDetalle());
     } 
-    public void saveDetails() {  
+    
+     public void onChange(TimelineModificationEvent e) {
+        event = e.getTimelineEvent();  
+        reserva =((TReservadetalle)event.getData());
+        reserv = reserva.getTReserva();
         
-        ReservaDao rdao = new ReservaDao();
-        
+        start = event.getStartDate();
+        end = event.getEndDate();
+//        FacesMessage msg =  
+//            new FacesMessage(FacesMessage.SEVERITY_INFO, "The booking dates " + cuarto.getCuarto() + " have been updated", null);  
+//        FacesContext.getCurrentInstance().addMessage(null, msg);  
+
+    }
+     public void REPROGRAMAR()
+     {
+         reserv.setFechaEntrada(start);
+         reserv.setFechaSalida(end);
+         dao.MoficiarReserva(reserv);
+         model = new TimelineModel(); 
+         llenar();
+     }
+     
+     public void CANCEL()
+     {
+         reserv.setEstado("cancelado");
+         System.out.println(reserv.getIdReserva());
+         dao.MoficiarReserva(reserv);
+         model = new TimelineModel(); 
+       llenar();
+     }
+     
+     public void registrarprereserva()
+     { ClienteDao clidao = new ClienteDao();
+       int valor = clidao.buscarCliente(((TUsuario)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario")).getNombreUsuario()).getIdCliente(); 
+         
+
         TCliente cli = new TCliente();
-        cli.setIdCliente(reserv.getTCliente().getIdCliente());
-        reserv.setIdReserva(rdao.PK());
+        cli.setIdCliente(valor);
+        reserv.setIdReserva(dao.PK());
         reserv.setEstado("pre-reserva");
         reserv.setDescripcion("Ninguna");
         reserv.setTCliente(cli);
-        rdao.InsetartReserva(reserv);
+        dao.InsetartReserva(reserv);
         
         reserva.setTReserva(reserv);
         
@@ -141,7 +185,29 @@ public class ReservaDetalleBean {
         for (int i = 0; i < nrohabitacion; i++) {
             hab.setNroHabitacion(Integer.parseInt(lista.get(i)));
             reserva.setTHabitacion(hab);
-            rdao.InsetartReservaDetalle(reserva);
+            dao.InsetartReservaDetalle(reserva);
+        }
+     }
+     
+    public void saveDetails() {  
+        
+        
+        TCliente cli = new TCliente();
+        cli.setIdCliente(reserv.getTCliente().getIdCliente());
+        reserv.setIdReserva(dao.PK());
+        reserv.setEstado("pre-reserva");
+        reserv.setDescripcion("Ninguna");
+        reserv.setTCliente(cli);
+        dao.InsetartReserva(reserv);
+        
+        reserva.setTReserva(reserv);
+        
+        
+        
+        for (int i = 0; i < nrohabitacion; i++) {
+            hab.setNroHabitacion(Integer.parseInt(lista.get(i)));
+            reserva.setTHabitacion(hab);
+            dao.InsetartReservaDetalle(reserva);
         }
         
         model = new TimelineModel(); 
@@ -170,16 +236,30 @@ public class ReservaDetalleBean {
         cal.setTimeInMillis(now.getTime() + 8 * 60 * 60 * 40000);  
         end = cal.getTime();  
           //  event = new TimelineEvent("Joel", start, end, true, "1", "available");
-        ReservaDao dao = new ReservaDao();
+      
         listareservas = dao.listareserva();
-        for (TReservadetalle listareserva : listareservas) {
-            model.add(new TimelineEvent(listareserva.getTReserva().getTCliente().getTPersona().getNombres(), listareserva.getTReserva().getFechaEntrada(), listareserva.getTReserva().getFechaSalida(), true, listareserva.getTHabitacion().getNroHabitacion() + "", "maybe")); // eSTADO
+        for(int i=0;i<listareservas.size();i++)
+         {
+        if(!"cancelado".equals(listareservas.get(i).getTReserva().getEstado()))
+        {
+             model.add(new TimelineEvent(listareservas.get(i), listareservas.get(i).getTReserva().getFechaEntrada(), 
+                                                              listareservas.get(i).getTReserva().getFechaSalida(), true, 
+                                                              listareservas.get(i).getTHabitacion().getNroHabitacion() + "", 
+                                                              listareservas.get(i).getTReserva().getEstado())); // eSTADO
+        
         }
+         }
+//        for (TReservadetalle listareserva : listareservas) {
+//            model.add(new TimelineEvent(listareservas.get(i), listareserva.getTReserva().getFechaEntrada(), 
+//                                                              listareserva.getTReserva().getFechaSalida(), true, 
+//                                                              listareserva.getTHabitacion().getNroHabitacion() + "", 
+//                                                              listareserva.getTReserva().getEstado())); // eSTADO
+//        }
         
     }
 
     public List<TReservadetalle> getListareservas() {
-        ReservaDao dao = new ReservaDao();
+        
         listareservas = dao.listareserva();
         return listareservas;
     }

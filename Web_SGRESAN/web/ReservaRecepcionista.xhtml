@@ -17,24 +17,42 @@
     </ui:define>
 
     <ui:define name="left">
-        left
+        <h:form id="info">
+            <p:panelGrid columns="1" id="panelinfo" >
+            <h:outputText value="Codigo Reserva" />
+            <h:inputText value="#{reservaDetalleBean.reserva.TReserva.idReserva}" />
+            <h:outputText value="Cliente" />
+            <h:inputText value="#{reservaDetalleBean.reserva.TReserva.TCliente.TPersona.nombres}" />
+            <h:outputText value="Habitación" />
+            <h:inputText value="#{reservaDetalleBean.reserva.THabitacion.nroHabitacion}" />
+        </p:panelGrid>
+        </h:form>
+        
     </ui:define>
 
     <ui:define name="content">
         <h:form id="formRecep" >
-           
-
             <poue:timeline id="timeline" value="#{reservaDetalleBean.model}" var="booking"  
                            timeZone="#{reservaDetalleBean.timeZone}"   
                            zoomMax="#{reservaDetalleBean.zoomMax}"   zoomMin="1200000000"
                            start="#{reservaDetalleBean.start}" 
                            end="#{reservaDetalleBean.end}" stackEvents="false"  axisOnTop="true"
-                           editable="true"  timeChangeable="#{reservaDetalleBean.timeChangeable}"  
+                           editable="true" showNavigation="true" timeChangeable="#{reservaDetalleBean.timeChangeable}"  
                            showButtonNew="false" minHeight="200" widgetVar="timelineWdgt" style="width: 80%">
 
                 <p:ajax event="add" listener="#{reservaDetalleBean.onAdd}" update=":formVentana:detailsBookingInner"
                         oncomplete="PF('detailsBookingWdgt').show()"/>
  
+                <p:ajax event="change" update=":formreprogramacion:ReprogramacionInner" listener="#{reservaDetalleBean.onChange}" oncomplete="PF('ReprogramacionWdgt').show()" /> 
+                <p:ajax event="delete" update=":formcancelacion:deleteBookingInner,:info:panelinfo"  
+                        listener="#{reservaDetalleBean.onDelete}"
+            onstart="PF('timelineWdgt').cancelDelete()" oncomplete="PF('deleteBookingWdgt').show()"/>
+                
+                <h:panelGrid columns="1">   
+                <h:outputText value="Cliente : #{booking.TReserva.TCliente.TPersona.nombres}" />  
+                 
+            </h:panelGrid> 
+                
             </poue:timeline>
         </h:form>
          
@@ -93,6 +111,40 @@
         </p:dialog>  
         </h:form>
       
+        <h:form id="formcancelacion" >
+            <p:dialog id="deleteBookingDlg" header="Cancelación de Reservas" widgetVar="deleteBookingWdgt"  
+                      showEffect="clip" hideEffect="clip" dynamic="true">  
+                <h:panelGroup id="deleteBookingInner" layout="block" style="margin:10px;">  
+
+                    <h:panelGrid columns="2" columnClasses="bookingDetails1,bookingDetails2">  
+                        <h:outputText value="¿Está Seguro que desea cancelar esta reserva?"/>  
+                        <p:commandButton value="Aceptar" actionListener="#{reservaDetalleBean.CANCEL()}" update=":formRecep:timeline"  onclick="PF('deleteBookingDlg').hide()" />
+                        <p:commandButton value="Cancelar" onclick="PF('deleteBookingDlg').hide()" />
+                    </h:panelGrid> 
+                </h:panelGroup>  
+
+                  
+            </p:dialog> 
+        </h:form>
+        
+        <h:form id="formreprogramacion" >
+            <p:dialog id="Reprogramaciondlg" header="Reprogramación de Reservas" widgetVar="ReprogramacionWdgt"  
+                      showEffect="clip" hideEffect="clip" dynamic="true">  
+                <h:panelGroup id="ReprogramacionInner" layout="block" style="margin:10px;">  
+
+                    <h:panelGrid columns="2" columnClasses="bookingDetails1,bookingDetails2">  
+                        <h:outputText value="¿Está Seguro que desea reprogramar esta reserva?"/> 
+                        <h:outputText value="#{reservaDetalleBean.start}" />
+                        <h:outputText value="#{reservaDetalleBean.end}" />
+                        <p:commandButton value="Aceptar" actionListener="#{reservaDetalleBean.REPROGRAMAR()}" update=":formRecep:timeline"  onclick="PF('deleteBookingDlg').hide()" />
+                        <p:commandButton value="Cancelar" onclick="PF('Reprogramaciondlg').hide()" />
+                    </h:panelGrid> 
+                </h:panelGroup>  
+
+                  
+            </p:dialog> 
+        </h:form>
+        
     </ui:define>
 
     <ui:define name="bottom">

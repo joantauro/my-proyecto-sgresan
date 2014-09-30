@@ -3,7 +3,7 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 25/09/2014 10:40:57 AM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="model.TReserva" table="t_reserva" catalog="sgresan" optimistic-lock="version">
+    <class name="model.TReserva" table="t_reserva" catalog="sgresan"  optimistic-lock="version">
         <id name="idReserva" type="int">
             <column name="idReserva" />
             <generator class="assigned" />
@@ -35,11 +35,5 @@
         <property name="precio" type="java.lang.Double">
             <column name="precio" precision="22" scale="0" />
         </property>
-        <set name="TReservadetalles" table="t_reservadetalle" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="T_Reserva_idReserva" not-null="true" />
-            </key>
-            <one-to-many class="model.TReservadetalle" />
-        </set>
     </class>
 </hibernate-mapping>

@@ -11,6 +11,7 @@ import model.TReserva;
 import model.TReservadetalle;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import util.HibernateUtil;
 
 /**
@@ -21,45 +22,96 @@ public class ReservaDao {
     public List<TReservadetalle> listareserva()
     {
         Session session = HibernateUtil.getSessionFactory().openSession();
-        return session.createQuery("from TReservadetalle").list();
+        return session.createQuery("from TReservadetalle ").list();
     }
     
     public List<TReserva> listarestadoreserva()
     {
         Session session = HibernateUtil.getSessionFactory().openSession();
-        return session.createQuery("from TReserva where Estado<>'reserva'").list();
+        return session.createQuery("from TReserva where Estado<>'pre-reserva'").list();
     }
     
     public void InsetartReserva(TReserva reserva)
     { 
-        Session sesion = HibernateUtil.getSessionFactory().openSession();
+          Session sesion = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
         try {
-            
+            tx =sesion.beginTransaction();
             sesion.save(reserva);
-            sesion.beginTransaction().commit();
-        } catch (HibernateException e) {
-            System.out.println(e.getMessage());
+            tx.commit();
+        } catch  (Exception e) {
+            if(tx!=null)
+            {
+                tx.rollback();
+            }
+        } finally {
+            sesion.close();
         }
     
     }
     
+    public void MoficiarReserva(TReserva reserva)
+    { 
+         Session sesion = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
+        try {
+            tx =sesion.beginTransaction();
+            sesion.merge(reserva);
+            tx.commit();
+        } catch  (Exception e) {
+            if(tx!=null)
+            {
+                tx.rollback();
+            }
+        } finally {
+            sesion.close();
+        }
+    }
+    
      public int PK() {
         Session session = HibernateUtil.getSessionFactory().openSession();
-        int pk = (Integer.parseInt(session.createQuery("select count(*) from TReserva").uniqueResult().toString()))+1;
+        int pk = (Integer.parseInt(session.createQuery("select count(*) from TReserva ").uniqueResult().toString()))+1;
         return  pk;
     }
     
     public void InsetartReservaDetalle(TReservadetalle reserva)
     { 
-        Session sesion = HibernateUtil.getSessionFactory().openSession();
+          Session sesion = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
         try {
-            
+            tx =sesion.beginTransaction();
             sesion.save(reserva);
-            sesion.beginTransaction().commit();
-        } catch (HibernateException e) {
-            System.out.println(e.getMessage());
+            tx.commit();
+        } catch  (Exception e) {
+            if(tx!=null)
+            {
+                tx.rollback();
+            }
+        } finally {
+            sesion.close();
         }
     
+    }
+    
+    public TReservadetalle BuscaporId(int id) {
+        
+        TReservadetalle reserva = null;
+        final Session sesion = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
+        try {
+            tx =sesion.beginTransaction();
+            reserva = (TReservadetalle) sesion.load(TReservadetalle.class, id);
+            tx.commit();
+        } catch (Exception e) {
+            if(tx!=null)
+            {
+                tx.rollback();
+            }
+            throw  new RuntimeException(e);
+        } finally {
+            sesion.close();
+        }
+        return reserva;
     }
     
 }
