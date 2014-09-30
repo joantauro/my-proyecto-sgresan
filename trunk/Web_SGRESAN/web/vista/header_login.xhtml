@@ -7,14 +7,25 @@
 
    <ui:composition>
        <h:form id="formulario" >
-          
-           <p:panel id="p" style="margin-left: 45%;border: #D20005;"   >
+            <p:panel id="p" style="margin-left: 45%;border: #D20005;"   >
                <h:outputText value="Usuario : " />
                <p:inputText value="#{loginBean.usuario.nombreUsuario}" />
                <h:outputText value="Contraseña : " />
                <h:inputSecret value="#{loginBean.usuario.contrasena}" />
-               <h:commandButton value="Entrar" action="#{loginBean.logueo()}" />
+               <h:commandButton value="Entrar" action="#{loginBean.logueo()}"   />
            </p:panel>
+           
        </h:form>
+        
+ <script type="text/javascript">  
+    function handleLoginRequest(xhr, status, args) {  
+        if(args.validationFailed || !args.loggedIn) {  
+       
+        } else {  
+            jQuery('#loginLink').fadeOut();  
+            window.location="/Web_SGRESAN/#{loginBean.ruta}";
+        }  
+    }  
+</script>       
    </ui:composition>
 </html>

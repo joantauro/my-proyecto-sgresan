@@ -29,6 +29,8 @@ public class LoginBean {
    
     public TUsuario usuario;
     public TPersona persona;
+    
+    private String ruta;
     /**
      * Creates a new instance of LoginBean
      */
@@ -43,7 +45,7 @@ public class LoginBean {
     
      public String logueo()
     {
-        String ruta="";
+      
         RequestContext context = RequestContext.getCurrentInstance();  
         FacesMessage msg = null;  
         boolean loggedIn = false;  
@@ -61,10 +63,10 @@ public class LoginBean {
             
             if(persona.getTUsuario().getTipoUsuario().equals("recepcionista"))
             {
-                ruta="ReservaRecepcionista";
+                ruta="ReservaRecepcionista.xhtml";
             }else
             {
-               ruta="index_1"; 
+               ruta="index_1.xhtml"; 
             }
             
         }else
@@ -80,7 +82,7 @@ public class LoginBean {
     }
 
      
-    public String logoud() {
+    public void logoud() {
 
         RequestContext context = RequestContext.getCurrentInstance();
         FacesContext fc = FacesContext.getCurrentInstance();
@@ -88,7 +90,8 @@ public class LoginBean {
         sesion.invalidate();
         //usuario = new TUsuario();
         System.out.println(usuario.getNombreUsuario().length());
-        return "index";
+        context.addCallbackParam("loggedIn", true);  
+        //return "index";
         //
     }
      
@@ -116,6 +119,14 @@ public class LoginBean {
 
     public void setPersona(TPersona persona) {
         this.persona = persona;
+    }
+
+    public String getRuta() {
+        return ruta;
+    }
+
+    public void setRuta(String ruta) {
+        this.ruta = ruta;
     }
     
      

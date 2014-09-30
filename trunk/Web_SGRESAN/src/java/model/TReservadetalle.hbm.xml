@@ -3,7 +3,7 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 25/09/2014 10:40:57 AM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="model.TReservadetalle" table="t_reservadetalle" catalog="sgresan" optimistic-lock="version">
+    <class name="model.TReservadetalle" table="t_reservadetalle" catalog="sgresan"  optimistic-lock="version">
         <id name="idTReservaDetalle" type="java.lang.Integer">
             <column name="idT_ReservaDetalle" />
             <generator class="identity" />
