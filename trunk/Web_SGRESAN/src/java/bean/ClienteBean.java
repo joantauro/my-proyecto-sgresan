@@ -12,7 +12,7 @@ import javax.faces.bean.SessionScoped;
 import model.TCliente;
 
 /**
- *
+ * pureba  carlos
  * @author Joel
  */
 @ManagedBean
