@@ -20,4 +20,10 @@ public class HabitacionDao {
         Session session = HibernateUtil.getSessionFactory().openSession();
         return session.createQuery("from THabitacion").list();
     }
+    
+    public int Precio(int Hab) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        int pk = (Integer.parseInt(session.createQuery("select precio from THabitacion where NroHabitacion="+Hab).uniqueResult().toString()))+1;
+        return  pk;
+    }
 }

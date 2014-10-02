@@ -11,14 +11,13 @@
            <p:panel id="p" >
           
                <p:commandLink id="cerrar" style="margin-left: auto" action="#{loginBean.logoud()}" 
-                              update=":formulario:p" title="Cerrar Sesión" 
-                              rendered="#{loginBean.usuario.nombreUsuario ne ''}" oncomplete="handleLoginRequest(xhr, status, args)" >
+                              update=":formulario:p" title="Cerrar Sesión" rendered="#{loginBean.sesion}"
+                                oncomplete="handleLoginRequest(xhr, status, args)" >
                    <h:outputText value="Cerrar Sesión" />
                </p:commandLink>
                <h:outputText id="ds" value="USUARIO : #{loginBean.usuario.nombreUsuario}" />
            </p:panel>
-           
-            
+          
       
        </h:form>
        <script type="text/javascript">  

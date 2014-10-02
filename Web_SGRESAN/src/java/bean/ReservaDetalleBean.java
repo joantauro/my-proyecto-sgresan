@@ -7,6 +7,7 @@
 package bean;
 
 import dao.ClienteDao;
+import dao.HabitacionDao;
 import dao.ReservaDao;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -87,6 +88,31 @@ public class ReservaDetalleBean {
            // lista.add(dao.listareserva().get(i).getDescripcion());
             lista.add("dobles");
         } 
+    }
+    
+    public void PRECIO()
+    {   
+        try
+        {
+            double suma=0;
+//        reserv.setPrecio(i);
+//        i++;
+        System.out.println(lista.size());
+        HabitacionDao o = new HabitacionDao();
+         for (int i = 0; i < nrohabitacion; i++) {
+            if (!"".equals(lista.get(i))) {
+                suma = suma + o.Precio(Integer.parseInt(lista.get(i)));
+            } else {
+                suma+=0;
+            }
+
+        }
+         reserv.setPrecio(suma);
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
     }
     
      public void ElegirNroCuarto(int n)
@@ -237,7 +263,7 @@ public class ReservaDetalleBean {
         end = cal.getTime();  
           //  event = new TimelineEvent("Joel", start, end, true, "1", "available");
       
-        listareservas = dao.listareserva();
+        listareservas = dao.listareserva();System.out.println("Lista" + listareservas.size());
         for(int i=0;i<listareservas.size();i++)
          {
         if(!"cancelado".equals(listareservas.get(i).getTReserva().getEstado()))
@@ -247,8 +273,9 @@ public class ReservaDetalleBean {
                                                               listareservas.get(i).getTHabitacion().getNroHabitacion() + "", 
                                                               listareservas.get(i).getTReserva().getEstado())); // eSTADO
         
-        }
+            System.out.println("N°" + i);}
          }
+      
 //        for (TReservadetalle listareserva : listareservas) {
 //            model.add(new TimelineEvent(listareservas.get(i), listareserva.getTReserva().getFechaEntrada(), 
 //                                                              listareserva.getTReserva().getFechaSalida(), true, 
