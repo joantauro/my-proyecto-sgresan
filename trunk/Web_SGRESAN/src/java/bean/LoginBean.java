@@ -31,13 +31,14 @@ public class LoginBean {
     public TPersona persona;
     
     private String ruta;
+    private boolean sesionI;
     /**
      * Creates a new instance of LoginBean
      */
     public LoginBean() {
         usuario= new TUsuario();
         
-        
+        sesionI=true;
         persona = new TPersona();
         persona.setTUsuario(new TUsuario());
         persona.setTUbigeo(new TUbigeo());
@@ -60,13 +61,13 @@ public class LoginBean {
             msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome", usuario.getNombreUsuario());  
              persona = pers.BuscaporId(usuario.getNombreUsuario());
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuario", usuario);
-            
+            sesionI=false;
             if(persona.getTUsuario().getTipoUsuario().equals("recepcionista"))
             {
                 ruta="ReservaRecepcionista.xhtml";
             }else
             {
-               ruta="index_1.xhtml"; 
+               ruta="newTemplateClient.xhtml"; 
             }
             
         }else
@@ -89,6 +90,7 @@ public class LoginBean {
         HttpSession sesion = (HttpSession) fc.getExternalContext().getSession(false);
         sesion.invalidate();
         //usuario = new TUsuario();
+        this.sesionI=true;
         System.out.println(usuario.getNombreUsuario().length());
         context.addCallbackParam("loggedIn", true);  
         //return "index";
@@ -127,6 +129,14 @@ public class LoginBean {
 
     public void setRuta(String ruta) {
         this.ruta = ruta;
+    }
+
+    public boolean isSesion() {
+        return sesionI;
+    }
+
+    public void setSesion(boolean sesion) {
+        this.sesionI = sesion;
     }
     
      

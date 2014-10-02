@@ -42,7 +42,7 @@ div.unavailable {
     border-color: #bd2828 !important;     /* red */  
 }  
   
-div.pagado {  
+div.reservado {  
     background: #1AA11A none !important;  /* green */  
     border-color: #136e13 !important;     /* green */  
 }  

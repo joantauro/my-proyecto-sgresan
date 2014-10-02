@@ -1,24 +1,28 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                template="./vista/Plantilla_1.xhtml"
+                template="./vista/Plantilla_main.xhtml"
                 xmlns:p="http://primefaces.org/ui"
-                xmlns:h="http://xmlns.jcp.org/jsf/html">
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="titulo">
         Lista de Reservas 
     </ui:define>
 
     <ui:define name="top">
-        top
+   
     </ui:define>
 
     <ui:define name="left">
-        left
+       
     </ui:define>
 
     <ui:define name="content">
-        <p:dataTable var="inte" value="#{reservaBean.estadodereservas}">
+        <p:dataTable var="inte" value="#{reservaBean.estadodereservas}"  >
+            <f:facet name="header">
+                LisA de Reservas por Confirmar
+            </f:facet>
             <p:column headerText="Id">
                 <h:outputText value="#{inte.idReserva}" />
             </p:column>

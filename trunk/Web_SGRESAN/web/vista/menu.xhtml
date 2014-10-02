@@ -6,16 +6,20 @@
       xmlns:p="http://primefaces.org/ui">
     <ui:composition >
         <h:form  id="menu" >
-            <p:menubar>
+            <p:menubar  class="nav" >
                <p:menuitem value="Inicio" url="index.xhtml" />
-                <p:submenu label="Perfil" icon="ui-icon-document">
-                    
+                <p:submenu label="Servicios"  />
+                <p:submenu label="Galeria"  />
+                <p:submenu label="Restaurant"  />
+                <p:submenu label="Testimonio"  />
+                <p:submenu label="Reservas" rendered="#{loginBean.usuario.tipoUsuario eq 'recepcionista'}" >
+                    <p:menuitem value="Disponibilidad" url="ReservaRecepcionista.xhtml"  />
+                    <p:menuitem value="Confirmación" url="ConfirmacionReserva.xhtml"  />
                 </p:submenu>
-                <p:submenu label="Reservas" icon="ui-icon-document">
-                    <p:menuitem value="Disponibilidad" url="ReservaRecepcionista.xhtml" rendered="#{loginBean.usuario.tipoUsuario eq 'recepcionista'}" />
-                    <p:menuitem value="Confirmación" url="ConfirmacionReserva.xhtml" rendered="#{loginBean.usuario.tipoUsuario eq 'recepcionista'}" />
+                <p:submenu label="Reservas" rendered="#{loginBean.usuario.tipoUsuario ne 'recepcionista'}" >
+                    <p:menuitem value="Pre-Reservas" url="Reserva.xhtml"   />
+                    <p:menuitem value="Confirmación"    />
                 </p:submenu>
-                <p:menuitem value="Habitaciones" url="index.xhtml" />
         </p:menubar>
         </h:form>
         
