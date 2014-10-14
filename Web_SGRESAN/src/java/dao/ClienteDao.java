@@ -26,22 +26,17 @@ public class ClienteDao {
     Query qry;
 
     public boolean ingresarCliente(TCliente cliente) {
-       try {
-            sesion = HibernateUtil.getSessionFactory().openSession();
-            trans = sesion.beginTransaction();
-            String idcl = obtenerIDCliente();
-            if (idcl.equals("")) {
-                return false;
-            }
-//            corregir     cliente.setCdCliente(idcl);
+             Session sesion = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
+        try {
+            tx =sesion.beginTransaction();
             sesion.save(cliente);
-            trans.commit();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Se  agrego Trabajador correctamente", "Verificar")); 
-        } catch (Exception ex) {
-            //despues agrego para que salgan mensajes de error            
-            trans.rollback();
-            ex.printStackTrace();
-            return false;
+            tx.commit();
+        } catch  (Exception e) {
+            if(tx!=null)
+            {
+                tx.rollback();
+            }
         } finally {
             sesion.close();
         }
@@ -59,7 +54,7 @@ public class ClienteDao {
         }*/
         return nuevoID;
     }
-    public List<TCliente> listareserva()
+    public List<TCliente> listarcliente()
     {
         Session session = HibernateUtil.getSessionFactory().openSession();
         return session.createQuery("from TCliente").list();
@@ -74,5 +69,23 @@ public class ClienteDao {
         query.setString("user", id);
        
         return (TCliente) query.uniqueResult();
+    }
+    
+    public void MoficiarCliente(TCliente cliente)
+    { 
+         Session sesion = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
+        try {
+            tx =sesion.beginTransaction();
+            sesion.merge(cliente);
+            tx.commit();
+        } catch  (Exception e) {
+            if(tx!=null)
+            {
+                tx.rollback();
+            }
+        } finally {
+            sesion.close();
+        }
     }
 }
