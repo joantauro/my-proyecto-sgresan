@@ -26,17 +26,17 @@
                 <h:form id="formPersona" >
                     <h:outputText value="ADMINISTRAR - CLIENTES" style="font-weight:bold;font-size:20px;color:#654B24" />
                     <div style="padding-bottom: 10px;">                            
-                        <p:commandButton value="Nuevo" action="#{personaBean.irAgregar()}" icon="ui-icon-document" ajax="false">
+                        <p:commandButton value="Nuevo" icon="ui-icon-document"  oncomplete="PF('infoDialog').show();">
                         </p:commandButton>
                     </div>                       
 
                     <!--                TABLA PERSONA                   -->
-                    <p:dataTable id="dataTable" var="persona" value="#{personaBean.listapersona}"
+                    <p:dataTable id="dataTable" var="persona" value="#{personaBean.listaclientes}"
                                  paginator="true" rows="15"  
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
                                  rowsPerPageTemplate="5,10,15" style="font-weight:bold">                    
                         <f:facet name="header">  
-                            Lista Personaes
+                            Lista Personas
                         </f:facet>  
 
                         <p:column>  
@@ -53,59 +53,72 @@
                             <f:facet name="header">  
                                 <h:outputText value="CdCliente" />  
                             </f:facet>  
-                            <h:outputText value="#{persona.cdPersona}" />  
+                            <h:outputText value="#{persona.idCliente}" />  
                         </p:column>                          
 
-                        <p:column filterBy="#{persona.nombres}" filterMatchMode="contains">
+                        <p:column filterBy="#{persona.TPersona.nombres}}" filterMatchMode="contains">
                             <f:facet name="header">  
                                 <h:outputText value="Nombres" />  
                             </f:facet>  
-                            <h:outputText value="#{persona.nombres}"/>                        
+                            <h:outputText value="#{persona.TPersona.nombres}"/>                        
                         </p:column>
- jo
-
-                        <p:column filterBy="#{persona.dni}" filterMatchMode="contains">
+                        
+                        <p:column filterBy="#{persona.TPersona.apellidoP}" filterMatchMode="contains">
+                            <f:facet name="header">  
+                                <h:outputText value="Apellido Paterno" />  
+                            </f:facet> 
+                            <h:outputText value="#{persona.TPersona.apellidoP}"/>
+                        </p:column>
+                        
+                        <p:column filterBy="#{persona.TPersona.apellidoM}" filterMatchMode="contains">
+                            <f:facet name="header">  
+                                <h:outputText value="Apellido Materno" />  
+                            </f:facet> 
+                            <h:outputText value="#{persona.TPersona.apellidoM}"/>
+                        </p:column>
+                        
+                        <p:column filterBy="#{persona.TPersona.dni}" filterMatchMode="contains">
                             <f:facet name="header">  
                                 <h:outputText value="DNI" />  
                             </f:facet> 
-                            <h:outputText value="#{persona.dni}"/>
+                            <h:outputText value="#{persona.TPersona.dni}"/>
                         </p:column>
-
-       <!--                 <p:column filterBy="#{persona.TTipopersona.nombre}" filterMatchMode="contains">
+ 
+                        <p:column filterBy="#{persona.TPersona.direccion}" filterMatchMode="contains">
                             <f:facet name="header">  
-                                <h:outputText value="Tipo Persona" />  
+                                <h:outputText value="Dirección" />  
                             </f:facet> 
-                            <h:outputText value="#{persona.TTipopersona.nombre}"/>
+                            <h:outputText value="#{persona.TPersona.direccion}"/>
                         </p:column>
 
-                        <p:column filterBy="#{persona.TUbigeo.nombre}" filterMatchMode="contains">
+                        <p:column filterBy="#{persona.TPersona.telefono}" filterMatchMode="contains">
                             <f:facet name="header">  
-                                <h:outputText value="Distrito Residente" />  
+                                <h:outputText value="Teléfono" />  
                             </f:facet> 
-                            <h:outputText value="#{persona.TUbigeo.nombre}"/>
+                            <h:outputText value="#{persona.TPersona.telefono}"/>
                         </p:column>
-       -->
 
-                        <p:column filterBy="#{persona.telefono}" filterMatchMode="contains">
+                        <p:column filterBy="#{persona.TPersona.celular}" filterMatchMode="contains">
                             <f:facet name="header">  
-                                <h:outputText value="Telf." />  
+                                <h:outputText value="Celular" />  
                             </f:facet> 
-                            <h:outputText value="#{persona.telefono}"/>
+                            <h:outputText value="#{persona.TPersona.celular}"/>
                         </p:column>
 
-                        <p:column filterBy="#{persona.celular}" filterMatchMode="contains">
-                            <f:facet name="header">  
-                                <h:outputText value="celular" />  
-                            </f:facet> 
-                            <h:outputText value="#{persona.celular}"/>
-                        </p:column>
-
-                        <p:column filterBy="#{persona.email}" filterMatchMode="contains">
+                        <p:column filterBy="#{persona.TPersona.email}" filterMatchMode="contains">
                             <f:facet name="header">  
                                 <h:outputText value="Email" />  
                             </f:facet> 
-                            <h:outputText value="#{persona.email}"/>
+                            <h:outputText value="#{persona.TPersona.email}"/>
                         </p:column>
+                        
+                        <p:column filterBy="#{persona.TPersona.estado}" filterMatchMode="contains">
+                            <f:facet name="header">  
+                                <h:outputText value="Estado" />  
+                            </f:facet> 
+                            <h:outputText value="#{persona.TPersona.estado}"/>
+                        </p:column>
+       
 
                         <p:column headerText="Editar">
                             <f:facet name="header">
@@ -120,33 +133,45 @@
                     <!-- CORREGIR <p:dialog header="Información del Persona" widgetVar="infoDialog" resizable="false" id="carDlg"  
                               showEffect="fade" hideEffect="explode" modal="true" appendToBody="true">  -->
 
-                        <h:panelGrid id="display2" columns="2" cellpadding="4" style="margin:0 auto;">  
-                            <h:outputText value="Nombre(s) :" />  
-                            <h:outputText value="#{personaBean.persona.nombres}" style="font-weight:bold"/>  
-                            <h:outputText value="Apellidos :" />  
-                            <h:outputText value="#{personaBean.persona.apellidoP}" style="font-weight:bold"/>  
-                            <h:outputText value="DNI :" />  
-                            <h:outputText value="#{personaBean.persona.dni}" style="font-weight:bold"/>  
-                            <h:outputText value="Tipo Persona :" />  
-                            <h:outputText value="#{personaBean.persona.TUsuario.tipoUsuario}" style="font-weight:bold"/>  
-                            <h:outputText value="Residencia :" />  
-                            <h:outputText value="#{personaBean.persona.TUbigeo.nombre}" style="font-weight:bold"/>  
-                            <h:outputText value="Teléfono :" />  
-                            <h:outputText value="#{personaBean.persona.telefono}" style="font-weight:bold"/>  
-                            <h:outputText value="Celular :" />  
-                            <h:outputText value="#{personaBean.persona.celular}" style="font-weight:bold"/> 
-                            <h:outputText value="Correo :" />  
-                            <h:outputText value="#{personaBean.persona.email}" style="font-weight:bold"/> 
-                            <h:outputText value="Estado :" />  
-                            <h:outputText value="#{personaBean.persona.estado}" style="font-weight:bold"/>
-
-                        </h:panelGrid>  
+                        
                         <p:separator/>
                         <h:panelGrid id="display3" columns="2" cellpadding="4" >
                             <h:outputText value="Usuario :" />  
                             <h:outputText value="#{personaBean.persona.TUsuario.nombreUsuario}" style="font-weight:bold"/>
                           
                         </h:panelGrid>
+                        
+                        <p:dialog header="Información del Persona" widgetVar="infoDialog" resizable="false" id="carDlg"  
+                                  showEffect="fade" hideEffect="explode" modal="true" > 
+                            <h:panelGrid id="display2" columns="2" cellpadding="4" style="margin:0 auto;">  
+                            <h:outputText value="Nombre(s) :" />  
+                            <p:inputText value="#{personaBean.persona.nombres}" style="font-weight:bold"/>  
+                            <h:outputText value="Apellido Paterno :" />  
+                            <p:inputText value="#{personaBean.persona.apellidoP}" style="font-weight:bold"/> 
+                            <h:outputText value="Apellido Materno :" />  
+                            <p:inputText value="#{personaBean.persona.apellidoM}" style="font-weight:bold"/>  
+                            <h:outputText value="DNI :" />  
+                            <p:inputText value="#{personaBean.persona.dni}" style="font-weight:bold"/>  
+                            <h:outputText value="Dirección :" />  
+                            <p:inputText value="#{personaBean.persona.direccion}" style="font-weight:bold"/>  
+                            <h:outputText value="Teléfono :" />  
+                            <p:inputText value="#{personaBean.persona.telefono}" style="font-weight:bold"/>  
+                            <h:outputText value="Celular :" />  
+                            <p:inputText value="#{personaBean.persona.celular}" style="font-weight:bold"/> 
+                            <h:outputText value="Correo :" />  
+                            <p:inputText value="#{personaBean.persona.email}" style="font-weight:bold"/> 
+                            <h:outputText value="Departamento :" /> 
+                            <p:selectOneMenu  value="#{personaBean.persona.TUbigeo.idTUbigeo}" >  
+                                <f:selectItems value="#{ubigeoBean.listarUbigeo}" var="lista" 
+                                               itemLabel="#{lista.nombre}" itemValue="#{lista.idTUbigeo}"/> 
+                            </p:selectOneMenu>
+                            
+                            <p:commandButton value="Registrar" icon="ui-icon-document"  oncomplete="PF('infoDialog').hide();"  action="#{personaBean.irAgregar()}" >
+                        </p:commandButton>
+
+                        </h:panelGrid>  
+                        
+                        </p:dialog>
                   
 
                 </h:form>

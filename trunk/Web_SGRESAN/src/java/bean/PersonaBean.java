@@ -5,6 +5,7 @@
  */
 package bean;
 
+import dao.ClienteDao;
 import dao.PersonaDao;
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,6 +18,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
+import model.TCliente;
 import model.TPersona;
 import model.TUbigeo;
 
@@ -31,8 +33,11 @@ public class PersonaBean {
     
     private TPersona persona;
     private List<TUbigeo> listarUbigeoSel;
+    private List<TCliente> listaclientes;
     private DataModel listapersona;
     private boolean esEdicion;
+    
+    PersonaDao dao  = new PersonaDao();
     
     @PostConstruct
     public void init() {
@@ -40,21 +45,22 @@ public class PersonaBean {
         persona.setTUbigeo(new TUbigeo());
     }
     
-    public String irAgregar() {
-        setEsEdicion(false);
-        setPersona(new TPersona());
-        persona.setTUbigeo(new TUbigeo());
-        return "nuevapersona";
+    public void irAgregar() {
+
+        persona.setIdPersona("ab123");
+        persona.setEstado("Activo");
+        dao.ingresarPersona(persona);
     }
     
     public String irActualizar() {
         setEsEdicion(true);
-        setPersona((TPersona) listapersona.getRowData());
+      //  setPersona((TPersona) listaclientes.getRowData());
         int codigoUb = persona.getTUbigeo().getIdTUbigeo();
 //    corregir    persona.setTUbigeo(new TUbigeo(codigoUb, "", false));
         String cod = persona.getIdPersona();
         persona.setIdPersona(cod);
         return "nuevapersona";
+
     }
     
     public DataModel getListapersona() {
@@ -111,6 +117,12 @@ public class PersonaBean {
 
     public void setEsEdicion(boolean esEdicion) {
         this.esEdicion = esEdicion;
+    }
+
+    public List<TCliente> getListaclientes() {
+        ClienteDao dao =  new ClienteDao();
+        listaclientes = dao.listarcliente();
+        return listaclientes;
     }
    
     

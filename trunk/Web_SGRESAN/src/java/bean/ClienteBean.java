@@ -28,7 +28,7 @@ public class ClienteBean {
 
     public List<TCliente> getClientes() {
         ClienteDao dao = new ClienteDao();
-        clientes = dao.listareserva();
+        clientes = dao.listarcliente();
         return clientes;
     }
 
