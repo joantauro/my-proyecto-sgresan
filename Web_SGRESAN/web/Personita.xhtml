@@ -175,6 +175,81 @@
                   
 
                 </h:form>
+                
+                <h:form id="formPersonaEditar">
+                        <p:dialog id="dlgPersonaditar" header="Editar Persona" widgetVar="editarPersonaDialog" resizable="false" modal="false">
+                            <h:panelGrid id="pgPersonaEditar" columns="2" cellpadding="4" style="margin:0 auto;">
+                                <h:outputText value="CdCliente" />
+                                <p:outputLabel value="#{personaBean.persona.idPersona}" style="font-weight:bold"/>
+
+                                <h:outputText value="Nombres :" />
+                                <p:inputText value="#{personaBean.persona.nombres}" style="font-weight:bold"/>
+
+                                <h:outputText value="Apellido Paterno :" />
+                                <p:inputText value="#{personaBean.persona.apellidoP}" style="font-weight:bold"/>
+                                
+                                <h:outputText value="Apellido Materno :" />
+                                <p:inputText value="#{personaBean.persona.apellidoM}" style="font-weight:bold"/>
+
+                                <h:outputText value="DNI :" />
+                                <p:inputText value="#{personaBean.persona.dni}" style="font-weight:bold"/>
+
+                                <h:outputText value="Dirección :" />
+                                <p:inputText value="#{personaBean.persona.direccion}" style="font-weight:bold"/>
+
+                                <h:outputText value="Teléfono :" />
+                                <p:inputText value="#{personaBean.persona.telefono}" style="font-weight:bold"/>
+                                
+                                <h:outputText value="Celular :" />
+                                <p:inputText value="#{personaBean.persona.celular}" style="font-weight:bold"/>
+                                
+                                <h:outputText value="Email :" />
+                                <p:inputText value="#{personaBean.persona.email}" style="font-weight:bold"/>
+                            </h:panelGrid>
+
+                            <p:separator/>
+
+                            <p:commandButton value="Guardar" oncomplete="editarPersonaDialog.hide()" update=":formPersona" actionListener="#{personaBean.irActualizar()}"/>
+                            <p:commandButton value="Cancelar" oncomplete="editarPersonaDialog.hide()"/>
+                        </p:dialog>
+                    </h:form>
+                
+                <h:form id="formPersonaVer">
+                        <p:dialog id="dlgPersonaVer" header="Información de la Persona" widgetVar="verPersonaDialog" resizable="false" modal="true" showEffect="fade" hideEffect="explode" >
+                            <h:panelGrid id="pgPersonaVer" columns="2" cellpadding="4" style="margin:0 auto;">
+                                <h:outputText value="CdCliente" />
+                                <p:outputLabel value="#{personaBean.persona.idPersona}" style="font-weight:bold"/>
+
+                                <h:outputText value="Nombres :" />
+                                <p:inputText value="#{personaBean.persona.nombres}" style="font-weight:bold"/>
+
+                                <h:outputText value="Apellido Paterno :" />
+                                <p:inputText value="#{personaBean.persona.apellidoP}" style="font-weight:bold"/>
+                                
+                                <h:outputText value="Apellido Materno :" />
+                                <p:inputText value="#{personaBean.persona.apellidoM}" style="font-weight:bold"/>
+
+                                <h:outputText value="DNI :" />
+                                <p:inputText value="#{personaBean.persona.dni}" style="font-weight:bold"/>
+
+                                <h:outputText value="Dirección :" />
+                                <p:inputText value="#{personaBean.persona.direccion}" style="font-weight:bold"/>
+
+                                <h:outputText value="Teléfono :" />
+                                <p:inputText value="#{personaBean.persona.telefono}" style="font-weight:bold"/>
+                                
+                                <h:outputText value="Celular :" />
+                                <p:inputText value="#{personaBean.persona.celular}" style="font-weight:bold"/>
+                                
+                                <h:outputText value="Email :" />
+                                <p:inputText value="#{personaBean.persona.email}" style="font-weight:bold"/>
+                            </h:panelGrid>
+
+                            <p:separator/>
+
+                            <p:commandButton value="OK" oncomplete="verPersonaDialog.hide()"/>
+                        </p:dialog>
+                    </h:form>
             </ui:define>
 
             <ui:define name="bottom">
