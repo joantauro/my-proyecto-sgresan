@@ -7,6 +7,7 @@ package bean;
 
 import dao.ClienteDao;
 import dao.PersonaDao;
+import dao.UsuarioDao;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -21,6 +22,7 @@ import javax.faces.model.ListDataModel;
 import model.TCliente;
 import model.TPersona;
 import model.TUbigeo;
+import model.TUsuario;
 
 /**
  *
@@ -32,6 +34,7 @@ import model.TUbigeo;
 public class PersonaBean {
     
     private TPersona persona;
+    private TUsuario usuario;
     private List<TUbigeo> listarUbigeoSel;
     private List<TCliente> listaclientes;
     private DataModel listapersona;
@@ -47,6 +50,11 @@ public class PersonaBean {
     
     public void irAgregar() {
 
+        usuario.setEstado("Activo");
+        usuario.setTipoUsuario("cliente");
+        dao.ingresarUsuario(usuario);
+        
+        persona.setIdPersona(usuario.getNombreUsuario());
         persona.setIdPersona("ab123");
         persona.setEstado("Activo");
         dao.ingresarPersona(persona);

@@ -6,6 +6,9 @@
 
 package dao;
 
+import java.util.ArrayList;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import model.TUsuario;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -17,6 +20,45 @@ import util.HibernateUtil;
  * @author Joel
  */
 public class UsuarioDao {
+    Session sesion;
+    Transaction trans;
+    Query qry;
+    
+    public boolean ingresarUsuario (TUsuario usuario) {
+       try {
+            sesion = HibernateUtil.getSessionFactory().openSession();
+            trans = sesion.beginTransaction();
+//            String idcl = obtenerIDUsuario();
+//            if (idcl.equals("")) {
+//                return false;
+//            }
+//            usuario.setNombreUsuario(idcl);
+            sesion.save(usuario);
+            trans.commit();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Se  agrego Usuario correctamente", "Verificar")); 
+        } catch (Exception ex) {
+            //despues agrego para que salgan mensajes de error            
+            trans.rollback();
+            ex.printStackTrace();
+            return false;
+        } finally {
+            sesion.close();
+        }
+        return true;
+    }
+    
+    private String obtenerIDUsuario() {
+        String nuevoID = "";
+       /* try {*/
+            qry = sesion.createSQLQuery("select idusuario();");
+            ArrayList<String> idNuevo = (ArrayList<String>) qry.list();
+            nuevoID = idNuevo.size() > 0 ? idNuevo.get(0) : "";
+      /* } catch (Exception ex) {
+            nuevoID = "";
+        }*/
+        return nuevoID;
+    }
+    
    public TUsuario buscarporusuario(TUsuario user) {
      
 //      TUsuario usuario = null;
@@ -50,5 +92,7 @@ public class UsuarioDao {
         query.setString("user", user.getNombreUsuario());
         query.setString("pass", user.getContrasena());
         return (TUsuario) query.uniqueResult();
+        
+        
     }
 }
