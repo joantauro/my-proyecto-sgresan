@@ -5,6 +5,7 @@
  */
 package dao;
 
+import java.util.Date;
 import java.util.List;
 import model.THabitacion;
 import org.hibernate.Session;
@@ -19,6 +20,16 @@ public class HabitacionDao {
     {
         Session session = HibernateUtil.getSessionFactory().openSession();
         return session.createQuery("from THabitacion").list();
+    }
+    
+    public List<THabitacion> listarhabitaciones(String fecEnt,String fecSal)
+    {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        return session.createQuery("from THabitacion  where nroHabitacion not in (\n" +
+                                   "select hab.nroHabitacion from TReservadetalle  reservdet\n" +
+                                   "inner join reservdet.TReserva rerserv\n" +
+                                   "inner join reservdet.THabitacion hab\n" +
+                                   "where fechaEntrada>'"+fecEnt+"' and  fechaSalida<'"+fecSal+"')").list();
     }
     
     public int Precio(int Hab) {

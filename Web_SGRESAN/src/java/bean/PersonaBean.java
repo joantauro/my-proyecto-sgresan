@@ -44,18 +44,19 @@ public class PersonaBean {
     
     @PostConstruct
     public void init() {
+        usuario = new TUsuario();
         persona = new TPersona();
         persona.setTUbigeo(new TUbigeo());
     }
     
     public void irAgregar() {
-
+        UsuarioDao usuariodao = new UsuarioDao();
         usuario.setEstado("Activo");
         usuario.setTipoUsuario("cliente");
-        dao.ingresarUsuario(usuario);
+       usuariodao.ingresarUsuario(usuario);
         
-        persona.setIdPersona(usuario.getNombreUsuario());
-        persona.setIdPersona("ab123");
+        //persona.setIdPersona(usuario.getNombreUsuario());
+        persona.setTUsuario(usuario);
         persona.setEstado("Activo");
         dao.ingresarPersona(persona);
     }
@@ -131,6 +132,14 @@ public class PersonaBean {
         ClienteDao dao =  new ClienteDao();
         listaclientes = dao.listarcliente();
         return listaclientes;
+    }
+
+    public TUsuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(TUsuario usuario) {
+        this.usuario = usuario;
     }
    
     

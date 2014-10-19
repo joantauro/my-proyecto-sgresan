@@ -143,8 +143,8 @@ h6 { font-size:1em; color:#e7e7e7;}
 #content { background:url(images/content-bg.png) left top; margin:0 8px;  padding:11px 40px 20px 40px;}
 #content .indent { padding:17px 0 20px 0;}
 
-#content ul { padding-bottom:20px;}
-#content ul li { background:url(images/bull1.gif) no-repeat left 8px; padding:0 0 0 13px;}
+/*#content ul { padding-bottom:20px;}
+#content ul li { background:url(images/bull1.gif) no-repeat left 8px; padding:0 0 0 13px;}*/
 
 .contacts-list dt { font-weight:bold; margin-bottom:10px;}
 .contacts-list dd { font-weight:bold;}

@@ -32,11 +32,11 @@ public class PersonaDao {
        try {
             sesion = HibernateUtil.getSessionFactory().openSession();
             trans = sesion.beginTransaction();
-            String idcl = obtenerIDPersona();
-            if (idcl.equals("")) {
-                return false;
-            }
-            persona.setIdPersona(idcl);
+//            String idcl = obtenerIDPersona();
+//            if (idcl.equals("")) {
+//                return false;
+//            }
+//            persona.setIdPersona(idcl);
             sesion.save(persona);
             trans.commit();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Se  agrego Cliente correctamente", "Verificar")); 

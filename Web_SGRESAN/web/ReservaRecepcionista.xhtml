@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition  xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 template="./vista/Plantilla_main.xhtml"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
@@ -40,8 +40,8 @@
                            editable="true" showNavigation="true" timeChangeable="#{reservaDetalleBean.timeChangeable}"  
                            showButtonNew="false" minHeight="200" widgetVar="timelineWdgt"  >
 
-                <p:ajax event="add" listener="#{reservaDetalleBean.onAdd}" update=":formVentana:detailsBookingInner"
-                        oncomplete="PF('detailsBookingWdgt').show()"/>
+                <p:ajax event="add" listener="#{reservaDetalleBean.onAdd}" update=":formWizard:detailsBookingInner"
+                        oncomplete="PF('dlgNuevo').show()"/>
  
                 <p:ajax event="change" update=":formreprogramacion:ReprogramacionInner" listener="#{reservaDetalleBean.onChange}" oncomplete="PF('ReprogramacionWdgt').show()" /> 
                 <p:ajax event="delete" update=":formcancelacion:deleteBookingInner,:info:panelinfo"  
@@ -49,7 +49,7 @@
             onstart="PF('timelineWdgt').cancelDelete()" oncomplete="PF('deleteBookingWdgt').show()"/>
                 
                 <h:panelGrid columns="1">   
-                    <h:outputText value="Cliente : #{booking.TReserva.TCliente.TPersona.nombres}" style="color: black" />  
+                    <h:outputText value="#{booking.TReserva.TCliente.TPersona.nombres}" style="color: black" />  
                  
             </h:panelGrid> 
                 
@@ -59,20 +59,7 @@
         <h:form id="formVentana" >
             <p:dialog id="detailsBookingDlg" header="Detalles de Reserva" widgetVar="detailsBookingWdgt"  
                   showEffect="clip" hideEffect="clip">  
-            <h:panelGroup id="detailsBookingInner" layout="block">  
-                <p:panelGrid   columns="2" style="margin-right:  auto" id="panelfecha"  >
-                    <h:outputText value="Fecha de Entrada" />
-                    <p:calendar value="#{reservaDetalleBean.reserv.fechaEntrada}" pattern="dd/MM/yyyy HH:mm" />
-                    <h:outputText value="Fecha de Salida" />
-                    <p:calendar value="#{reservaDetalleBean.reserv.fechaSalida}" pattern="dd/MM/yyyy" />
-                    <h:outputText value="Cliente" />
-                    <p:selectOneMenu  value="#{reservaDetalleBean.reserv.TCliente.idCliente}" >  
-                        <f:selectItems value="#{clienteBean.clientes}" var="lista" 
-                                       itemLabel="#{lista.TPersona.nombres} #{lista.TPersona.apellidoP} #{lista.TPersona.apellidoM}" itemValue="#{lista.idCliente}"/> 
-                    </p:selectOneMenu>
-                </p:panelGrid>
-              
-            </h:panelGroup>
+           
                             <p:panel header="Información de Habitación">
                 <p:panelGrid   columns="2" style="margin-right:  auto" id="panelsito"  >
                     <h:outputText value="Cantidad de Habitaciones"  />
@@ -146,6 +133,59 @@
 
                   
             </p:confirmDialog> 
+        </h:form>
+        
+        <h:form id="formWizard" >
+            <p:dialog header="Formulario de Factura" widgetVar="dlgNuevo" 
+                      resizable="false" id="dlgNuevo"  modal="true">
+                <p:wizard widgetVar="wiz"  
+                          flowListener="#{UserWizard.onFlowProcess}" backLabel="Atrás" nextLabel="Siguiente" >
+                    <p:tab id="clientetab" title="Cliente">
+                        <p:panel header="Datos del Cliente" >
+                             <p:panelGrid   columns="2" style="margin-right:  auto"   >
+                            <h:outputText value="Cliente" />
+                                <p:selectOneMenu  value="#{reservaDetalleBean.reserv.TCliente.idCliente}" >  
+                                    <f:selectItems value="#{clienteBean.clientes}" var="lista" 
+                                                   itemLabel="#{lista.TPersona.nombres} #{lista.TPersona.apellidoP} #{lista.TPersona.apellidoM}" itemValue="#{lista.idCliente}"/> 
+                                </p:selectOneMenu>
+                            </p:panelGrid>
+                              
+                        </p:panel>
+                    </p:tab>
+                    
+                    <p:tab id="fechatab" title="Fecha">
+                        <h:panelGroup id="detailsBookingInner" layout="block">  
+                            <p:panelGrid   columns="2" style="margin-right:  auto" id="panelfecha"  >
+                                <h:outputText value="Fecha de Entrada" />
+                                <p:calendar mindate="#{habitacionBean.max}" value="#{reservaDetalleBean.reserv.fechaEntrada}" pattern="dd/MM/yyyy HH:mm" />
+                                <h:outputText value="Fecha de Salida" />
+                                <p:calendar mindate="#{habitacionBean.max}" value="#{reservaDetalleBean.reserv.fechaSalida}" pattern="dd/MM/yyyy" />        
+                            </p:panelGrid>
+                            <p:commandButton value="Comprobar Disponibilidad" action="#{reservaDetalleBean.BUSQUEDA2(reservaDetalleBean.reserv.fechaEntrada, reservaDetalleBean.reserv.fechaSalida)}" />
+                        </h:panelGroup>
+                    </p:tab>
+                    
+                    <p:tab id="dormitoriotab" title="Dormitorios">
+                        <p:growl id="msg" showDetail="true" escape="false" />
+                        <p:pickList id="pickList" value="#{reservaDetalleBean.cities}" var="cities" 
+                                    itemLabel="#{cities}" itemValue="#{cities}" converter="entityConverter" >
+                            <f:facet name="sourceCaption">Disponibles</f:facet>
+        <f:facet name="targetCaption">Seleccionados</f:facet>
+ 
+        <p:ajax event="transfer" listener="#{reservaDetalleBean.onTransfer}" update="msg" />
+        
+                            <p:column style="width:25%;">
+                                <h:outputText value="#{cities.nroHabitacion}" />
+                            </p:column>
+                            <p:column style="width:75%;">
+                                <h:outputText value="#{cities.descripcion}" />
+                            </p:column>
+                        </p:pickList>
+                        <p:commandButton action="#{reservaDetalleBean.GUARDARDETALLES()}" /> 
+                    </p:tab>
+                
+                </p:wizard>
+            </p:dialog>
         </h:form>
         
     </ui:define>
