@@ -135,19 +135,14 @@
 
                         
                         <p:separator/>
-                        <h:panelGrid id="display3" columns="2" cellpadding="4" >
-                            <h:outputText value="Usuario :" />  
-                            <h:outputText value="#{personaBean.persona.TUsuario.nombreUsuario}" style="font-weight:bold"/>
-                          
-                        </h:panelGrid>
-                        
+             
                         <p:dialog header="Información del Persona" widgetVar="infoDialog" resizable="false" id="carDlg"  
                                   showEffect="fade" hideEffect="explode" modal="true" > 
                             
                              <h:outputText value="Usuario :" />  
-                             <p:inputText value="#{usuarioBean.usuario.nombreUsuario}" style="font-weight:bold"/> 
+                             <p:inputText value="#{personaBean.usuario.nombreUsuario}" style="font-weight:bold"/> 
                              <h:outputText value=" Contraseña :" />  
-                             <p:inputText value="#{usuarioBean.usuario.contrasena}" style="font-weight:bold"/> 
+                             <p:inputText value="#{personaBean.usuario.contrasena}" style="font-weight:bold"/> 
                             <h:panelGrid id="display2" columns="2" cellpadding="4" style="margin:0 auto;">  
                             <h:outputText value="Nombre(s) :" />  
                             <p:inputText value="#{personaBean.persona.nombres}" style="font-weight:bold"/>  
@@ -171,7 +166,7 @@
                                                itemLabel="#{lista.nombre}" itemValue="#{lista.idTUbigeo}"/> 
                             </p:selectOneMenu>
                             
-                            <p:commandButton value="Registrar" icon="ui-icon-document"  oncomplete="PF('infoDialog').hide();"  action="#{usuarioBean.irAgregar()}" >
+                            <p:commandButton value="Registrar" icon="ui-icon-document"  oncomplete="PF('infoDialog').hide();"  action="#{personaBean.irAgregar()}" >
                         </p:commandButton>
 
                         </h:panelGrid>  

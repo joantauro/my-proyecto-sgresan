@@ -24,10 +24,12 @@ import model.THotel;
 import model.TReserva;
 import model.TReservadetalle;
 import model.TUsuario;
+import org.primefaces.event.TransferEvent;
 import org.primefaces.extensions.event.timeline.TimelineAddEvent;
 import org.primefaces.extensions.event.timeline.TimelineModificationEvent;
 import org.primefaces.extensions.model.timeline.TimelineEvent;
 import org.primefaces.extensions.model.timeline.TimelineModel;
+import org.primefaces.model.DualListModel;
 
 /**
  *
@@ -55,6 +57,12 @@ public class ReservaDetalleBean {
     private boolean timeChangeable = true; 
     
     ReservaDao dao  = new ReservaDao();
+    
+    private DualListModel<THabitacion> cities;
+        private String fecIn;
+    private String fecSal;
+    private List<THabitacion> habitacionesdisponibles;
+    
     //private boolean editable=true;
     /**
      * Creates a new instance of ReservaDetalleBean
@@ -75,6 +83,18 @@ public class ReservaDetalleBean {
         hab.setTHotel(new THotel());
        
         llenar();
+         List<THabitacion> citiesSource = new ArrayList<THabitacion>();
+        List<THabitacion> citiesTarget = new ArrayList<THabitacion>();
+       
+            fecIn="2016-01-01";
+            fecSal="2017-01-01";
+             HabitacionDao daop = new HabitacionDao();
+       habitacionesdisponibles = daop.listarhabitaciones(fecIn, fecSal);
+        for(int i = 0;i<habitacionesdisponibles.size();i++)
+        {
+            citiesSource.add(new THabitacion(habitacionesdisponibles.get(i).getNroHabitacion(), habitacionesdisponibles.get(i).getTHotel(), habitacionesdisponibles.get(i).getTipoHabitacion(), habitacionesdisponibles.get(i).getDescripcion(), habitacionesdisponibles.get(i).getPrecio()));
+        }
+        cities = new DualListModel<THabitacion>(citiesSource, citiesTarget);
     }
     
     
@@ -215,6 +235,93 @@ public class ReservaDetalleBean {
         }
      }
      
+     public void registrarreserva()
+     { ClienteDao clidao = new ClienteDao();
+       int valor = clidao.buscarCliente(((TUsuario)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario")).getNombreUsuario()).getIdCliente(); 
+         
+
+        TCliente cli = new TCliente();
+        cli.setIdCliente(valor);
+        reserv.setIdReserva(dao.PK());
+        reserv.setEstado("reservado");
+        reserv.setDescripcion("Ninguna");
+        reserv.setTCliente(cli);
+        dao.InsetartReserva(reserv);
+        
+        reserva.setTReserva(reserv);
+        
+        
+        
+        for (int i = 0; i < nrohabitacion; i++) {
+            hab.setNroHabitacion(Integer.parseInt(lista.get(i)));
+            reserva.setTHabitacion(hab);
+            dao.InsetartReservaDetalle(reserva);
+        }
+     }
+      public void Actualizar()
+    {
+        List<THabitacion> citiesSource = new ArrayList<THabitacion>();
+        List<THabitacion> citiesTarget = new ArrayList<THabitacion>();
+ 
+       HabitacionDao dao = new HabitacionDao();
+       habitacionesdisponibles = dao.listarhabitaciones(fecIn, fecSal);
+        for(int i = 0;i<habitacionesdisponibles.size();i++)
+        {
+            citiesSource.add(new THabitacion(habitacionesdisponibles.get(i).getNroHabitacion(), habitacionesdisponibles.get(i).getTHotel(), habitacionesdisponibles.get(i).getTipoHabitacion(), habitacionesdisponibles.get(i).getDescripcion(), habitacionesdisponibles.get(i).getPrecio()));
+       
+        }
+        cities = new DualListModel<THabitacion>(citiesSource, citiesTarget);
+        
+    }
+     
+      public  void BUSQUEDA2(Date fecE,Date fecS)
+   {
+       HabitacionDao daop = new HabitacionDao();
+       fecIn=(fecE.getYear()+1900) +"/"+(fecE.getMonth()+1)+"/"+fecE.getDate();
+       fecSal=(fecS.getYear()+1900) +"/"+(fecS.getMonth()+1)+"/"+fecS.getDate();
+       habitacionesdisponibles = daop.listarhabitaciones(fecIn, fecSal);
+      Actualizar();
+       System.out.println("Fecha Entrada : "+ fecE.getDate() +"/"+(fecE.getMonth()+1)+"/"+(fecE.getYear()+1900));
+       System.out.println("Fecha Salida : "+ fecS.getDate() +"/"+(fecS.getMonth()+1)+"/"+(fecS.getYear()+1900));
+       System.out.println(habitacionesdisponibles.size());
+   }
+     
+      public void onTransfer(TransferEvent event) {
+        StringBuilder builder = new StringBuilder();
+        for(Object item : event.getItems()) {
+            builder.append(((THabitacion) item).getNroHabitacion()).append("<br />");
+            
+        }
+       
+        FacesMessage msg = new FacesMessage();
+        msg.setSeverity(FacesMessage.SEVERITY_INFO);
+        msg.setSummary("Items Transferred");
+        msg.setDetail(builder.toString());
+         
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }  
+      
+      public void GUARDARDETALLES()
+      {
+//          System.out.println(cities.getTarget().get(0));
+//          System.out.println(cities.getSource().get(0));
+         TCliente cli = new TCliente();
+        cli.setIdCliente(reserv.getTCliente().getIdCliente());
+        reserv.setIdReserva(dao.PK());
+        reserv.setEstado("pre-reserva");
+        reserv.setDescripcion("Ninguna");
+        reserv.setTCliente(cli);
+        dao.InsetartReserva(reserv);
+        
+        reserva.setTReserva(reserv);
+        
+        for (int i = 0; i < cities.getTarget().size(); i++) {
+            //hab.setNroHabitacion(Integer.parseInt(lista.get(i)));
+            reserva.setTHabitacion(cities.getTarget().get(i));
+            dao.InsetartReservaDetalle(reserva);
+        }
+      }
+      
     public void saveDetails() {  
         
         
@@ -389,6 +496,36 @@ public class ReservaDetalleBean {
 
     public void setNrohabitacion(int nrohabitacion) {
         this.nrohabitacion = nrohabitacion;
+    }
+
+    public DualListModel<THabitacion> getCities() {
+        return cities;
+    }
+
+    public void setCities(DualListModel<THabitacion> cities) {
+        this.cities = cities;
+    }
+
+    public String getFecIn() {
+        return fecIn;
+    }
+
+    public void setFecIn(String fecIn) {
+        this.fecIn = fecIn;
+    }
+
+    public String getFecSal() {
+        return fecSal;
+    }
+
+    public void setFecSal(String fecSal) {
+        this.fecSal = fecSal;
+    }
+
+    public List<THabitacion> getHabitacionesdisponibles() {
+        HabitacionDao dao = new HabitacionDao();
+       habitacionesdisponibles = dao.listarhabitaciones(fecIn, fecSal);
+        return habitacionesdisponibles;
     }
 
  

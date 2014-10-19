@@ -46,8 +46,10 @@
                             </p:selectOneMenu>
                         </div> 
                     </c:forEach>
+                    
                 </p:panel>
- 
+                <h:outputText  value="Precio : " />
+       <h:outputText id="precio" value="#{reservaDetalleBean.reserv.precio}"  />
             </p:panel>
             
             
@@ -85,14 +87,12 @@
                    </h:panelGrid>
              <br />
                 <p:commandButton value="Realizar Pre-Reserva" action="#{reservaDetalleBean.registrarprereserva()}" />
-                <a href="Prueba">Registrar Pre-Reserva y Pagar con Paypal</a>
-                <h:commandButton  value="Cmprar" action="pago.xhtml" />
+                <h:commandButton  value="Registrar Pre-Reserva y Pagar con Paypal" action="pago.xhtml" actionListener="#{reservaDetalleBean.registrarreserva()}" />
                 
                 <p:commandButton value="Cancelar"   />
         </p:panel>
            
-       <h:outputText  value="Precio" />
-       <h:inputText id="precio" value="#{reservaDetalleBean.reserv.precio}"  />
+       
         </h:form>
     </ui:define>
 
