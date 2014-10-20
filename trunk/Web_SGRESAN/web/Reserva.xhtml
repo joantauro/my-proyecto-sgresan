@@ -19,61 +19,12 @@
         
         
         <h:form id="form" >
-            <!-- Informacion de Habitación -->
-            <p:panel header="Información de Habitación">
-                 
-                <h:panelGrid   columns="2" style="margin-right:  auto;" id="panelsito" cellpadding="4"  >
-                    <h:outputText value="Cantidad de Habitaciones"  />
-                    <p:selectOneMenu  id="seleccion1" value="#{reservaDetalleBean.nrohabitacion}"  >
-                        <f:selectItem itemLabel="1" itemValue="1"  />
-                        <f:selectItem itemLabel="2" itemValue="2" />
-                        <f:selectItem itemLabel="3" itemValue="3" />
-                        <f:selectItem itemLabel="4" itemValue="4" />
-                        <p:ajax update="pan"   listener="#{reservaDetalleBean.ElegirNroCuarto(reservaDetalleBean.nrohabitacion)}" />
-                    </p:selectOneMenu>
 
-                </h:panelGrid>
-                <p:panel id="pan" style="border: none;" >
-                    <c:forEach items="#{reservaDetalleBean.lista}" var="item"     >
-
-                        <div> 
-                            <h:outputText value="Tipo de Habitación" />
-                            <p:selectOneMenu value="${item}">
-                                <f:selectItem itemLabel="Seleccione" itemValue="" />
-                                <f:selectItems value="#{habitacionBean.habitaciones}" var="habs" 
-                                               itemLabel="#{habs.descripcion}" itemValue="#{habs.nroHabitacion}" /> 
-                                <p:ajax update="precio"   listener="#{reservaDetalleBean.PRECIO()}" />
-                            </p:selectOneMenu>
-                        </div> 
-                    </c:forEach>
-                    
-                </p:panel>
-                <h:outputText  value="Precio : " />
-       <h:outputText id="precio" value="#{reservaDetalleBean.reserv.precio}"  />
-            </p:panel>
-            
-            
-            
-           
- 
-        
-       <!-- Informacion de Fecha -->
-       
-            <p:panel header="Información de Fecha">
-                <h:panelGrid   columns="2" style="margin-right:  auto" id="panelfecha" cellpadding="4" >
-                <h:outputText value="Fecha de Entrada" />
-                <p:calendar value="#{reservaDetalleBean.reserv.fechaEntrada}" pattern="dd/MM/yyyy HH:mm" />
-                <h:outputText value="Fecha de Salida" />
-                <p:calendar value="#{reservaDetalleBean.reserv.fechaSalida}" pattern="dd/MM/yyyy" />
-            </h:panelGrid> 
-        </p:panel>
-            
-             
-     
-            
-            <p:panel header="Información de Cliente">
-   
-                <h:panelGrid   columns="2"   id="panel2" >
+          <p:wizard widgetVar="wiz"  
+                          flowListener="#{UserWizard.onFlowProcess}" backLabel="Atrás" nextLabel="Siguiente" >
+                    <p:tab id="clientetab" title="Cliente">
+                        <p:panel header="Datos del Cliente" style="width: 500px" >
+                              <h:panelGrid   columns="2"   id="panel2" >
                        <h:outputText value="Nombre" />
                        <p:inputText value="#{loginBean.persona.nombres}" />
                        <h:outputText value="Apellidos" />
@@ -85,14 +36,41 @@
                        <h:outputText value="DNI" />
                        <p:inputText  value="#{loginBean.persona.dni}" />
                    </h:panelGrid>
-             <br />
-                <p:commandButton value="Realizar Pre-Reserva" action="#{reservaDetalleBean.registrarprereserva()}" />
-                <h:commandButton  value="Registrar Pre-Reserva y Pagar con Paypal" action="pago.xhtml" actionListener="#{reservaDetalleBean.registrarreserva()}" />
+                              
+                        </p:panel>
+                    </p:tab>
+                    
+                    <p:tab id="fechatab" title="Fecha">              
+                            <p:panelGrid   columns="2" style="margin-right:  auto" id="detailsBookingInner" >
+                                <h:outputText value="Fecha de Entrada" />
+                                <p:calendar mindate="#{habitacionBean.max}" value="#{reservaDetalleBean.reserv.fechaEntrada}" pattern="dd/MM/yyyy HH:mm" />
+                                <h:outputText value="Fecha de Salida" />
+                                <p:calendar mindate="#{habitacionBean.max}" value="#{reservaDetalleBean.reserv.fechaSalida}" pattern="dd/MM/yyyy" />        
+                            </p:panelGrid>
+                        <p:commandButton update="pickList" value="Comprobar Disponibilidad" action="#{reservaDetalleBean.BUSQUEDA2(reservaDetalleBean.reserv.fechaEntrada, reservaDetalleBean.reserv.fechaSalida)}" />
+                    </p:tab>
+                    
+                    <p:tab id="dormitoriotab" title="Dormitorios">
+                        <p:growl id="msg" showDetail="true" escape="false" />
+                        <p:pickList id="pickList" value="#{reservaDetalleBean.cities}" var="cities" 
+                                    itemLabel="#{cities}" itemValue="#{cities}" converter="entityConverter" >
+                            <f:facet name="sourceCaption">Disponibles</f:facet>
+                            <f:facet name="targetCaption">Seleccionados</f:facet>
+
+                            <p:ajax event="transfer" listener="#{reservaDetalleBean.onTransfer}" update="msg" />
+
+                            <p:column style="width:25%;">
+                                <h:outputText value="#{cities.nroHabitacion}" />
+                            </p:column>
+                            <p:column style="width:75%;">
+                                <h:outputText value="#{cities.descripcion}" />
+                            </p:column>
+                        </p:pickList>
+                        <p:commandButton value="Registrar" action="#{reservaDetalleBean.registrarprereserva()}"    /> 
+                        <p:commandButton value="Cancelar"   />
+                    </p:tab>
                 
-                <p:commandButton value="Cancelar"   />
-        </p:panel>
-           
-       
+                </p:wizard>
         </h:form>
     </ui:define>
 

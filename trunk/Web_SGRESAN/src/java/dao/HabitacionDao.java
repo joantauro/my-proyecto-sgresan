@@ -29,7 +29,10 @@ public class HabitacionDao {
                                    "select hab.nroHabitacion from TReservadetalle  reservdet\n" +
                                    "inner join reservdet.TReserva rerserv\n" +
                                    "inner join reservdet.THabitacion hab\n" +
-                                   "where fechaEntrada>'"+fecEnt+"' and  fechaSalida<'"+fecSal+"')").list();
+                                   " where (fechaEntrada <  '"+fecEnt+"' and fechaSalida >  '"+fecEnt+"')\n" +
+"or (fechaEntrada < '"+fecSal+"' and fechaSalida > '"+fecSal+"') \n" +
+"or (fechaEntrada between  '"+fecEnt+"' and '"+fecSal+"' and fechaSalida between '"+fecEnt+"' and '"+fecSal+"') \n" +
+"or (fechaEntrada < '"+fecEnt+"' and fechaSalida > '"+fecSal+"') )").list();
     }
     
     public int Precio(int Hab) {
