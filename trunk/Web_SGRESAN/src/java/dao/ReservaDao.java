@@ -68,10 +68,10 @@ public class ReservaDao {
         }
     }
     
-     public int PK() {
+     public String PK() {
         Session session = HibernateUtil.getSessionFactory().openSession();
         int pk = (Integer.parseInt(session.createQuery("select count(*) from TReserva ").uniqueResult().toString()))+1;
-        return  pk;
+        return  "abc"+pk;
     }
     
     public void InsetartReservaDetalle(TReservadetalle reserva)

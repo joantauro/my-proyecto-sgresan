@@ -21,9 +21,9 @@ import javax.faces.context.FacesContext;
 import model.TCliente;
 import model.THabitacion;
 import model.THotel;
+import model.TPersona;
 import model.TReserva;
 import model.TReservadetalle;
-import model.TUsuario;
 import org.primefaces.event.TransferEvent;
 import org.primefaces.extensions.event.timeline.TimelineAddEvent;
 import org.primefaces.extensions.event.timeline.TimelineModificationEvent;
@@ -63,13 +63,14 @@ public class ReservaDetalleBean {
     private String fecSal;
     private List<THabitacion> habitacionesdisponibles;
     
+    private double costo;
     //private boolean editable=true;
     /**
      * Creates a new instance of ReservaDetalleBean
      */
     public ReservaDetalleBean() {
         event = new TimelineEvent();
-        
+        costo=0;
        nrohabitacion=1;
        createLista(nrohabitacion);
         
@@ -92,8 +93,13 @@ public class ReservaDetalleBean {
        habitacionesdisponibles = daop.listarhabitaciones(fecIn, fecSal);
         for(int i = 0;i<habitacionesdisponibles.size();i++)
         {
-            citiesSource.add(new THabitacion(habitacionesdisponibles.get(i).getNroHabitacion(), habitacionesdisponibles.get(i).getTHotel(), habitacionesdisponibles.get(i).getTipoHabitacion(), habitacionesdisponibles.get(i).getDescripcion(), habitacionesdisponibles.get(i).getPrecio()));
-        }
+            citiesSource.add(new THabitacion(habitacionesdisponibles.get(i).getIdHabitacion(), 
+                    habitacionesdisponibles.get(i).getTHotel(), 
+                    habitacionesdisponibles.get(i).getTTipohabitacion(),
+                    habitacionesdisponibles.get(i).getNroHabitacion(),
+                    habitacionesdisponibles.get(i).getDescripcion(), 
+                    habitacionesdisponibles.get(i).getPrecio()));
+        } 
         cities = new DualListModel<THabitacion>(citiesSource, citiesTarget);
     }
     
@@ -213,7 +219,7 @@ public class ReservaDetalleBean {
      
      public void registrarprereserva()
      { ClienteDao clidao = new ClienteDao();
-       int valor = clidao.buscarCliente(((TUsuario)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario")).getNombreUsuario()).getIdCliente(); 
+       String valor = clidao.buscarCliente(((TPersona)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("persona")).getIdPersona()).getIdCliente(); 
          
 
         TCliente cli = new TCliente();
@@ -237,7 +243,7 @@ public class ReservaDetalleBean {
      
      public void registrarreserva()
      { ClienteDao clidao = new ClienteDao();
-       int valor = clidao.buscarCliente(((TUsuario)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario")).getNombreUsuario()).getIdCliente(); 
+       String valor = clidao.buscarCliente(((TPersona)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario")).getIdPersona()).getIdCliente(); 
          
 
         TCliente cli = new TCliente();
@@ -253,7 +259,7 @@ public class ReservaDetalleBean {
         
         
         for (int i = 0; i < nrohabitacion; i++) {
-            hab.setNroHabitacion(Integer.parseInt(lista.get(i)));
+            hab.setNroHabitacion(lista.get(i));
             reserva.setTHabitacion(hab);
             dao.InsetartReservaDetalle(reserva);
         }
@@ -267,8 +273,12 @@ public class ReservaDetalleBean {
        habitacionesdisponibles = dao.listarhabitaciones(fecIn, fecSal);
         for(int i = 0;i<habitacionesdisponibles.size();i++)
         {
-            citiesSource.add(new THabitacion(habitacionesdisponibles.get(i).getNroHabitacion(), habitacionesdisponibles.get(i).getTHotel(), habitacionesdisponibles.get(i).getTipoHabitacion(), habitacionesdisponibles.get(i).getDescripcion(), habitacionesdisponibles.get(i).getPrecio()));
-       
+            citiesSource.add(new THabitacion(habitacionesdisponibles.get(i).getIdHabitacion(), 
+                    habitacionesdisponibles.get(i).getTHotel(), 
+                    habitacionesdisponibles.get(i).getTTipohabitacion(),
+                    habitacionesdisponibles.get(i).getNroHabitacion(),
+                    habitacionesdisponibles.get(i).getDescripcion(), 
+                    habitacionesdisponibles.get(i).getPrecio()));
         }
         cities = new DualListModel<THabitacion>(citiesSource, citiesTarget);
         
@@ -292,7 +302,13 @@ public class ReservaDetalleBean {
             builder.append(((THabitacion) item).getNroHabitacion()).append("<br />");
             
         }
-       
+        costo=0;final long MILLSECS_PER_DAY = 24 * 60 * 60 * 1000;
+        long dia=(reserv.getFechaSalida().getTime()-reserv.getFechaEntrada().getTime())/MILLSECS_PER_DAY;
+       for (int i = 0; i < cities.getTarget().size(); i++) {
+            costo=costo+ Double.parseDouble(cities.getTarget().get(i).getPrecio())*dia;
+        }
+          System.out.println(costo);
+          System.out.println("Dias : " + (reserv.getFechaSalida().getTime()-reserv.getFechaEntrada().getTime())/MILLSECS_PER_DAY);
 //        FacesMessage msg = new FacesMessage();
 //        msg.setSeverity(FacesMessage.SEVERITY_INFO);
 //        msg.setSummary("Items Transferred");
@@ -339,7 +355,7 @@ public class ReservaDetalleBean {
         
         
         for (int i = 0; i < nrohabitacion; i++) {
-            hab.setNroHabitacion(Integer.parseInt(lista.get(i)));
+            hab.setNroHabitacion(lista.get(i));
             reserva.setTHabitacion(hab);
             dao.InsetartReservaDetalle(reserva);
         }

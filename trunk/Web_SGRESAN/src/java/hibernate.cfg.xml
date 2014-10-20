@@ -7,9 +7,11 @@
     <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/sgresan</property>
     <property name="hibernate.connection.username">root</property>
     <property name="hibernate.connection.password">1234</property>
+    <mapping resource="model/TJuridica.hbm.xml"/>
     <mapping resource="model/TReserva.hbm.xml"/>
     <mapping resource="model/TUbigeo.hbm.xml"/>
     <mapping resource="model/TUsuario.hbm.xml"/>
+    <mapping resource="model/TNatural.hbm.xml"/>
     <mapping resource="model/TPersona.hbm.xml"/>
     <mapping resource="model/TCliente.hbm.xml"/>
     <mapping resource="model/THabitaciondetalle.hbm.xml"/>

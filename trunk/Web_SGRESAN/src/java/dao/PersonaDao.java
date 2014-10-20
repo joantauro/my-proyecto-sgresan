@@ -93,8 +93,26 @@ public class PersonaDao {
     }
     
     public TPersona BuscaporId(String id) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        return (TPersona) session.load(TPersona.class, id);
+        //Session session = HibernateUtil.getSessionFactory().openSession();
+        /*
+        from TPersona persona
+inner join persona.TUsuario usu
+where usu.nombreUsuario='joantauro'*/
+        
+        Session sesion =HibernateUtil.getSessionFactory().openSession();
+        String sql="select persona from TPersona persona\n" +
+"inner join persona.TUsuario usu\n" +
+"where usu.nombreUsuario=:id"; 
+       
+        Query query = sesion.createQuery(sql);
+        query.setString("id", id);
+        return (TPersona) query.uniqueResult();
+        
+//        Session session = HibernateUtil.getSessionFactory().openSession();
+//        return (TPersona) session.createQuery("from TPersona persona \n" +
+//"inner join persona.TUsuario usu \n" +
+//"where usu.nombreUsuario="+id).uniqueResult();
+       // return (TPersona) session.load(TPersona.class, id);
     }
     
     public List listarUbigeo() {
