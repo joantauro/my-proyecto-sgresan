@@ -61,6 +61,7 @@ public class LoginBean {
             msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome", usuario.getNombreUsuario());  
              persona = pers.BuscaporId(usuario.getNombreUsuario());
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuario", usuario);
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("persona", persona);
             sesionI=false;
             if(persona.getTUsuario().getTipoUsuario().equals("recepcionista"))
             {
