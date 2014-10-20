@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 19/10/2014 11:59:18 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="model.TCliente" table="t_cliente" catalog="sgresan" optimistic-lock="version">
+        <id name="idCliente" type="string">
+            <column name="idCliente" length="25" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="TPersona" class="model.TPersona" fetch="select">
+            <column name="T_Persona_idPersona" length="25" not-null="true" />
+        </many-to-one>
+        <set name="TReservas" table="t_reserva" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="T_Cliente_idCliente" length="25" not-null="true" />
+            </key>
+            <one-to-many class="model.TReserva" />
+        </set>
+        <one-to-one name="TJuridica" class="model.TJuridica"></one-to-one>
+        <one-to-one name="TNatural" class="model.TNatural"></one-to-one>
+    </class>
+</hibernate-mapping>
