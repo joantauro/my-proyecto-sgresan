@@ -40,7 +40,7 @@
                            editable="true" showNavigation="true" timeChangeable="#{reservaDetalleBean.timeChangeable}"  
                            showButtonNew="false" minHeight="200" widgetVar="timelineWdgt"  >
 
-                <p:ajax event="add" listener="#{reservaDetalleBean.onAdd}" update=":formWizard:detailsBookingInner"
+                <p:ajax event="add" listener="#{reservaDetalleBean.onAdd}"  
                         oncomplete="PF('dlgNuevo').show()"/>
  
                 <p:ajax event="change" update=":formreprogramacion:ReprogramacionInner" listener="#{reservaDetalleBean.onChange}" oncomplete="PF('ReprogramacionWdgt').show()" /> 
@@ -141,7 +141,7 @@
                 <p:wizard widgetVar="wiz"  
                           flowListener="#{UserWizard.onFlowProcess}" backLabel="Atrás" nextLabel="Siguiente" >
                     <p:tab id="clientetab" title="Cliente">
-                        <p:panel header="Datos del Cliente" >
+                        <p:panel header="Datos del Cliente" style="width: 500px" >
                              <p:panelGrid   columns="2" style="margin-right:  auto"   >
                             <h:outputText value="Cliente" />
                                 <p:selectOneMenu  value="#{reservaDetalleBean.reserv.TCliente.idCliente}" >  
@@ -153,16 +153,14 @@
                         </p:panel>
                     </p:tab>
                     
-                    <p:tab id="fechatab" title="Fecha">
-                        <h:panelGroup id="detailsBookingInner" layout="block">  
-                            <p:panelGrid   columns="2" style="margin-right:  auto" id="panelfecha"  >
+                    <p:tab id="fechatab" title="Fecha">              
+                            <p:panelGrid   columns="2" style="margin-right:  auto" id="detailsBookingInner" >
                                 <h:outputText value="Fecha de Entrada" />
                                 <p:calendar mindate="#{habitacionBean.max}" value="#{reservaDetalleBean.reserv.fechaEntrada}" pattern="dd/MM/yyyy HH:mm" />
                                 <h:outputText value="Fecha de Salida" />
                                 <p:calendar mindate="#{habitacionBean.max}" value="#{reservaDetalleBean.reserv.fechaSalida}" pattern="dd/MM/yyyy" />        
                             </p:panelGrid>
-                            <p:commandButton value="Comprobar Disponibilidad" action="#{reservaDetalleBean.BUSQUEDA2(reservaDetalleBean.reserv.fechaEntrada, reservaDetalleBean.reserv.fechaSalida)}" />
-                        </h:panelGroup>
+                        <p:commandButton update="pickList" value="Comprobar Disponibilidad" action="#{reservaDetalleBean.BUSQUEDA2(reservaDetalleBean.reserv.fechaEntrada, reservaDetalleBean.reserv.fechaSalida)}" />
                     </p:tab>
                     
                     <p:tab id="dormitoriotab" title="Dormitorios">
@@ -170,10 +168,10 @@
                         <p:pickList id="pickList" value="#{reservaDetalleBean.cities}" var="cities" 
                                     itemLabel="#{cities}" itemValue="#{cities}" converter="entityConverter" >
                             <f:facet name="sourceCaption">Disponibles</f:facet>
-        <f:facet name="targetCaption">Seleccionados</f:facet>
- 
-        <p:ajax event="transfer" listener="#{reservaDetalleBean.onTransfer}" update="msg" />
-        
+                            <f:facet name="targetCaption">Seleccionados</f:facet>
+
+                            <p:ajax event="transfer" listener="#{reservaDetalleBean.onTransfer}" update="msg" />
+
                             <p:column style="width:25%;">
                                 <h:outputText value="#{cities.nroHabitacion}" />
                             </p:column>
@@ -181,7 +179,8 @@
                                 <h:outputText value="#{cities.descripcion}" />
                             </p:column>
                         </p:pickList>
-                        <p:commandButton action="#{reservaDetalleBean.GUARDARDETALLES()}" /> 
+                        <p:commandButton value="Registrar" action="#{reservaDetalleBean.GUARDARDETALLES()}" onclick="PF('dlgNuevo').hide()" update=":formRecep:timeline"  /> 
+                        <p:commandButton value="Cancelar" onclick="PF('dlgNuevo').hide()" />
                     </p:tab>
                 
                 </p:wizard>

@@ -151,17 +151,17 @@ public class ReservaDetalleBean {
     
     public void onAdd(TimelineAddEvent e) {
         
-        if(e.getStartDate().before(new Date()))
-        {
-            llenar();
-            System.out.println("Ex menor");
-        }else
-        {
-            
+//        if(e.getStartDate().before(new Date()))
+//        {
+//            llenar();
+//            System.out.println("Ex menor");
+//        }else
+//        {
+//            
             reserv.setFechaEntrada(e.getStartDate());
-            model.add(event); 
+            //model.add(event); 
             System.out.println("Es mayor");
-        }
+       // }
          
     }  
     
@@ -228,9 +228,9 @@ public class ReservaDetalleBean {
         
         
         
-        for (int i = 0; i < nrohabitacion; i++) {
-            hab.setNroHabitacion(Integer.parseInt(lista.get(i)));
-            reserva.setTHabitacion(hab);
+         for (int i = 0; i < cities.getTarget().size(); i++) {
+            //hab.setNroHabitacion(Integer.parseInt(lista.get(i)));
+            reserva.setTHabitacion(cities.getTarget().get(i));
             dao.InsetartReservaDetalle(reserva);
         }
      }
@@ -280,7 +280,7 @@ public class ReservaDetalleBean {
        fecIn=(fecE.getYear()+1900) +"/"+(fecE.getMonth()+1)+"/"+fecE.getDate();
        fecSal=(fecS.getYear()+1900) +"/"+(fecS.getMonth()+1)+"/"+fecS.getDate();
        habitacionesdisponibles = daop.listarhabitaciones(fecIn, fecSal);
-      Actualizar();
+       Actualizar();
        System.out.println("Fecha Entrada : "+ fecE.getDate() +"/"+(fecE.getMonth()+1)+"/"+(fecE.getYear()+1900));
        System.out.println("Fecha Salida : "+ fecS.getDate() +"/"+(fecS.getMonth()+1)+"/"+(fecS.getYear()+1900));
        System.out.println(habitacionesdisponibles.size());
@@ -293,12 +293,12 @@ public class ReservaDetalleBean {
             
         }
        
-        FacesMessage msg = new FacesMessage();
-        msg.setSeverity(FacesMessage.SEVERITY_INFO);
-        msg.setSummary("Items Transferred");
-        msg.setDetail(builder.toString());
-         
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+//        FacesMessage msg = new FacesMessage();
+//        msg.setSeverity(FacesMessage.SEVERITY_INFO);
+//        msg.setSummary("Items Transferred");
+//        msg.setDetail(builder.toString());
+//         
+//        FacesContext.getCurrentInstance().addMessage(null, msg);
     }  
       
       public void GUARDARDETALLES()
@@ -320,6 +320,7 @@ public class ReservaDetalleBean {
             reserva.setTHabitacion(cities.getTarget().get(i));
             dao.InsetartReservaDetalle(reserva);
         }
+        llenar();
       }
       
     public void saveDetails() {  

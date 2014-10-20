@@ -24,7 +24,7 @@
             <column name="fechaSalida" length="19" />
         </property>
         <property name="descripcion" type="string">
-            <column name="descripcion" length="200" not-null="true" />
+            <column name="descripcion" length="200"  />
         </property>
         <property name="modalidadPago" type="string">
             <column name="modalidadPago" length="25" />
