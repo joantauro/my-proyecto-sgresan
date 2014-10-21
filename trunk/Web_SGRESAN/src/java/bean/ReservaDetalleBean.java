@@ -64,13 +64,16 @@ public class ReservaDetalleBean {
     private List<THabitacion> habitacionesdisponibles;
     
     private double costo;
+    private boolean editable;
+    long dia;
+    private Date max;
     //private boolean editable=true;
     /**
      * Creates a new instance of ReservaDetalleBean
      */
     public ReservaDetalleBean() {
         event = new TimelineEvent();
-        costo=0;
+        costo=0;editable=false;
        nrohabitacion=1;
        createLista(nrohabitacion);
         
@@ -103,6 +106,11 @@ public class ReservaDetalleBean {
         cities = new DualListModel<THabitacion>(citiesSource, citiesTarget);
     }
     
+    public void CAMBIO()
+    {
+        max=reserv.getFechaEntrada();
+        reserv.setFechaSalida(max);
+    }
     
     public void createLista(int n)
     {
@@ -228,15 +236,15 @@ public class ReservaDetalleBean {
         reserv.setEstado("pre-reserva");
         reserv.setDescripcion("Ninguna");
         reserv.setTCliente(cli);
+        reserv.setPrecio(costo);
         dao.InsetartReserva(reserv);
         
         reserva.setTReserva(reserv);
         
-        
-        
          for (int i = 0; i < cities.getTarget().size(); i++) {
             //hab.setNroHabitacion(Integer.parseInt(lista.get(i)));
             reserva.setTHabitacion(cities.getTarget().get(i));
+            reserva.setCosto(Double.parseDouble(cities.getTarget().get(i).getPrecio())*dia);
             dao.InsetartReservaDetalle(reserva);
         }
      }
@@ -303,7 +311,7 @@ public class ReservaDetalleBean {
             
         }
         costo=0;final long MILLSECS_PER_DAY = 24 * 60 * 60 * 1000;
-        long dia=(reserv.getFechaSalida().getTime()-reserv.getFechaEntrada().getTime())/MILLSECS_PER_DAY;
+       dia=(reserv.getFechaSalida().getTime()-reserv.getFechaEntrada().getTime())/MILLSECS_PER_DAY;
        for (int i = 0; i < cities.getTarget().size(); i++) {
             costo=costo+ Double.parseDouble(cities.getTarget().get(i).getPrecio())*dia;
         }
@@ -543,6 +551,30 @@ public class ReservaDetalleBean {
         HabitacionDao dao = new HabitacionDao();
        habitacionesdisponibles = dao.listarhabitaciones(fecIn, fecSal);
         return habitacionesdisponibles;
+    }
+
+    public double getCosto() {
+        return costo;
+    }
+
+    public void setCosto(double costo) {
+        this.costo = costo;
+    }
+
+    public boolean isEditable() {
+        return editable;
+    }
+
+    public void setEditable(boolean editable) {
+        this.editable = editable;
+    }
+
+    public Date getMax() {
+        return max;
+    }
+
+    public void setMax(Date max) {
+        this.max = max;
     }
 
  

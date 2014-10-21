@@ -19,9 +19,8 @@
         
         
         <h:form id="form" >
-
-          <p:wizard widgetVar="wiz"  
-                          flowListener="#{UserWizard.onFlowProcess}" backLabel="Atrás" nextLabel="Siguiente" >
+          <p:wizard widgetVar="wiz"   
+                    flowListener="#{UserWizard.onFlowProcess}" backLabel="Atrás" nextLabel="Siguiente"  >
                     <p:tab id="clientetab" title="Cliente">
                         <p:panel header="Datos del Cliente" style="width: 500px" >
                               <h:panelGrid   columns="2"   id="panel2" >
@@ -43,9 +42,11 @@
                     <p:tab id="fechatab" title="Fecha">              
                             <p:panelGrid   columns="2" style="margin-right:  auto" id="detailsBookingInner" >
                                 <h:outputText value="Fecha de Entrada" />
-                                <p:calendar mindate="#{habitacionBean.max}" value="#{reservaDetalleBean.reserv.fechaEntrada}" pattern="dd/MM/yyyy HH:mm" />
+                                <p:calendar mindate="#{habitacionBean.max}" value="#{reservaDetalleBean.reserv.fechaEntrada}" pattern="dd/MM/yyyy" >
+                                    <p:ajax event="dateSelect" listener="#{reservaDetalleBean.CAMBIO()}" update="fechSa" />
+                                </p:calendar>
                                 <h:outputText value="Fecha de Salida" />
-                                <p:calendar mindate="#{habitacionBean.max}" value="#{reservaDetalleBean.reserv.fechaSalida}" pattern="dd/MM/yyyy" />        
+                                <p:calendar id="fechSa" mindate="#{reservaDetalleBean.reserv.fechaEntrada}" value="#{reservaDetalleBean.reserv.fechaSalida}" pattern="dd/MM/yyyy" />        
                             </p:panelGrid>
                         <p:commandButton update="pickList" value="Comprobar Disponibilidad" action="#{reservaDetalleBean.BUSQUEDA2(reservaDetalleBean.reserv.fechaEntrada, reservaDetalleBean.reserv.fechaSalida)}" />
                     </p:tab>
@@ -57,7 +58,7 @@
                             <f:facet name="sourceCaption">Disponibles</f:facet>
                             <f:facet name="targetCaption">Seleccionados</f:facet>
 
-                            <p:ajax event="transfer" listener="#{reservaDetalleBean.onTransfer}" update="msg" />
+                            <p:ajax event="transfer" listener="#{reservaDetalleBean.onTransfer}" update="msg,costo" />
 
                             <p:column style="width:25%;">
                                 <h:outputText value="#{cities.nroHabitacion}" />
@@ -66,11 +67,25 @@
                                 <h:outputText value="#{cities.TTipohabitacion.nombre}" />
                             </p:column>
                         </p:pickList>
-                        <p:commandButton value="Registrar" action="#{reservaDetalleBean.registrarprereserva()}"    /> 
-                        <p:commandButton value="Cancelar"   />
+                        <h:panelGrid   columns="2" style="margin-right:  auto;background: none;" cellpadding="4"  >
+                            <h:outputText value="Precio : " style="background: none;font-family: cursive; " />
+                            <h:outputText value="#{reservaDetalleBean.costo}" id="costo" style="background: none;font-family: cursive;"  /> 
+                          
+                        </h:panelGrid>
+                        
+                        <p:commandButton update="dia" value="Registrar" action="#{reservaDetalleBean.registrarprereserva()}" style="margin-left: 60% " onclick="PF('dlg2').show();"  /> 
+                        <p:commandButton value="Cancelar"  style="margin-left: 5%" />
                     </p:tab>
                 
                 </p:wizard>
+            
+            <p:dialog  header="Modal Dialog" widgetVar="dlg2" modal="true" height="100">
+                <h:panelGrid   id="dia" columns="1" style="margin-right:  auto;background: none;" cellpadding="4"  >
+                    <h:outputText value="Su Código de Reserva es el siguiente: #{reservaDetalleBean.reserv.idReserva}" />
+                <p:commandButton value="Aceptar" action="index.xhtml" />
+                </h:panelGrid>
+                
+            </p:dialog> 
         </h:form>
     </ui:define>
 
