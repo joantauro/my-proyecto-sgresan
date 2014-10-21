@@ -56,6 +56,7 @@ public class PersonaBean {
         usuario.setEstado("Activo");
         usuario.setTipoUsuario("cliente");
        usuariodao.ingresarUsuario(usuario);
+       
         
         //persona.setIdPersona(usuario.getNombreUsuario());
         persona.setTUsuario(usuario);
