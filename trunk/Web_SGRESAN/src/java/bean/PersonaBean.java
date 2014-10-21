@@ -35,6 +35,7 @@ public class PersonaBean {
     
     private TPersona persona;
     private TUsuario usuario;
+    private TCliente cliente;
     private List<TUbigeo> listarUbigeoSel;
     private List<TCliente> listaclientes;
     private DataModel listapersona;
@@ -51,6 +52,7 @@ public class PersonaBean {
     
     public void irAgregar() {
         UsuarioDao usuariodao = new UsuarioDao();
+        usuario.setIdUsuario(usuario.getNombreUsuario());
         usuario.setEstado("Activo");
         usuario.setTipoUsuario("cliente");
        usuariodao.ingresarUsuario(usuario);
@@ -59,6 +61,12 @@ public class PersonaBean {
         persona.setTUsuario(usuario);
         persona.setEstado("Activo");
         dao.ingresarPersona(persona);
+        
+        ClienteDao clientedao = new ClienteDao();
+        cliente.setIdCliente(usuario.getIdUsuario());
+        cliente.setTPersona(persona);
+        clientedao.ingresarCliente(cliente);
+        
     }
     
     public String irActualizar() {
