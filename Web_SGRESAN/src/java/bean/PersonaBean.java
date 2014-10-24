@@ -48,6 +48,8 @@ public class PersonaBean {
         usuario = new TUsuario();
         persona = new TPersona();
         persona.setTUbigeo(new TUbigeo());
+        cliente = new TCliente();
+        cliente.setTPersona(new TPersona());
     }
     
     public void irAgregar() {
@@ -63,24 +65,41 @@ public class PersonaBean {
         persona.setEstado("Activo");
         dao.ingresarPersona(persona);
         
+       
+        
         ClienteDao clientedao = new ClienteDao();
         cliente.setIdCliente(usuario.getIdUsuario());
         cliente.setTPersona(persona);
         clientedao.ingresarCliente(cliente);
         
+        
+        usuario = new TUsuario();
+        persona = new TPersona();
+        persona.setTUbigeo(new TUbigeo());
+        cliente = new TCliente();
+        cliente.setTPersona(new TPersona());
     }
     
-    public String irActualizar() {
-        setEsEdicion(true);
-      //  setPersona((TPersona) listaclientes.getRowData());
-        int codigoUb = persona.getTUbigeo().getIdTUbigeo();
-//    corregir    persona.setTUbigeo(new TUbigeo(codigoUb, "", false));
-        String cod = persona.getIdPersona();
-        persona.setIdPersona(cod);
-        return "nuevapersona";
-
+    public void irActualizar(String id) {
+        PersonaDao obj = new PersonaDao();
+//        obj.actualizarPersona(persona);
+//        persona = new TPersona();
+        persona = obj.buscarPorId(id);
+        System.out.println(persona.getNombres());
+        System.out.println(persona.getTUbigeo().getNombre());
     }
     
+    public void ACTUALIZAR()
+    {
+        PersonaDao dao = new PersonaDao();
+        dao.actualizarPersona(persona);
+        
+        usuario = new TUsuario();
+        persona = new TPersona();
+        persona.setTUbigeo(new TUbigeo());
+        cliente = new TCliente();
+        cliente.setTPersona(new TPersona());
+    }
     public DataModel getListapersona() {
          PersonaDao profMgd = new PersonaDao();
         listapersona = new ListDataModel(profMgd.obtenerPersonaTodos());
@@ -93,7 +112,7 @@ public class PersonaBean {
     
     public void prepararPersona(String id) {
         PersonaDao obj = new PersonaDao();
-        persona = obj.BuscaporId(id);
+        persona = obj.buscarPorId(id);
     }
 
     public TPersona getPersona() {
