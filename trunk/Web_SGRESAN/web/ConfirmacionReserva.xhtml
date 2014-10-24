@@ -19,11 +19,15 @@
     </ui:define>
 
     <ui:define name="content">
-        <p:dataTable var="inte" value="#{reservaBean.estadodereservas}"  >
+             <h:form id="from" >
+                 <p:dataTable var="inte" value="#{archivoBean.reservasALL}" rowIndexVar="valor" id="tablag" >
             <f:facet name="header">
-                LisA de Reservas por Confirmar
+                RESERVAS
             </f:facet>
-            <p:column headerText="Id">
+            <p:column headerText="#">
+                <h:outputText value="#{valor+1}" />
+            </p:column>
+            <p:column headerText="Cod. Reserva">
                 <h:outputText value="#{inte.idReserva}" />
             </p:column>
 
@@ -35,17 +39,42 @@
                 <h:outputText value="#{inte.estado}" />
             </p:column>
 
-            <p:column headerText="Archivo">
-                
+            <p:column headerText="Archivo" >
+                 <p:commandButton rendered="#{inte.estado eq 'pre-reserva'}"  value="Subir"  oncomplete="PF('VoucherDialog').show();" actionListener="#{archivoBean.buscar(inte.idReserva)}"
+                                  />
             </p:column>
 
-            <p:column headerText="Confirmar">
-                 
+            <p:column headerText="Ver">
+                <p:commandButton rendered="#{inte.voucher ne null}" value="Ver" actionListener="#{archivoBean.ACTUALIZAR(inte.idReserva)}"
+                                 update=":from:tablag" />
             </p:column>
-            <p:column headerText="Rechazar">
                 
-            </p:column>
         </p:dataTable>
+               <p:dialog header="Voucher" widgetVar="infoDialog" resizable="false" id="carDlg"  
+                                  showEffect="fade" hideEffect="explode" modal="true" > 
+                            
+                   <p:panel id="valor" style="width: 500px;height: 500px;" >
+                       <p:graphicImage  value="#{archivoBean.imagem}" cache="false"  />  
+                   </p:panel>
+                   
+                   <p:commandButton value="Cerrar" oncomplete="PF('infoDialog').hide();" />
+       
+                        
+                 </p:dialog>
+            
+        </h:form>
+        
+        <h:form enctype="multipart/form-data" id="data"> 
+            <p:dialog header="Subir Voucher" widgetVar="VoucherDialog" resizable="false" id="vouDlg"  
+                                  showEffect="fade" hideEffect="explode" modal="true" > 
+                            
+                <p:fileUpload value="#{archivoBean.file}"  mode="simple"    /> 
+ 
+                 <p:commandButton action="#{archivoBean.AGREGAR_BOLETA()}" oncomplete="PF('VoucherDialog').hide();"  ajax="false" value="cerrar" update=":from:tablag"  />
+              
+                 </p:dialog>
+                   
+        </h:form>
     </ui:define>
 
     <ui:define name="bottom">

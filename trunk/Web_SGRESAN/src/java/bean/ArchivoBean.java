@@ -6,11 +6,24 @@
 package bean;
 
 import dao.ArchivoDao;
+import dao.ReservaDao;
+import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.Arrays;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import model.TCliente;
+import model.TPersona;
 import model.TReserva;
+import org.apache.commons.io.IOUtils;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 
 /**
@@ -23,6 +36,8 @@ public class ArchivoBean {
 private UploadedFile file;
 private TReserva reserva;
 private List<TReserva> reservas;
+private List<TReserva> reservasALL;
+ private StreamedContent imagem;
     /**
      * Creates a new instance of ArchivoBean
      */
@@ -33,7 +48,28 @@ private List<TReserva> reservas;
 
     public void AGREGAR_BOLETA()
     {
-          byte[] bytes = file.getContents();
+        try
+        {
+//            System.out.println(reserva.getIdReserva());
+//         ArchivoDao ar = new ArchivoDao();
+//      
+//          byte[] bytes = file.getContents();
+//          reserva.setVoucher(bytes);
+//          reserva.setDescripcion(file.getFileName());
+//          ar.ModificarReserva(reserva);
+             System.out.println(reserva.getIdReserva());
+         ArchivoDao ar = new ArchivoDao();
+          //byte[] bytes = event.getFile().getContents();
+         byte[] bytes = IOUtils.toByteArray(file.getInputstream());
+          reserva.setVoucher(bytes); 
+          reserva.setDescripcion(file.getFileName());
+            System.out.println(file.getFileName());
+          ar.ModificarReserva(reserva);
+        }
+        catch(Exception e)
+        {
+            System.out.println("Error : "+ e.getMessage());
+        }
 //        String tip = file.getContentType();
 //        dato.setFecha(new java.util.Date());
 //        
@@ -46,11 +82,79 @@ private List<TReserva> reservas;
 //        dato = new Dato();
     }
 
+     public void handleFileUpload(FileUploadEvent event) {
+       try
+       {
+            System.out.println(reserva.getIdReserva());
+         ArchivoDao ar = new ArchivoDao();
+          //byte[] bytes = event.getFile().getContents();
+         byte[] bytes = IOUtils.toByteArray(event.getFile().getInputstream());
+          reserva.setVoucher(bytes); 
+          reserva.setDescripcion(event.getFile().getFileName());
+          ar.ModificarReserva(reserva);
+       }
+       catch(Exception e)
+       {
+           
+       }
+    }
+    public void buscar(String id)
+    {
+        ArchivoDao ar = new ArchivoDao();
+        reserva = ar.BuscaporId(id);
+        System.out.println(reserva.getIdReserva());
+    }
+    
+    public void ver(String id) throws IOException  
+    {
+ 
+     ArchivoDao ar = new ArchivoDao();
+        reserva = ar.BuscaporId(id);
+               imagem =new DefaultStreamedContent(new ByteArrayInputStream(reserva.getVoucher()));
+        System.out.println(reserva.getIdReserva());
+//        
+//        FacesContext fc = FacesContext.getCurrentInstance();
+//        ExternalContext ec = fc.getExternalContext();
+//        
+//        ec.responseReset();
+//        ec.setResponseContentType("image/jpeg");
+//        ec.setResponseContentLength((int)reserva.getVoucher().length);
+//        ec.setResponseHeader("Content-Disposition","inline;filename=\""+"est.JPG"+"\"");//attachment
+//        
+//        OutputStream output = ec.getResponseOutputStream();
+//        output.write(reserva.getVoucher(),0, reserva.getVoucher().length);
+        //fc.responseComplete();
+  
+    }
+    
+    public void ACTUALIZAR(String id)
+    {
+        ArchivoDao ar = new ArchivoDao();
+        reserva = ar.BuscaporId(id);
+        reserva.setEstado("reservado");
+        ar.ModificarReserva(reserva);
+    }
+    
+   public TCliente BUSCAR()
+   {
+       ArchivoDao dao = new ArchivoDao();
+       TPersona pers = (TPersona) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("persona");
+       
+      return dao.buscarcliente(pers.getIdPersona());
+   }
+    
     public List<TReserva> getReservas() {
         ArchivoDao obj = new ArchivoDao();
-        reservas=obj.listareserva("1");
+        reservas=obj.listareserva(BUSCAR().getIdCliente());
         return reservas;
     }
+
+    public List<TReserva> getReservasALL() {
+        ReservaDao dao = new ReservaDao();
+        reservasALL = dao.listarestadoreserva();
+        return reservasALL;
+    }
+    
     
     
     public UploadedFile getFile() {
@@ -69,5 +173,12 @@ private List<TReserva> reservas;
         this.reserva = reserva;
     }
     
-    
+    public StreamedContent getImagem() {
+ return imagem;
+ }
+ 
+public void setImagem(StreamedContent imagem) {
+ this.imagem = imagem;
+ }
+ 
 }
