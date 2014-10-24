@@ -51,21 +51,22 @@ public class PersonaDao {
         return true;
     }
     public boolean actualizarPersona(TPersona persona) {
-            sesion = HibernateUtil.getSessionFactory().openSession();
-            try {
-                 sesion.beginTransaction();
-                 sesion.merge(persona);
-                 sesion.beginTransaction().commit();
-                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Se  Actualizó Cliente "+persona.getNombres()+" correctamente", "Verificar"));    
-            } catch (Exception e) {
-                 System.out.println("Error en actualizar" + e.getMessage());
-                 sesion.beginTransaction().rollback();
-                 return false;
-             }
-            finally {
-                 sesion.close();
-             }
-            return true;
+           Session sesion = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
+        try {
+            tx =sesion.beginTransaction();
+            sesion.merge(persona);
+            tx.commit();
+        } catch  (Exception e) {
+            if(tx!=null)
+            {
+                tx.rollback();
+                return false;
+            }
+        } finally {
+            sesion.close();
+        }
+        return true;
     }
     
     public void actualizarUbigeo(TUbigeo ubigeo) {
@@ -113,6 +114,12 @@ where usu.nombreUsuario='joantauro'*/
 //"inner join persona.TUsuario usu \n" +
 //"where usu.nombreUsuario="+id).uniqueResult();
        // return (TPersona) session.load(TPersona.class, id);
+        
+    }
+    
+     public TPersona buscarPorId(String id) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        return (TPersona) session.load(TPersona.class, id);
     }
     
     public List listarUbigeo() {
