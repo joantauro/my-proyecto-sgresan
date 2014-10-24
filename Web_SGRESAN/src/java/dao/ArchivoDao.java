@@ -6,9 +6,11 @@
 package dao;
 
 import java.util.List;
+import model.TCliente;
 import model.TReserva;
-import model.TReservadetalle;
+import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import util.HibernateUtil;
 
 /**
@@ -20,5 +22,54 @@ public class ArchivoDao {
     {
         Session session = HibernateUtil.getSessionFactory().openSession();
         return session.createQuery("from TReserva where TCliente='"+id+"'").list();
+    }//from TCliente where TPersona='abc124'
+    
+    public TCliente buscarcliente(String id)
+    {
+         Session sesion =HibernateUtil.getSessionFactory().openSession();
+        String sql="select u from TCliente u where TPersona=:user"; 
+       
+        Query query = sesion.createQuery(sql);
+        query.setString("user", id);
+        return (TCliente) query.uniqueResult();
+        
+    }
+    
+    public TReserva BuscaporId(String id) {
+        
+        TReserva reserva = null;
+        final Session sesion = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
+        try {
+            tx =sesion.beginTransaction();
+            reserva = (TReserva) sesion.load(TReserva.class, id);
+            tx.commit();
+        } catch (Exception e) {
+            if(tx!=null)
+            {
+                tx.rollback();
+            }
+            throw  new RuntimeException(e);
+        } finally {
+            sesion.close();
+        }
+        return reserva;
+    }
+    public void ModificarReserva(TReserva reserva)
+    { 
+         Session sesion = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
+        try {
+            tx =sesion.beginTransaction();
+            sesion.update(reserva);
+            tx.commit();
+        } catch  (Exception e) {
+            if(tx!=null)
+            {
+                tx.rollback();
+            }
+        } finally {
+            sesion.close();
+        }
     }
 }

@@ -6,9 +6,9 @@
       xmlns:p="http://primefaces.org/ui">
     <ui:composition >
         <h:form  id="menu" >
-            <p:menubar  class="nav" >
+            <p:menubar  >
                <p:menuitem value="Inicio" url="index.xhtml" />
-                <p:submenu label="Servicios"  />
+                <p:submenu label="Servicios"   />
                 <p:submenu label="Galeria"  />
                 <p:submenu label="Restaurant"  />
                 <p:submenu label="Testimonio"  />
@@ -17,6 +17,7 @@
                     <p:menuitem value="Confirmación" url="ConfirmacionReserva.xhtml"  />
                 </p:submenu>
                 <p:submenu label="Reservas" rendered="#{loginBean.usuario.tipoUsuario ne 'recepcionista'}" >
+                    <p:menuitem value="Mis Reservas" url="ReservaporCliente.xhtml"   />
                     <p:menuitem value="Pre-Reservas" url="Reserva.xhtml"   />
                     <p:menuitem value="Confirmación"   url="Personita.xhtml" />
                 </p:submenu>
