@@ -32,6 +32,15 @@
 
     <ui:define name="content" >
         <h:form id="formRecep"  >
+            <p:selectOneMenu  value="#{reservaDetalleBean.tipohab}" >  
+                                    <f:selectItem  itemLabel="" itemValue=""/> 
+                                    <f:selectItem  itemLabel="doble" itemValue="doble"/> 
+                                    <f:selectItem  itemLabel="triple" itemValue="triple"/> 
+                                    <f:selectItem  itemLabel="cuadruple" itemValue="cuadruple"/> 
+                                    <f:selectItem  itemLabel="quintuple" itemValue="quintuple"/>
+                                    <p:ajax listener="#{reservaDetalleBean.llenar()}" update="timeline" />
+                                    
+            </p:selectOneMenu>
             <poue:timeline id="timeline" value="#{reservaDetalleBean.model}" var="booking"  
                            timeZone="#{reservaDetalleBean.timeZone}"   
                            zoomMax="#{reservaDetalleBean.zoomMax}"   zoomMin="120000000"
@@ -155,11 +164,13 @@
                     
                     <p:tab id="fechatab" title="Fecha">              
                             <p:panelGrid   columns="2" style="margin-right:  auto" id="detailsBookingInner" >
-                                <h:outputText value="Fecha de Entrada" />
-                                <p:calendar mindate="#{habitacionBean.max}" value="#{reservaDetalleBean.reserv.fechaEntrada}" pattern="dd/MM/yyyy HH:mm" />
+                               <h:outputText value="Fecha de Entrada" />
+                                <p:calendar mindate="#{habitacionBean.max}" value="#{reservaDetalleBean.reserv.fechaEntrada}" pattern="dd/MM/yyyy" >
+                                    <p:ajax event="dateSelect" listener="#{reservaDetalleBean.CAMBIO()}" update="fechSa" />
+                                </p:calendar>
                                 <h:outputText value="Fecha de Salida" />
-                                <p:calendar mindate="#{habitacionBean.max}" value="#{reservaDetalleBean.reserv.fechaSalida}" pattern="dd/MM/yyyy" />        
-                            </p:panelGrid>
+                                <p:calendar id="fechSa" mindate="#{reservaDetalleBean.reserv.fechaEntrada}" value="#{reservaDetalleBean.reserv.fechaSalida}" pattern="dd/MM/yyyy" />        
+                           </p:panelGrid>
                         <p:commandButton update="pickList" value="Comprobar Disponibilidad" action="#{reservaDetalleBean.BUSQUEDA2(reservaDetalleBean.reserv.fechaEntrada, reservaDetalleBean.reserv.fechaSalida)}" />
                     </p:tab>
                     
@@ -170,15 +181,25 @@
                             <f:facet name="sourceCaption">Disponibles</f:facet>
                             <f:facet name="targetCaption">Seleccionados</f:facet>
 
-                            <p:ajax event="transfer" listener="#{reservaDetalleBean.onTransfer}" update="msg" />
+                            <p:ajax event="transfer" listener="#{reservaDetalleBean.onTransfer}" update="msg,costo" />
 
                             <p:column style="width:25%;">
-                                <h:outputText value="#{cities.nroHabitacion}" />
+                                <h:outputText value="#{cities.idHabitacion}" />
                             </p:column>
                             <p:column style="width:75%;">
-                                <h:outputText value="#{cities.descripcion}" />
+                                <h:outputText value="#{cities.TTipohabitacion.nombre}" />
                             </p:column>
                         </p:pickList>
+                        <h:panelGrid   columns="2" style="margin-right:  auto;background: none;" cellpadding="4"  >
+                            <h:outputText value="Tipo Pago : " style="background: none;font-family: cursive; " />
+                            <p:selectOneMenu  value="#{reservaDetalleBean.reserv.modalidadPago}" >  
+                                    <f:selectItem  itemLabel="Efectivo" itemValue="Efectivo"/> 
+                                    <f:selectItem  itemLabel="Deposito" itemValue="Deposito"/> 
+                                </p:selectOneMenu>
+                            <h:outputText value="Precio : " style="background: none;font-family: cursive; " />
+                            <h:outputText value="#{reservaDetalleBean.costo}" id="costo" style="background: none;font-family: cursive;"  /> 
+                          
+                        </h:panelGrid>
                         <p:commandButton value="Registrar" action="#{reservaDetalleBean.GUARDARDETALLES()}" onclick="PF('dlgNuevo').hide()" update=":formRecep:timeline"  /> 
                         <p:commandButton value="Cancelar" onclick="PF('dlgNuevo').hide()" />
                     </p:tab>

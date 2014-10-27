@@ -71,8 +71,11 @@ public class ReservaDetalleBean {
     /**
      * Creates a new instance of ReservaDetalleBean
      */
+    private String tipohab;
+    
+    
     public ReservaDetalleBean() {
-        event = new TimelineEvent();
+        event = new TimelineEvent();tipohab="";
         costo=0;editable=false;
        nrohabitacion=1;
        createLista(nrohabitacion);
@@ -332,16 +335,25 @@ public class ReservaDetalleBean {
          TCliente cli = new TCliente();
         cli.setIdCliente(reserv.getTCliente().getIdCliente());
         reserv.setIdReserva(dao.PK());
-        reserv.setEstado("pre-reserva");
+        if(reserv.getModalidadPago().equals("Efectivo"))
+        {
+            reserv.setEstado("reservado");
+        }else
+        {
+            reserv.setEstado("pre-reserva");
+        }
+        reserv.setFechaRegistro(new Date());
         reserv.setDescripcion("Ninguna");
+        reserv.setPrecio(costo);
         reserv.setTCliente(cli);
         dao.InsetartReserva(reserv);
         
         reserva.setTReserva(reserv);
         
-        for (int i = 0; i < cities.getTarget().size(); i++) {
+         for (int i = 0; i < cities.getTarget().size(); i++) {
             //hab.setNroHabitacion(Integer.parseInt(lista.get(i)));
             reserva.setTHabitacion(cities.getTarget().get(i));
+            reserva.setCosto(Double.parseDouble(cities.getTarget().get(i).getPrecio())*dia);
             dao.InsetartReservaDetalle(reserva);
         }
         llenar();
@@ -395,31 +407,23 @@ public class ReservaDetalleBean {
         end = cal.getTime();  
           //  event = new TimelineEvent("Joel", start, end, true, "1", "available");
       
-        listareservas = dao.listareserva();System.out.println("Lista" + listareservas.size());
+        listareservas = dao.listareservafiltros(tipohab);System.out.println("Lista" + listareservas.size());
         for(int i=0;i<listareservas.size();i++)
          {
         if(!"cancelado".equals(listareservas.get(i).getTReserva().getEstado()))
         {
              model.add(new TimelineEvent(listareservas.get(i), listareservas.get(i).getTReserva().getFechaEntrada(), 
                                                               listareservas.get(i).getTReserva().getFechaSalida(), true, 
-                                                              listareservas.get(i).getTHabitacion().getNroHabitacion() + "", 
+                                                              listareservas.get(i).getTHabitacion().getIdHabitacion() + "", 
                                                               listareservas.get(i).getTReserva().getEstado())); // eSTADO
         
             System.out.println("N°" + i);}
-         }
-      
-//        for (TReservadetalle listareserva : listareservas) {
-//            model.add(new TimelineEvent(listareservas.get(i), listareserva.getTReserva().getFechaEntrada(), 
-//                                                              listareserva.getTReserva().getFechaSalida(), true, 
-//                                                              listareserva.getTHabitacion().getNroHabitacion() + "", 
-//                                                              listareserva.getTReserva().getEstado())); // eSTADO
-//        }
-        
+         }  
     }
 
     public List<TReservadetalle> getListareservas() {
         
-        listareservas = dao.listareserva();
+        listareservas = dao.listareservafiltros(tipohab);
         return listareservas;
     }
 
@@ -575,6 +579,14 @@ public class ReservaDetalleBean {
 
     public void setMax(Date max) {
         this.max = max;
+    }
+
+    public String getTipohab() {
+        return tipohab;
+    }
+
+    public void setTipohab(String tipohab) {
+        this.tipohab = tipohab;
     }
 
  

@@ -40,11 +40,11 @@
             </p:column>
 
             <p:column headerText="Archivo" >
-                 <p:commandButton rendered="#{inte.estado eq 'pre-reserva'}"  value="Subir"  oncomplete="PF('VoucherDialog').show();" actionListener="#{archivoBean.buscar(inte.idReserva)}"
-                                  />
+                  <p:commandButton rendered="#{inte.voucher ne null}" value="Ver"  oncomplete="PF('infoDialog').show();" actionListener="#{archivoBean.ver(inte.idReserva)}"
+                                 update=":from:valor" />
             </p:column>
 
-            <p:column headerText="Ver">
+            <p:column headerText="Aprobar">
                 <p:commandButton rendered="#{inte.voucher ne null}" value="Ver" actionListener="#{archivoBean.ACTUALIZAR(inte.idReserva)}"
                                  update=":from:tablag" />
             </p:column>
@@ -61,20 +61,10 @@
        
                         
                  </p:dialog>
+ 
             
         </h:form>
-        
-        <h:form enctype="multipart/form-data" id="data"> 
-            <p:dialog header="Subir Voucher" widgetVar="VoucherDialog" resizable="false" id="vouDlg"  
-                                  showEffect="fade" hideEffect="explode" modal="true" > 
-                            
-                <p:fileUpload value="#{archivoBean.file}"  mode="simple"    /> 
  
-                 <p:commandButton action="#{archivoBean.AGREGAR_BOLETA()}" oncomplete="PF('VoucherDialog').hide();"  ajax="false" value="cerrar" update=":from:tablag"  />
-              
-                 </p:dialog>
-                   
-        </h:form>
     </ui:define>
 
     <ui:define name="bottom">
