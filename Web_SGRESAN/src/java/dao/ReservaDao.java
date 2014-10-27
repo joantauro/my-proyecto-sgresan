@@ -25,6 +25,15 @@ public class ReservaDao {
         return session.createQuery("from TReservadetalle ").list();
     }
     
+    public List<TReservadetalle> listareservafiltros(String id)
+    {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        return session.createQuery("select r from TReservadetalle  r\n"
+                + "inner join r.THabitacion  j\n"
+                + "inner join j.TTipohabitacion t\n"
+                + "where t.nombre like '%" + id + "%'").list();
+    }
+
     public List<TReserva> listarestadoreserva()
     {
         Session session = HibernateUtil.getSessionFactory().openSession();
