@@ -52,12 +52,43 @@ public class PersonaBean {
         cliente.setTPersona(new TPersona());
     }
     
+    public void LIMPIAR()
+    {
+        usuario = new TUsuario();
+        persona = new TPersona();
+        persona.setTUbigeo(new TUbigeo());
+        cliente = new TCliente();
+        cliente.setTPersona(new TPersona());
+    }
+    
+    public boolean esVistaValida(){
+        boolean resultado = true;
+        if(!esNombreValido()){
+            resultado = false;
+        }
+        return resultado;
+    }
+    
+    public boolean esNombreValido()
+    {
+        boolean resultado = true;
+        if(usuario.getNombreUsuario() == null || usuario.getNombreUsuario().trim().length() == 0){
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Debe ingresar el nombre"));
+            resultado = false;
+        }
+        
+        return resultado;
+    }
+    
     public void irAgregar() {
+        if(!esVistaValida()){
+            return;
+        }
         UsuarioDao usuariodao = new UsuarioDao();
         usuario.setIdUsuario(usuario.getNombreUsuario());
         usuario.setEstado("Activo");
         usuario.setTipoUsuario("cliente");
-       usuariodao.ingresarUsuario(usuario);
+        usuariodao.ingresarUsuario(usuario);
        
         
         //persona.setIdPersona(usuario.getNombreUsuario());
