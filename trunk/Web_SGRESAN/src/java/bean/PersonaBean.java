@@ -69,19 +69,77 @@ public class PersonaBean {
         return resultado;
     }
     
+    public boolean esSoloLetras() {
+         boolean resultado = true;
+        if(!esNombreValido()){
+            resultado = false;
+        }
+        return resultado;
+    }
+    
     public boolean esNombreValido()
     {
         boolean resultado = true;
         if(usuario.getNombreUsuario() == null || usuario.getNombreUsuario().trim().length() == 0){
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Debe ingresar el nombre"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Debe ingresar el nombre del usuario"));
             resultado = false;
         }
+        
+        if(persona.getNombres() == null || persona.getNombres().trim().length() == 0){
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Debe ingresar el nombre de la persona"));
+            resultado = false;
+        }
+        
+        if(persona.getApellidoP()== null || persona.getApellidoP().trim().length() == 0){
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Debe ingresar el apellido paterno de la persona"));
+            resultado = false;
+        }
+        
+        if(persona.getApellidoM()== null || persona.getApellidoM().trim().length() == 0){
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Debe ingresar el apellido materno de la persona"));
+            resultado = false;
+        }
+        
+        if(persona.getDni() == null || persona.getDni().trim().length() == 0){
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Debe ingresar el DNI de la persona"));
+            resultado = false;
+        }
+        
+        if(persona.getDireccion() == null || persona.getDireccion().trim().length() == 0){
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Debe ingresar la dirección de la persona"));
+            resultado = false;
+        }
+        
+        if(persona.getTelefono()== null || persona.getTelefono().trim().length() == 0){
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Debe ingresar el teléfono de la persona"));
+            resultado = false;
+        }
+        
+        if(persona.getCelular()== null || persona.getCelular().trim().length() == 0){
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Debe ingresar el celular de la persona"));
+            resultado = false;
+        }
+        
+        if(persona.getEmail()== null || persona.getEmail().trim().length() == 0){
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Debe ingresar el correo de la persona"));
+            resultado = false;
+        }
+        
+      if(persona.getNombres() == "[^A-Za-zñÑáéíóúüÁÉÍÓÚ \\- ]"){
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Debe ingresar sólo letras"));
+            resultado = false;
+      }
         
         return resultado;
     }
     
+    
     public void irAgregar() {
         if(!esVistaValida()){
+            return;
+        }
+        
+        if(!esSoloLetras()){
             return;
         }
         UsuarioDao usuariodao = new UsuarioDao();
