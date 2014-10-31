@@ -23,6 +23,7 @@ import model.TCliente;
 import model.TPersona;
 import model.TUbigeo;
 import model.TUsuario;
+import util.Utilitario;
 
 /**
  *
@@ -61,76 +62,177 @@ public class PersonaBean {
         cliente.setTPersona(new TPersona());
     }
     
-    public boolean esVistaValida(){
+    
+//    public boolean esNombreValido()
+//    {
+//        boolean resultado = true;
+//        if(usuario.getNombreUsuario() == null || usuario.getNombreUsuario().trim().length() == 0){
+//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Debe ingresar el nombre del usuario"));
+//            resultado = false;
+//        }
+//        
+//        if(persona.getNombres() == null || persona.getNombres().trim().length() == 0){
+//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Debe ingresar el nombre de la persona"));
+//            resultado = false;
+//        }
+//        
+//        if(persona.getApellidoP()== null || persona.getApellidoP().trim().length() == 0){
+//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Debe ingresar el apellido paterno de la persona"));
+//            resultado = false;
+//        }
+//        
+//        if(persona.getApellidoM()== null || persona.getApellidoM().trim().length() == 0){
+//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Debe ingresar el apellido materno de la persona"));
+//            resultado = false;
+//        }
+//        
+//        if(persona.getDni() == null || persona.getDni().trim().length() == 0){
+//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Debe ingresar el DNI de la persona"));
+//            resultado = false;
+//        }
+//        
+//        if(persona.getDireccion() == null || persona.getDireccion().trim().length() == 0){
+//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Debe ingresar la dirección de la persona"));
+//            resultado = false;
+//        }
+//        
+//        if(persona.getTelefono()== null || persona.getTelefono().trim().length() == 0){
+//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Debe ingresar el teléfono de la persona"));
+//            resultado = false;
+//        }
+//        
+//        if(persona.getCelular()== null || persona.getCelular().trim().length() == 0){
+//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Debe ingresar el celular de la persona"));
+//            resultado = false;
+//        }
+//        
+//        if(persona.getEmail()== null || persona.getEmail().trim().length() == 0){
+//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Debe ingresar el correo de la persona"));
+//            resultado = false;
+//        }
+//        
+//      if(persona.getNombres() == "[^A-Za-zñÑáéíóúüÁÉÍÓÚ \\- ]"){
+//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Debe ingresar sólo letras"));
+//            resultado = false;
+//      }
+//        
+//        return resultado;
+//    }
+       public boolean esVistaValida(){
         boolean resultado = true;
         if(!esNombreValido()){
             resultado = false;
         }
-        return resultado;
-    }
-    
-    public boolean esSoloLetras() {
-         boolean resultado = true;
-        if(!esNombreValido()){
+        else if(!esApellidoPaternoValido()){
+            resultado = false;
+        }
+        else if(!esApellidoMaternoValido()){
+            resultado = false;
+        }
+        else if(!esDNIValido()){
+            resultado = false;
+        }
+        else if(!esDireccionValida()){
+            resultado = false;
+        }
+        else if(!esCelularValido()){
+            resultado = false;
+        }
+        else if(!esCorreoValido()){
             resultado = false;
         }
         return resultado;
     }
-    
-    public boolean esNombreValido()
-    {
+
+    public boolean esNombreValido(){
         boolean resultado = true;
-        if(usuario.getNombreUsuario() == null || usuario.getNombreUsuario().trim().length() == 0){
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Debe ingresar el nombre del usuario"));
-            resultado = false;
+        if(Utilitario.validaNulo(persona.getNombres())){
+            resultado = mensaje("Debe ingresar el nombre de la persona");
         }
-        
-        if(persona.getNombres() == null || persona.getNombres().trim().length() == 0){
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Debe ingresar el nombre de la persona"));
-            resultado = false;
+        else if(Utilitario.esSoloLetras(persona.getNombres())){
+            resultado = mensaje("Debe ingresar sólo letras en el campo Nombre");
         }
-        
-        if(persona.getApellidoP()== null || persona.getApellidoP().trim().length() == 0){
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Debe ingresar el apellido paterno de la persona"));
-            resultado = false;
+        return resultado;
+    }
+    
+    public boolean esApellidoPaternoValido(){
+        boolean resultado = true;
+        if(Utilitario.validaNulo(persona.getApellidoP())){
+            resultado = mensaje("Debe ingresar el apellido paterno de la persona");
         }
-        
-        if(persona.getApellidoM()== null || persona.getApellidoM().trim().length() == 0){
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Debe ingresar el apellido materno de la persona"));
-            resultado = false;
+        else if(Utilitario.esSoloLetras(persona.getApellidoP())){
+            resultado = mensaje("Debe ingresar sólo letras en el campo Apellido Paterno");
         }
-        
-        if(persona.getDni() == null || persona.getDni().trim().length() == 0){
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Debe ingresar el DNI de la persona"));
-            resultado = false;
+        return resultado;
+    }
+    
+    public boolean esApellidoMaternoValido(){
+        boolean resultado = true;
+        if(Utilitario.validaNulo(persona.getApellidoM())){
+            resultado = mensaje("Debe ingresar el apellido materno de la persona");
         }
-        
-        if(persona.getDireccion() == null || persona.getDireccion().trim().length() == 0){
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Debe ingresar la dirección de la persona"));
-            resultado = false;
+        else if(Utilitario.esSoloLetras(persona.getApellidoM())){
+            resultado = mensaje("Debe ingresar sólo letras en el campo Apellido Materno");
         }
-        
-        if(persona.getTelefono()== null || persona.getTelefono().trim().length() == 0){
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Debe ingresar el teléfono de la persona"));
-            resultado = false;
+        return resultado;
+    }
+    
+    public boolean esDNIValido(){
+        boolean resultado = true;
+        if(Utilitario.validaNulo(persona.getDni())){
+            resultado = mensaje("Debe ingresar el DNI de la persona");
         }
-        
-        if(persona.getCelular()== null || persona.getCelular().trim().length() == 0){
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Debe ingresar el celular de la persona"));
-            resultado = false;
+        else if(Utilitario.validaCantidad(persona.getDni(), 8)){
+            resultado = mensaje("Debe ingresar 8 dígitos en el campo DNI");
         }
-        
-        if(persona.getEmail()== null || persona.getEmail().trim().length() == 0){
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Debe ingresar el correo de la persona"));
-            resultado = false;
+        else if(Utilitario.esSoloNumero(persona.getDni())){
+            resultado = mensaje("Debe ingresar sólo números en el campo DNI");
         }
-        
-      if(persona.getNombres() == "[^A-Za-zñÑáéíóúüÁÉÍÓÚ \\- ]"){
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Debe ingresar sólo letras"));
-            resultado = false;
-      }
         
         return resultado;
+    }
+    
+    public boolean esDireccionValida(){
+        boolean resultado = true;
+        if(Utilitario.validaNulo(persona.getDireccion())){
+            resultado = mensaje("Debe ingresar la dirección de la persona");
+        }
+        else if(Utilitario.esAlfaNumerico(persona.getDireccion())){
+            resultado = mensaje("Debe ingresar alfanuméricos el campo Dirección");
+        }
+        return resultado;
+    }
+    
+    public boolean esCelularValido(){
+        boolean resultado = true;
+        if(Utilitario.validaNulo(persona.getCelular())){
+            resultado = mensaje("Debe ingresar el celular de la persona");
+        }
+        else if(Utilitario.validaCantidad(persona.getCelular(), 9)){
+            resultado = mensaje("Debe ingresar 9 dígitos en el campo Celular");
+        }
+        else if(Utilitario.esSoloNumero(persona.getCelular())){
+            resultado = mensaje("Debe ingresar sólo números en el campo Celular");
+        }
+        
+        return resultado;
+    }
+    
+    public boolean esCorreoValido(){
+        boolean resultado = true;
+        if(Utilitario.validaNulo(persona.getEmail())){
+            resultado = mensaje("Debe ingresar el correo de la persona");
+        }
+        else if(Utilitario.esCorreoValido(persona.getEmail())){
+            resultado = mensaje("Debe ingresar el correo");
+        }
+        
+        return resultado;
+    }
+    
+    public boolean mensaje(String p){
+        Utilitario.mensajeError(p);
+        return false;
     }
     
     
@@ -138,10 +240,7 @@ public class PersonaBean {
         if(!esVistaValida()){
             return;
         }
-        
-        if(!esSoloLetras()){
-            return;
-        }
+
         UsuarioDao usuariodao = new UsuarioDao();
         usuario.setIdUsuario(usuario.getNombreUsuario());
         usuario.setEstado("Activo");
