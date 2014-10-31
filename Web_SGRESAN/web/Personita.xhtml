@@ -99,11 +99,11 @@
                             <h:outputText value="Apellido Materno :" />  
                             <p:inputText value="#{personaBean.persona.apellidoM}" style="font-weight:bold"/>  
                             <h:outputText value="DNI :" />  
-                            <p:inputText value="#{personaBean.persona.dni}" style="font-weight:bold"/>  
+                            <p:inputText value="#{personaBean.persona.dni}" style="font-weight:bold" maxlength="8" />  
                             <h:outputText value="Dirección :" />  
                             <p:inputText value="#{personaBean.persona.direccion}" style="font-weight:bold"/>  
                             <h:outputText value="Teléfono :" />  
-                            <p:inputText value="#{personaBean.persona.telefono}" style="font-weight:bold"/>  
+                            <p:inputMask value="#{personaBean.persona.telefono}" style="font-weight:bold" mask ="(999) 999-9999"/>  
                             <h:outputText value="Celular :" />  
                             <p:inputText value="#{personaBean.persona.celular}" style="font-weight:bold"/> 
                             <h:outputText value="Correo :" />  
