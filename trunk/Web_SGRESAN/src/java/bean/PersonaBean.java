@@ -8,22 +8,19 @@ package bean;
 import dao.ClienteDao;
 import dao.PersonaDao;
 import dao.UsuarioDao;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import model.TCliente;
 import model.TPersona;
 import model.TUbigeo;
 import model.TUsuario;
+import org.primefaces.context.RequestContext;
 import util.Utilitario;
+import util.ValidacionCliente;
 
 /**
  *
@@ -237,7 +234,14 @@ public class PersonaBean {
     
     
     public void irAgregar() {
-        if(!esVistaValida()){
+        try
+        {
+            ValidacionCliente util = new ValidacionCliente();
+        RequestContext context = RequestContext.getCurrentInstance(); 
+        boolean loggedP = false;
+        
+        if(!util.esVistaValida(usuario, persona)){
+            loggedP = false;
             return;
         }
 
@@ -260,12 +264,20 @@ public class PersonaBean {
         cliente.setTPersona(persona);
         clientedao.ingresarCliente(cliente);
         
+        loggedP =true;
+        System.out.println(loggedP);
+        context.addCallbackParam("loggedP", loggedP);  
         
         usuario = new TUsuario();
         persona = new TPersona();
         persona.setTUbigeo(new TUbigeo());
         cliente = new TCliente();
         cliente.setTPersona(new TPersona());
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
     }
     
     public void irActualizar(String id) {

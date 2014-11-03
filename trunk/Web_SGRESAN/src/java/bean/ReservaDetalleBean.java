@@ -12,6 +12,7 @@ import dao.ReservaDao;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.TimeZone;
 import javax.faces.application.FacesMessage;
@@ -21,9 +22,12 @@ import javax.faces.context.FacesContext;
 import model.TCliente;
 import model.THabitacion;
 import model.THotel;
+import model.TJuridica;
+import model.TNatural;
 import model.TPersona;
 import model.TReserva;
 import model.TReservadetalle;
+import model.TUsuario;
 import org.primefaces.event.TransferEvent;
 import org.primefaces.extensions.event.timeline.TimelineAddEvent;
 import org.primefaces.extensions.event.timeline.TimelineModificationEvent;
@@ -44,10 +48,10 @@ public class ReservaDetalleBean {
     private TReserva reserv;
     private THabitacion hab;
      public ArrayList<String> lista ;
-    
+    private TCliente cli ;
     
      public int nrohabitacion;
-     
+     private double igv; private double costoTotal;
     private TimelineModel model;  
     private TimelineEvent event; // current event to be changed, edited, deleted or added  
     private long zoomMax;  
@@ -72,12 +76,12 @@ public class ReservaDetalleBean {
      * Creates a new instance of ReservaDetalleBean
      */
     private String tipohab;
-    
+    private String nombreC;
     
     public ReservaDetalleBean() {
         event = new TimelineEvent();tipohab="";
         costo=0;editable=false;
-       nrohabitacion=1;
+       nrohabitacion=1;igv=0.0;costoTotal=0.0;
        createLista(nrohabitacion);
         
         reserva = new TReservadetalle();
@@ -105,14 +109,36 @@ public class ReservaDetalleBean {
                     habitacionesdisponibles.get(i).getNroHabitacion(),
                     habitacionesdisponibles.get(i).getDescripcion(), 
                     habitacionesdisponibles.get(i).getPrecio()));
+
         } 
         cities = new DualListModel<THabitacion>(citiesSource, citiesTarget);
+    }
+    
+    public void INICIALIZACION()
+    {
+        costo=0.0;
+        reserva = new TReservadetalle();
+        reserva.setTHabitacion(new THabitacion());
+        reserva.setTReserva(new TReserva());
+        
+        reserv = new TReserva();
+        reserv.setTCliente(new TCliente());
+        cli = new TCliente();
+        cli.setTJuridica(new TJuridica());
+        cli.setTNatural(new TNatural());
+        cli.setTPersona(new TPersona());
     }
     
     public void CAMBIO()
     {
         max=reserv.getFechaEntrada();
-        reserv.setFechaSalida(max);
+       Calendar cal = new GregorianCalendar();
+       cal.setTime(max);
+       cal.add(Calendar.DATE,1);
+       
+        System.out.println(cal.getTime());
+        reserv.setFechaSalida(cal.getTime());
+        BUSQUEDA2(reserv.getFechaEntrada(), reserv.getFechaSalida());
     }
     
     public void createLista(int n)
@@ -233,13 +259,15 @@ public class ReservaDetalleBean {
        String valor = clidao.buscarCliente(((TPersona)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("persona")).getIdPersona()).getIdCliente(); 
          
 
-        TCliente cli = new TCliente();
-        cli.setIdCliente(valor);
+        TCliente clie = new TCliente();
+        clie.setIdCliente(valor);
         reserv.setIdReserva(dao.PK());
         reserv.setEstado("pre-reserva");
-        reserv.setDescripcion("Ninguna");
+        reserv.setFechaRegistro(new Date());
+        reserv.setModalidadPago("Deposito");
+        reserv.setUsuario(((TUsuario)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario")).getNombreUsuario());
         reserv.setTCliente(cli);
-        reserv.setPrecio(costo);
+        reserv.setPrecio(costoTotal);
         dao.InsetartReserva(reserv);
         
         reserva.setTReserva(reserv);
@@ -247,31 +275,34 @@ public class ReservaDetalleBean {
          for (int i = 0; i < cities.getTarget().size(); i++) {
             //hab.setNroHabitacion(Integer.parseInt(lista.get(i)));
             reserva.setTHabitacion(cities.getTarget().get(i));
-            reserva.setCosto(Double.parseDouble(cities.getTarget().get(i).getPrecio())*dia);
+            reserva.setCosto(cities.getTarget().get(i).getPrecio()*dia);
             dao.InsetartReservaDetalle(reserva);
         }
      }
      
      public void registrarreserva()
      { ClienteDao clidao = new ClienteDao();
-       String valor = clidao.buscarCliente(((TPersona)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario")).getIdPersona()).getIdCliente(); 
+       String valor = clidao.buscarCliente(((TPersona)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("persona")).getIdPersona()).getIdCliente(); 
          
 
-        TCliente cli = new TCliente();
-        cli.setIdCliente(valor);
+        TCliente clie = new TCliente();
+        clie.setIdCliente(valor);
         reserv.setIdReserva(dao.PK());
         reserv.setEstado("reservado");
-        reserv.setDescripcion("Ninguna");
-        reserv.setTCliente(cli);
+        reserv.setFechaRegistro(new Date());
+        reserv.setModalidadPago("Deposito");
+        reserv.setUsuario(((TUsuario)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario")).getNombreUsuario()); 
+        reserv.setTCliente(clie);
+        reserv.setPrecio(costoTotal);
         dao.InsetartReserva(reserv);
         
         reserva.setTReserva(reserv);
         
         
-        
-        for (int i = 0; i < nrohabitacion; i++) {
-            hab.setNroHabitacion(lista.get(i));
-            reserva.setTHabitacion(hab);
+        for (int i = 0; i < cities.getTarget().size(); i++) {
+            //hab.setNroHabitacion(Integer.parseInt(lista.get(i)));
+            reserva.setTHabitacion(cities.getTarget().get(i));
+            reserva.setCosto(cities.getTarget().get(i).getPrecio()*dia);
             dao.InsetartReservaDetalle(reserva);
         }
      }
@@ -305,19 +336,25 @@ public class ReservaDetalleBean {
        System.out.println("Fecha Entrada : "+ fecE.getDate() +"/"+(fecE.getMonth()+1)+"/"+(fecE.getYear()+1900));
        System.out.println("Fecha Salida : "+ fecS.getDate() +"/"+(fecS.getMonth()+1)+"/"+(fecS.getYear()+1900));
        System.out.println(habitacionesdisponibles.size());
+       nombre();
    }
-     
+ 
       public void onTransfer(TransferEvent event) {
         StringBuilder builder = new StringBuilder();
         for(Object item : event.getItems()) {
             builder.append(((THabitacion) item).getNroHabitacion()).append("<br />");
             
         }
+ 
         costo=0;final long MILLSECS_PER_DAY = 24 * 60 * 60 * 1000;
        dia=(reserv.getFechaSalida().getTime()-reserv.getFechaEntrada().getTime())/MILLSECS_PER_DAY;
        for (int i = 0; i < cities.getTarget().size(); i++) {
-            costo=costo+ Double.parseDouble(cities.getTarget().get(i).getPrecio())*dia;
+            costo=costo+ cities.getTarget().get(i).getPrecio()*dia;
+            
         }
+       igv=costo*0.18;
+       costoTotal=costo+igv;
+       
           System.out.println(costo);
           System.out.println("Dias : " + (reserv.getFechaSalida().getTime()-reserv.getFechaEntrada().getTime())/MILLSECS_PER_DAY);
 //        FacesMessage msg = new FacesMessage();
@@ -327,14 +364,19 @@ public class ReservaDetalleBean {
 //         
 //        FacesContext.getCurrentInstance().addMessage(null, msg);
     }  
-      
+      public void nombre()
+      {
+         ClienteDao dao = new ClienteDao();
+         cli = dao.buscarCliente(reserv.getTCliente().getIdCliente());
+      }
       public void GUARDARDETALLES()
       {
 //          System.out.println(cities.getTarget().get(0));
 //          System.out.println(cities.getSource().get(0));
-         TCliente cli = new TCliente();
-        cli.setIdCliente(reserv.getTCliente().getIdCliente());
+        
+        //cli.setIdCliente(reserv.getTCliente().getIdCliente());
         reserv.setIdReserva(dao.PK());
+        reserv.setUsuario(((TUsuario)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario")).getNombreUsuario());
         if(reserv.getModalidadPago().equals("Efectivo"))
         {
             reserv.setEstado("reservado");
@@ -343,8 +385,8 @@ public class ReservaDetalleBean {
             reserv.setEstado("pre-reserva");
         }
         reserv.setFechaRegistro(new Date());
-        reserv.setDescripcion("Ninguna");
-        reserv.setPrecio(costo);
+     
+        reserv.setPrecio(costoTotal);
         reserv.setTCliente(cli);
         dao.InsetartReserva(reserv);
         
@@ -353,10 +395,13 @@ public class ReservaDetalleBean {
          for (int i = 0; i < cities.getTarget().size(); i++) {
             //hab.setNroHabitacion(Integer.parseInt(lista.get(i)));
             reserva.setTHabitacion(cities.getTarget().get(i));
-            reserva.setCosto(Double.parseDouble(cities.getTarget().get(i).getPrecio())*dia);
+            reserva.setCosto(cities.getTarget().get(i).getPrecio()*dia);
             dao.InsetartReservaDetalle(reserva);
         }
-        llenar();
+        FacesContext context = FacesContext.getCurrentInstance();
+         
+        context.addMessage(null, new FacesMessage("Successful",  "Se Registro 1 reserva a nombre de  "+cli.getTPersona().getNombres()) );
+        llenar();INICIALIZACION();
       }
       
     public void saveDetails() {  
@@ -587,6 +632,38 @@ public class ReservaDetalleBean {
 
     public void setTipohab(String tipohab) {
         this.tipohab = tipohab;
+    }
+
+    public TCliente getCli() {
+        return cli;
+    }
+
+    public void setCli(TCliente cli) {
+        this.cli = cli;
+    }
+
+    public String getNombreC() {
+        return nombreC;
+    }
+
+    public void setNombreC(String nombreC) {
+        this.nombreC = nombreC;
+    }
+
+    public double getIgv() {
+        return igv;
+    }
+
+    public void setIgv(double igv) {
+        this.igv = igv;
+    }
+
+    public double getCostoTotal() {
+        return costoTotal;
+    }
+
+    public void setCostoTotal(double costoTotal) {
+        this.costoTotal = costoTotal;
     }
 
  

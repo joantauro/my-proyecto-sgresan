@@ -2,7 +2,9 @@
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                template="./vista/Plantilla_main.xhtml">
+                template="./vista/Plantilla_main.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
     <ui:define name="titulo">
        Inicio - La Querencia Hermanos SAC
     </ui:define>
@@ -43,6 +45,18 @@
           </div>
         </div>
         <!-- box end -->
+        <p:panelGrid   columns="2" style="margin-right:  auto" id="detailsBookingInner" >
+                               <h:outputText value="Fecha de Entrada" />
+                                <p:calendar mindate="#{habitacionBean.max}" value="#{reservaDetalleBean.reserv.fechaEntrada}" pattern="dd/MM/yyyy" > 
+                                </p:calendar>
+                                <h:outputText value="Fecha de Salida" />
+                                <p:calendar id="fechSa" mindate="#{reservaDetalleBean.reserv.fechaEntrada}" value="#{reservaDetalleBean.reserv.fechaSalida}" pattern="dd/MM/yyyy" />        
+        <h:outputText value="Personas" />
+        <p:spinner   min="1" max="30" />
+        <h:outputText value="Cuartos" />
+        <p:spinner   min="1" max="20" />
+        </p:panelGrid>
+        
     </ui:define>
     
     <ui:define name="top">

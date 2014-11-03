@@ -33,7 +33,8 @@
     <ui:define name="content" >
         <h:form id="formRecep"  >
             <p:selectOneMenu  value="#{reservaDetalleBean.tipohab}" >  
-                                    <f:selectItem  itemLabel="" itemValue=""/> 
+                                    <f:selectItem  itemLabel="Todos" itemValue=""/> 
+                                    <f:selectItem  itemLabel="simple" itemValue="simple"/> 
                                     <f:selectItem  itemLabel="doble" itemValue="doble"/> 
                                     <f:selectItem  itemLabel="triple" itemValue="triple"/> 
                                     <f:selectItem  itemLabel="cuadruple" itemValue="cuadruple"/> 
@@ -145,48 +146,61 @@
         </h:form>
         
         <h:form id="formWizard" >
+            <p:growl id="growlR" showDetail="true" sticky="true" life="1000" />  
             <p:dialog header="Formulario de Factura" widgetVar="dlgNuevo" 
-                      resizable="false" id="dlgNuevo"  modal="true">
+                      resizable="false" id="dlgNuevo"  modal="true" style="width: 500px;height: 300px" >
                 <p:wizard widgetVar="wiz"  
                           flowListener="#{UserWizard.onFlowProcess}" backLabel="Atrás" nextLabel="Siguiente" >
                     <p:tab id="clientetab" title="Cliente">
-                        <p:panel header="Datos del Cliente" style="width: 500px" >
-                             <p:panelGrid   columns="2" style="margin-right:  auto"   >
-                            <h:outputText value="Cliente" />
+                        <p:panel header="Datos del Cliente" style="width: 500px;height: 300px"  id="panelC" >
+                             <h:panelGrid   columns="2" style="margin-right:  auto"   >
+                           <p:outputLabel value="Cliente : " style="color: black" />
                                 <p:selectOneMenu  value="#{reservaDetalleBean.reserv.TCliente.idCliente}" >  
                                     <f:selectItems value="#{clienteBean.clientes}" var="lista" 
                                                    itemLabel="#{lista.TPersona.nombres} #{lista.TPersona.apellidoP} #{lista.TPersona.apellidoM}" itemValue="#{lista.idCliente}"/> 
+                                    <p:ajax listener="#{reservaDetalleBean.nombre()}" update="panelC" />
                                 </p:selectOneMenu>
-                            </p:panelGrid>
-                              
+                             <p:outputLabel value="DNI : " style="color: black" />
+                             <p:outputLabel style="color: black" value="#{reservaDetalleBean.cli.TPersona.dni}"   />
+                             <p:outputLabel value="Correo :" style="color: black" />
+                             <p:outputLabel style="color: black" value="#{reservaDetalleBean.cli.TPersona.email}"   />
+                            </h:panelGrid>
+                            
                         </p:panel>
                     </p:tab>
                     
-                    <p:tab id="fechatab" title="Fecha">              
-                            <p:panelGrid   columns="2" style="margin-right:  auto" id="detailsBookingInner" >
+                    <p:tab id="fechatab" title="Fecha">    
+                        <p:panel header="Datos del Fecha" style="width: 500px;height: 300px" >
+                            <h:panelGrid   columns="2" style="margin-right:  auto;" id="detailsBookingInner" >
                                <h:outputText value="Fecha de Entrada" />
                                 <p:calendar mindate="#{habitacionBean.max}" value="#{reservaDetalleBean.reserv.fechaEntrada}" pattern="dd/MM/yyyy" >
-                                    <p:ajax event="dateSelect" listener="#{reservaDetalleBean.CAMBIO()}" update="fechSa" />
+                                    <p:ajax event="dateSelect" listener="#{reservaDetalleBean.CAMBIO()}" update="fechSa,pickList" />
                                 </p:calendar>
                                 <h:outputText value="Fecha de Salida" />
-                                <p:calendar id="fechSa" mindate="#{reservaDetalleBean.reserv.fechaEntrada}" value="#{reservaDetalleBean.reserv.fechaSalida}" pattern="dd/MM/yyyy" />        
-                           </p:panelGrid>
-                        <p:commandButton update="pickList" value="Comprobar Disponibilidad" action="#{reservaDetalleBean.BUSQUEDA2(reservaDetalleBean.reserv.fechaEntrada, reservaDetalleBean.reserv.fechaSalida)}" />
-                    </p:tab>
+                                <p:calendar id="fechSa" mindate="#{reservaDetalleBean.reserv.fechaEntrada}" value="#{reservaDetalleBean.reserv.fechaSalida}" pattern="dd/MM/yyyy" required="true" >
+                                <p:ajax event="dateSelect" listener="#{reservaDetalleBean.BUSQUEDA2(reservaDetalleBean.reserv.fechaEntrada, reservaDetalleBean.reserv.fechaSalida)}" update="pickList" />
+                                </p:calendar>        
+                           </h:panelGrid>
+                           
+                        </p:panel>
+                            
+                            </p:tab>
                     
-                    <p:tab id="dormitoriotab" title="Dormitorios">
-                        <p:growl id="msg" showDetail="true" escape="false" />
-                        <p:pickList id="pickList" value="#{reservaDetalleBean.cities}" var="cities" 
-                                    itemLabel="#{cities}" itemValue="#{cities}" converter="entityConverter" >
+                    <p:tab id="dormitoriotab" title="Dormitorios" >
+                        <p:growl id="msg" showDetail="true" escape="false"  />
+                        <p:panel header="Datos del Dormitorio" style="width: 500px;height: 400px" >
+                           <p:pickList id="pickList" value="#{reservaDetalleBean.cities}" var="cities" 
+                                       itemLabel="#{cities.TTipohabitacion.nombre}" itemValue="#{cities}" converter="entityConverter" style="width: 300px;" 
+                                       showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains" >
                             <f:facet name="sourceCaption">Disponibles</f:facet>
                             <f:facet name="targetCaption">Seleccionados</f:facet>
 
                             <p:ajax event="transfer" listener="#{reservaDetalleBean.onTransfer}" update="msg,costo" />
 
-                            <p:column style="width:25%;">
+                            <p:column style="width:35%;">
                                 <h:outputText value="#{cities.idHabitacion}" />
                             </p:column>
-                            <p:column style="width:75%;">
+                            <p:column style="width:65%;">
                                 <h:outputText value="#{cities.TTipohabitacion.nombre}" />
                             </p:column>
                         </p:pickList>
@@ -200,8 +214,40 @@
                             <h:outputText value="#{reservaDetalleBean.costo}" id="costo" style="background: none;font-family: cursive;"  /> 
                           
                         </h:panelGrid>
-                        <p:commandButton value="Registrar" action="#{reservaDetalleBean.GUARDARDETALLES()}" onclick="PF('dlgNuevo').hide()" update=":formRecep:timeline"  /> 
-                        <p:commandButton value="Cancelar" onclick="PF('dlgNuevo').hide()" />
+ 
+                        </p:panel>
+                       
+                    </p:tab>
+                    <p:tab id="detalletab" title="Detalle" >
+                         <p:panel header="Información de Reserva" style="width: 500px;height: 300px" >
+                             <h:panelGrid   columns="2" style="margin-right:  auto"   >
+                            <p:outputLabel value="Cliente" style="color: black" />
+                            <p:outputLabel style="color: black" value="#{reservaDetalleBean.cli.TPersona.nombres} #{reservaDetalleBean.cli.TPersona.apellidoP} #{reservaDetalleBean.cli.TPersona.apellidoM}"  />
+                            <p:outputLabel value="Fecha Entrada" style="color: black" />
+                            <p:outputLabel style="color: black" value="#{reservaDetalleBean.reserv.fechaEntrada.date}/#{reservaDetalleBean.reserv.fechaEntrada.month}/#{reservaDetalleBean.reserv.fechaEntrada.year}"  />
+                            <p:outputLabel value="Fecha Salida" style="color: black" />
+                            <p:outputLabel style="color: black" value="#{reservaDetalleBean.reserv.fechaSalida.date}/#{reservaDetalleBean.reserv.fechaSalida.month}/#{reservaDetalleBean.reserv.fechaSalida.year}"  />
+                             <p:outputLabel value="Dormitorios :" style="color: black" />
+                             <c:forEach items="#{reservaDetalleBean.cities.target}" var="item" >
+                                 <div>
+                                     <p:outputLabel />
+                                     <p:outputLabel value="${item.idHabitacion} ${item.TTipohabitacion.nombre}" style="color: black" />
+                                 </div>
+                             </c:forEach>
+                             <p:outputLabel/>
+                             <p:outputLabel value="Descripción :" style="color: black" />
+                             <p:inputTextarea value="#{reservaDetalleBean.reserv.descripcion}" />
+                             <p:outputLabel value="Subtotal :" style="color: black" />
+                             <p:outputLabel value="#{reservaDetalleBean.costo}" style="color: black" />
+                             <p:outputLabel value="IGV (18%) :" style="color: black" />
+                             <p:outputLabel value="#{reservaDetalleBean.igv}" style="color: black" />
+                             <p:outputLabel value="TOTAL :" style="color: black" />
+                             <p:outputLabel value="#{reservaDetalleBean.costoTotal}" style="color: black" />
+                             </h:panelGrid>
+                             
+                        <p:commandButton oncomplete="PF('wiz').loadStep('clientetab',false)"  value="Registrar" action="#{reservaDetalleBean.GUARDARDETALLES()}" onclick="PF('dlgNuevo').hide()" update=":formRecep:timeline,growlR"   /> 
+                        <p:commandButton value="Cancelar" onclick="PF('dlgNuevo').hide()" /> 
+                        </p:panel>
                     </p:tab>
                 
                 </p:wizard>

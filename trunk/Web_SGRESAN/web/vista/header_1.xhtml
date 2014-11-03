@@ -28,10 +28,12 @@
                <p:commandLink id="cerrar" style="margin-left: 5%" action="#{loginBean.logoud()}" 
                               update=":formulario:ds,:formulario:usuario" title="Cerrar Sesión" rendered="#{loginBean.sesion eq false}"
                                 oncomplete="handleLoginRequest(xhr, status, args)" >
-                   <h:outputText value="Cerrar Sesión" />
+               <h:outputText value="Cerrar Sesión" />
                </p:commandLink>
-                   
-        <div class="phones"> 530-2458<br />
+               <br/><br/>
+               <p:spacer width="25px"   />  
+              <!-- <h:commandButton value="Registrate Aqui!!!" rendered="#{loginBean.sesion}" action="RegistroCliente.xhtml" />
+       --> <div class="phones"> 530-2458<br />
           1-800-542-64-48 </div>
       </div></h:form>
     </div>

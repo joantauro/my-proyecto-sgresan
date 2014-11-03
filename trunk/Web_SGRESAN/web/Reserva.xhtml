@@ -25,56 +25,119 @@
                         <p:panel header="Datos del Cliente" style="width: 500px" >
                               <h:panelGrid   columns="2"   id="panel2" >
                        <h:outputText value="Nombre" />
-                       <p:inputText value="#{loginBean.persona.nombres}" />
+                       <h:outputText value="#{loginBean.persona.nombres}" />
                        <h:outputText value="Apellidos" />
-                       <p:inputText  value="#{loginBean.persona.apellidoP}" />
+                       <h:outputText  value="#{loginBean.persona.apellidoP}" />
                        <h:outputText value="Correo" />
-                       <p:inputText  value="#{loginBean.persona.email}" />
+                       <h:outputText  value="#{loginBean.persona.email}" />
                        <h:outputText value="Celular" />
-                       <p:inputText  value="#{loginBean.persona.celular}" />
+                       <h:outputText  value="#{loginBean.persona.celular}" />
                        <h:outputText value="DNI" />
-                       <p:inputText  value="#{loginBean.persona.dni}" />
+                       <h:outputText  value="#{loginBean.persona.dni}" />
                    </h:panelGrid>
                               
                         </p:panel>
                     </p:tab>
                     
                     <p:tab id="fechatab" title="Fecha">              
-                            <p:panelGrid   columns="2" style="margin-right:  auto" id="detailsBookingInner" >
-                                <h:outputText value="Fecha de Entrada" />
+                             <p:panel header="Datos del Fecha" style="width: 500px;height: 300px" >
+                            <h:panelGrid   columns="2" style="margin-right:  auto;" id="detailsBookingInner" >
+                               <h:outputText value="Fecha de Entrada" />
                                 <p:calendar mindate="#{habitacionBean.max}" value="#{reservaDetalleBean.reserv.fechaEntrada}" pattern="dd/MM/yyyy" >
-                                    <p:ajax event="dateSelect" listener="#{reservaDetalleBean.CAMBIO()}" update="fechSa" />
+                                    <p:ajax event="dateSelect" listener="#{reservaDetalleBean.CAMBIO()}" update="fechSa,pickList" />
                                 </p:calendar>
                                 <h:outputText value="Fecha de Salida" />
-                                <p:calendar id="fechSa" mindate="#{reservaDetalleBean.reserv.fechaEntrada}" value="#{reservaDetalleBean.reserv.fechaSalida}" pattern="dd/MM/yyyy" />        
-                            </p:panelGrid>
-                        <p:commandButton update="pickList" value="Comprobar Disponibilidad" action="#{reservaDetalleBean.BUSQUEDA2(reservaDetalleBean.reserv.fechaEntrada, reservaDetalleBean.reserv.fechaSalida)}" />
+                                <p:calendar id="fechSa" mindate="#{reservaDetalleBean.reserv.fechaEntrada}" value="#{reservaDetalleBean.reserv.fechaSalida}" pattern="dd/MM/yyyy" required="true" >
+                                <p:ajax event="dateSelect" listener="#{reservaDetalleBean.BUSQUEDA2(reservaDetalleBean.reserv.fechaEntrada, reservaDetalleBean.reserv.fechaSalida)}" update="pickList" />
+                                </p:calendar>        
+                           </h:panelGrid>
+                           
+                        </p:panel>
                     </p:tab>
                     
                     <p:tab id="dormitoriotab" title="Dormitorios">
-                        <p:growl id="msg" showDetail="true" escape="false" />
-                        <p:pickList id="pickList" value="#{reservaDetalleBean.cities}" var="cities" 
-                                    itemLabel="#{cities}" itemValue="#{cities}" converter="entityConverter" >
+                       <p:pickList id="pickList" value="#{reservaDetalleBean.cities}" var="cities" 
+                                       itemLabel="#{cities.TTipohabitacion.nombre}" itemValue="#{cities}" converter="entityConverter" style="width: 300px;" 
+                                       showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains" >
                             <f:facet name="sourceCaption">Disponibles</f:facet>
                             <f:facet name="targetCaption">Seleccionados</f:facet>
 
-                            <p:ajax event="transfer" listener="#{reservaDetalleBean.onTransfer}" update="msg,costo" />
+                            <p:ajax event="transfer" listener="#{reservaDetalleBean.onTransfer}" update="costo" />
 
-                            <p:column style="width:25%;">
-                                <h:outputText value="#{cities.nroHabitacion}" />
+                            <p:column style="width:35%;">
+                                <h:outputText value="#{cities.idHabitacion}" />
                             </p:column>
-                            <p:column style="width:75%;">
+                            <p:column style="width:65%;">
                                 <h:outputText value="#{cities.TTipohabitacion.nombre}" />
                             </p:column>
-                        </p:pickList>
+                            </p:pickList>
                         <h:panelGrid   columns="2" style="margin-right:  auto;background: none;" cellpadding="4"  >
                             <h:outputText value="Precio : " style="background: none;font-family: cursive; " />
                             <h:outputText value="#{reservaDetalleBean.costo}" id="costo" style="background: none;font-family: cursive;"  /> 
                           
                         </h:panelGrid>
                         
-                        <p:commandButton update="dia" value="Registrar" action="#{reservaDetalleBean.registrarprereserva()}" style="margin-left: 60% " onclick="PF('dlg2').show();"  /> 
-                        <p:commandButton value="Cancelar"  style="margin-left: 5%" />
+                        
+                    </p:tab>
+              
+              <p:tab id="detalletab" title="Detalle" >
+                         <p:panel header="Información de Reserva" style="width: 500px;height: 300px" >
+                             <h:panelGrid   columns="2" style="margin-right:  auto"   >
+                            <p:outputLabel value="Cliente" style="color: black" />
+                            <p:outputLabel style="color: black" value="#{loginBean.persona.nombres} #{loginBean.persona.apellidoP} #{loginBean.persona.apellidoM}"  />
+                            <p:outputLabel value="Fecha Entrada" style="color: black" />
+                            <p:outputLabel style="color: black" value="#{reservaDetalleBean.reserv.fechaEntrada.date}/#{reservaDetalleBean.reserv.fechaEntrada.month}/#{reservaDetalleBean.reserv.fechaEntrada.year}"  />
+                            <p:outputLabel value="Fecha Salida" style="color: black" />
+                            <p:outputLabel style="color: black" value="#{reservaDetalleBean.reserv.fechaSalida.date}/#{reservaDetalleBean.reserv.fechaSalida.month}/#{reservaDetalleBean.reserv.fechaSalida.year}"  />
+                             <p:outputLabel value="Dormitorios :" style="color: black" />
+                             <c:forEach items="#{reservaDetalleBean.cities.target}" var="item" >
+                                 <div>
+                                     <p:outputLabel />
+                                     <p:outputLabel value="${item.idHabitacion} ${item.TTipohabitacion.nombre}" style="color: black" />
+                                 </div>
+                             </c:forEach>
+                             <p:outputLabel/>
+                             <p:outputLabel value="Descripción :" style="color: black" />
+                             <p:inputTextarea value="#{reservaDetalleBean.reserv.descripcion}" />
+                             <p:outputLabel value="Subtotal :" style="color: black" />
+                             <p:outputLabel value="#{reservaDetalleBean.costo}" style="color: black" />
+                             <p:outputLabel value="IGV (18%) :" style="color: black" />
+                             <p:outputLabel value="#{reservaDetalleBean.igv}" style="color: black" />
+                             <p:outputLabel value="TOTAL :" style="color: black" />
+                             <p:outputLabel value="#{reservaDetalleBean.costoTotal}" style="color: black" />
+                             </h:panelGrid>
+                             
+                        <p:commandButton update="dia" value="Registrar" action="#{reservaDetalleBean.registrarprereserva()}" style="margin-left: 60% " onclick="PF('dlg2').show();"  oncomplete="PF('wiz').loadStep('clientetab',false)" /> 
+              <form name='formTpv' method='post' action='https://www.sandbox.paypal.com/cgi-bin/webscr'>
+            <input type='hidden' name='cmd' value='_xclick' />
+
+            <input type='hidden' name='business' value='laquerenciahermanos@hotmail.com' />
+            <input type='hidden' name='item_name' value='Habitaciones'/>
+            <input type='hidden' name='item_number' value='cd34Tr' />
+            <input type='hidden' name='amount' value='#{reservaDetalleBean.costoTotal}' />
+            <input type='hidden' name='quantity' value='1' />
+            <input type='hidden' name='page_style' value='primary' />
+            <input type='hidden' name='no_shipping' value='1' />
+            <input type='hidden' name='return' value='http://localhost:8080/Web_SGRESAN/faces/index.xhtml' />
+            <input type='hidden' name='rm' value='2' />
+            <input type='hidden' name='cancel_return' value='http://localhost:8080/Web_SGRESAN/faces/index.xhtml' />
+            <input type="hidden" name="notify_url" value="http://localhost:8080/Web_SGRESAN/faces/index.xhtml" />
+            <input type='hidden' name='no_note' value='1' />
+            <input type='hidden' name='currency_code' value='USD' />
+            <input type='hidden' name='cn' value='PP-BuyNowBF' />
+            <input type='hidden' name='custom' value='' />
+
+            <input type='hidden' name='city' value='POBLACIÓN' />
+            <input type='hidden' name='zip' value='CÓDIGO POSTAL' />
+            <input type='hidden' name='night_phone_a' value='' />
+            <input type='hidden' name='night_phone_b' value='TELÉFONO' />
+            <input type='hidden' name='night_phone_c' value='' />
+            <input type='hidden' name='lc' value='es' />
+            <input type='hidden' name='country' value='ES' ></input>
+        </form>
+                        <p:commandButton  value="Comprar" oncomplete="handleEnviarPago(xhr, status, args)" actionListener="#{reservaDetalleBean.registrarreserva()}" />  
+                        <p:commandButton value="Cancelar"  style="margin-left: 5%" /> 
+                        </p:panel>
                     </p:tab>
                 
                 </p:wizard>
@@ -87,6 +150,15 @@
                 
             </p:dialog> 
         </h:form>
+      
+        <script type='text/javascript'>
+    
+    function handleEnviarPago(xhr, status, args)
+    {
+        document.formTpv.submit();
+    }
+    
+</script>
     </ui:define>
 
     <ui:define name="bottom">

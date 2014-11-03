@@ -2,18 +2,21 @@
 <!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd">
 <hibernate-reverse-engineering>
   <schema-selection match-catalog="sgresan"/>
-  <table-filter match-name="t_recepcionista"/>
-  <table-filter match-name="t_cliente"/>
-  <table-filter match-name="t_habitaciondetalle"/>
-  <table-filter match-name="t_usuario"/>
+  <table-filter match-name="t_reservadetallelog"/>
   <table-filter match-name="t_persona"/>
-  <table-filter match-name="t_habitacion"/>
-  <table-filter match-name="t_ubigeo"/>
+  <table-filter match-name="t_usuario"/>
   <table-filter match-name="promociones"/>
-  <table-filter match-name="t_reservadetalle"/>
   <table-filter match-name="t_hotel"/>
-  <table-filter match-name="t_natural"/>
   <table-filter match-name="t_tipohabitacion"/>
+  <table-filter match-name="t_habitacion"/>
+  <table-filter match-name="t_reservadetalle"/>
+  <table-filter match-name="t_natural"/>
   <table-filter match-name="t_juridica"/>
   <table-filter match-name="t_reserva"/>
+  <table-filter match-name="t_reservalog"/>
+  <table-filter match-name="t_recepcionista"/>
+  <table-filter match-name="t_caja"/>
+  <table-filter match-name="t_cliente"/>
+  <table-filter match-name="t_ubigeo"/>
+  <table-filter match-name="t_habitaciondetalle"/>
 </hibernate-reverse-engineering>

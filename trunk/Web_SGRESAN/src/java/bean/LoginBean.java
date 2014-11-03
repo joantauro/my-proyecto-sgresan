@@ -66,9 +66,14 @@ public class LoginBean {
             if(persona.getTUsuario().getTipoUsuario().equals("recepcionista"))
             {
                 ruta="ReservaRecepcionista.xhtml";
-            }else
+            }
+            if(persona.getTUsuario().getTipoUsuario().equals("cliente"))
             {
-               ruta="newTemplateClient.xhtml"; 
+               ruta="index.xhtml"; 
+            }
+            if(persona.getTUsuario().getTipoUsuario().equals("gerente"))
+            {
+               ruta="index.xhtml"; 
             }
             
         }else

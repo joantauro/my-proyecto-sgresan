@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.List;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
@@ -57,14 +58,24 @@ private List<TReserva> reservasALL;
 //          reserva.setVoucher(bytes);
 //          reserva.setDescripcion(file.getFileName());
 //          ar.ModificarReserva(reserva);
-             System.out.println(reserva.getIdReserva());
-         ArchivoDao ar = new ArchivoDao();
-          //byte[] bytes = event.getFile().getContents();
-         byte[] bytes = IOUtils.toByteArray(file.getInputstream());
-          reserva.setVoucher(bytes); 
-          reserva.setDescripcion(file.getFileName());
-            System.out.println(file.getFileName());
-          ar.ModificarReserva(reserva);
+           if(file.getContentType().substring(0, 1).equals("i"))
+           {
+               System.out.println(reserva.getIdReserva());
+               ArchivoDao ar = new ArchivoDao();
+               //byte[] bytes = event.getFile().getContents();
+               byte[] bytes = IOUtils.toByteArray(file.getInputstream());
+               reserva.setVoucher(bytes);
+               reserva.setDescripcion(file.getFileName());
+               System.out.println(file.getFileName());
+               ar.ModificarReserva(reserva);
+           }else
+           {
+               FacesContext context = FacesContext.getCurrentInstance();
+         
+                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Successful",  "El Archivo que subio no es una imagen") );
+      
+           }
+             
         }
         catch(Exception e)
         {
@@ -133,6 +144,10 @@ private List<TReserva> reservasALL;
         reserva = ar.BuscaporId(id);
         reserva.setEstado("reservado");
         ar.ModificarReserva(reserva);
+        FacesContext context = FacesContext.getCurrentInstance();
+         
+        context.addMessage(null, new FacesMessage("Successful",  "Se Aprobo la reserva "+reserva.getIdReserva()) );
+      
     }
     
    public TCliente BUSCAR()

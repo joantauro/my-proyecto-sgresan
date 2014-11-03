@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                template="./vista/Plantilla_1.xhtml"
+                template="./vista/Plantilla_main_1.xhtml"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:h="http://xmlns.jcp.org/jsf/html">
     
@@ -20,14 +20,20 @@
 
     <ui:define name="content">
         <h:form>
-       
+       <!--
             <p:contentFlow value="#{habitacionBean.images}" var="imagen" styleClass="content-flow"  >
                 <p:graphicImage name="/img/habitaciones/habitacion1" styleClass="content" onclick="false" />
                    
         </p:contentFlow> 
-            <p:galleria value="#{habitacionBean.images}" var="image" panelWidth="500" panelHeight="313" showCaption="true">
-    <p:graphicImage name="/img/habitaciones/#{image}" alt="Image Description for #{image}" title="#{image}"/>
+       -->
+            <p:galleria value="#{habitacionBean.images}" var="image" panelWidth="500" 
+                        panelHeight="313" showCaption="true" autoPlay="true"  >
+    <p:graphicImage name="/img/habitaciones/#{image}" alt="Image Description for #{image}"
+                    title="#{image}"  >
+       <p:inputText  id="d" value="#{image}" />
+    </p:graphicImage>
 </p:galleria>
+      
         </h:form>
     </ui:define>
 
