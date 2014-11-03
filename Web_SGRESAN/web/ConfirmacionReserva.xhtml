@@ -20,6 +20,7 @@
 
     <ui:define name="content">
              <h:form id="from" >
+                 <p:growl id="growl" showDetail="true" sticky="true" life="1000" />  
                  <p:dataTable var="inte" value="#{archivoBean.reservasALL}" rowIndexVar="valor" id="tablag" >
             <f:facet name="header">
                 RESERVAS
@@ -40,13 +41,14 @@
             </p:column>
 
             <p:column headerText="Archivo" >
-                  <p:commandButton rendered="#{inte.voucher ne null}" value="Ver"  oncomplete="PF('infoDialog').show();" actionListener="#{archivoBean.ver(inte.idReserva)}"
+                  <p:commandButton rendered="#{inte.voucher ne null}"   oncomplete="PF('infoDialog').show();" 
+                                   actionListener="#{archivoBean.ver(inte.idReserva)}" icon="ui-icon-image" title="Ver"
                                  update=":from:valor" />
             </p:column>
 
             <p:column headerText="Aprobar">
-                <p:commandButton rendered="#{inte.voucher ne null}" value="Ver" actionListener="#{archivoBean.ACTUALIZAR(inte.idReserva)}"
-                                 update=":from:tablag" />
+                <p:commandButton rendered="#{inte.voucher ne null}"  icon="icon-aceptar" title="Aprobar" actionListener="#{archivoBean.ACTUALIZAR(inte.idReserva)}"
+                                 update=":from:tablag,:from:growl" />
             </p:column>
                 
         </p:dataTable>

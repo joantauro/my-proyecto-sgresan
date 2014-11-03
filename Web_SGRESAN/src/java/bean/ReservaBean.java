@@ -23,7 +23,7 @@ public class ReservaBean {
 
     private TReserva reserva;
     private List<TReserva> estadodereservas;
-  
+    private List<TReserva> reservas;
     
     public ArrayList<String> lista ;
     
@@ -37,7 +37,7 @@ public class ReservaBean {
        nrohabitacion=1;
        createLista(nrohabitacion);
        editable=true;
-       sino="no";
+       sino="";
        
        reserva = new TReserva();
     }
@@ -160,6 +160,15 @@ public class ReservaBean {
         
         return estadodereservas;
     }
+
+    public List<TReserva> getReservas() {
+        ReservaDao dao = new ReservaDao();
+        reservas=dao.listareserva(sino);
+        return reservas;
+    }
     
-    
+    public void LLENAR()
+    {
+        getReservas();
+    }
 }

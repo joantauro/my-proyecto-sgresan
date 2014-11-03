@@ -52,10 +52,10 @@ public class HabitacionBean {
         
         /* -----------------------------------------------------------------------  */
         images = new ArrayList<String>();
-//        for (int i = 1; i <= 4; i++) {
-//            images.add("habitacion" + i + ".jpg");
-//        }
-//        System.out.println(images.get(0));
+        for (int i = 1; i <= 4; i++) {
+            images.add("habitacion" + i + ".jpg");
+        }
+        System.out.println(images.get(0));
     }
 
     public void Actualizar()
@@ -87,10 +87,11 @@ public class HabitacionBean {
 
     
     public List<String> getImages() {
-         
-            images.add("habitacion1.jpg");
-         
         
+        for (int i = 1; i <= 4; i++) {
+            images.add("habitacion" + i + ".jpg");
+        }
+        System.out.println(images.get(0));
         return images;
     }
 

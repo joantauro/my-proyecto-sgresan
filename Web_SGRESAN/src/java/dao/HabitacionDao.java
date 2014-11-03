@@ -25,8 +25,8 @@ public class HabitacionDao {
     public List<THabitacion> listarhabitaciones(String fecEnt,String fecSal)
     {
         Session session = HibernateUtil.getSessionFactory().openSession();
-        return session.createQuery("from THabitacion  where nroHabitacion not in (\n" +
-                                   "select hab.nroHabitacion from TReservadetalle  reservdet\n" +
+        return session.createQuery("from THabitacion  where idHabitacion not in (\n" +
+                                   "select hab.idHabitacion from TReservadetalle  reservdet\n" +
                                    "inner join reservdet.TReserva rerserv\n" +
                                    "inner join reservdet.THabitacion hab\n" +
                                    " where (fechaEntrada <  '"+fecEnt+"' and fechaSalida >  '"+fecEnt+"')\n" +

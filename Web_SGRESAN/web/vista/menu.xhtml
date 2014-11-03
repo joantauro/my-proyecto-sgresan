@@ -12,14 +12,25 @@
                 <p:menuitem value="Galeria" url="CatalogoHabitaciones.xhtml" />
                 <p:submenu label="Restaurant"  />
                 <p:submenu label="Testimonio"  />
+                <p:submenu label="Movimentos" rendered="#{loginBean.usuario.tipoUsuario eq 'recepcionista'}" >
+                    <p:menuitem value="Caja" url="Caja.xhtml"   />
+                </p:submenu>
                 <p:submenu label="Reservas" rendered="#{loginBean.usuario.tipoUsuario eq 'recepcionista'}" >
                     <p:menuitem value="Disponibilidad" url="ReservaRecepcionista.xhtml"  />
                     <p:menuitem value="Confirmación" url="ConfirmacionReserva.xhtml"  />
                 </p:submenu>
+                <p:submenu label="Clientes" rendered="#{loginBean.usuario.tipoUsuario eq 'recepcionista'}" >
+                    <p:menuitem value="Registrar" url="AdministrarCliente.xhtml"  />
+                </p:submenu>
                 <p:submenu label="Reservas" rendered="#{loginBean.usuario.tipoUsuario eq 'cliente'}" >
                     <p:menuitem value="Mis Reservas" url="ReservaporCliente.xhtml"   />
                     <p:menuitem value="Pre-Reservas" url="Reserva.xhtml"   />
-                    <p:menuitem value="Confirmación"   url="Personita.xhtml" />
+                </p:submenu>
+                <p:submenu label="Consultar" rendered="#{loginBean.usuario.tipoUsuario eq 'gerente'}" >
+                    <p:menuitem value="Reporte de Reservas" url="ReporteReservas.xhtml"   />
+                    <p:menuitem value="Reporte de Clientes" url="ReporteCliente"   />
+                    <p:menuitem value="Estado de Ingresos" url="EstadodeIngresos.xhtml"   />
+                    <p:menuitem value="Control de Ofertas y Descuentos" url="#"   />
                 </p:submenu>
         </p:menubar>
         </h:form>

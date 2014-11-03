@@ -7,9 +7,9 @@
 package dao;
 
 import java.util.List;
+import model.THabitacion;
 import model.TReserva;
 import model.TReservadetalle;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import util.HibernateUtil;
@@ -34,6 +34,21 @@ public class ReservaDao {
                 + "where t.nombre like '%" + id + "%'").list();
     }
 
+     public List<THabitacion> listarhabitacionesconfiltros(String id,String fecEnt,String fecSal)
+    {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        return session.createQuery("select th from THabitacion th \n" +
+                                    " inner join th.TTipohabitacion tt"
+                                    + "  where idHabitacion not in (\n" +
+                                   "select hab.idHabitacion from TReservadetalle  reservdet\n" +
+                                   "inner join reservdet.TReserva rerserv\n" +
+                                   "inner join reservdet.THabitacion hab\n" +
+                                   " where (fechaEntrada <  '"+fecEnt+"' and fechaSalida >  '"+fecEnt+"')\n" +
+"or (fechaEntrada < '"+fecSal+"' and fechaSalida > '"+fecSal+"') \n" +
+"or (fechaEntrada between  '"+fecEnt+"' and '"+fecSal+"' and fechaSalida between '"+fecEnt+"' and '"+fecSal+"') \n" +
+"or (fechaEntrada < '"+fecEnt+"' and fechaSalida > '"+fecSal+"') )  and tt.nombre like '%"+id+"%'").list();
+    }
+    
     public List<TReserva> listarestadoreserva()
     {
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -51,8 +66,8 @@ public class ReservaDao {
         } catch  (Exception e) {
             if(tx!=null)
             {
-                tx.rollback();
-            }
+                tx.rollback();System.out.println(e.getMessage());
+            }System.out.println(e.getMessage());
         } finally {
             sesion.close();
         }
@@ -123,4 +138,9 @@ public class ReservaDao {
         return reserva;
     }
     
+    public List<TReserva> listareserva(String id)
+    {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        return session.createQuery("from TReserva where ModalidadPago like '%"+id+"%'").list();
+    }
 }

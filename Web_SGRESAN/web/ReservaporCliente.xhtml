@@ -65,12 +65,15 @@
         </h:form>
         
         <h:form enctype="multipart/form-data" id="data"> 
+            <p:growl id="growl" showDetail="true" sticky="true" life="1000" />  
             <p:dialog header="Subir Voucher" widgetVar="VoucherDialog" resizable="false" id="vouDlg"  
                                   showEffect="fade" hideEffect="explode" modal="true" > 
-                            
-                <p:fileUpload value="#{archivoBean.file}"  mode="simple"    /> 
- 
-                 <p:commandButton action="#{archivoBean.AGREGAR_BOLETA()}" oncomplete="PF('VoucherDialog').hide();"  ajax="false" value="cerrar" update=":from:tablag"  />
+                <h:panelGrid columns="1"   >
+                    <p:fileUpload value="#{archivoBean.file}"  mode="simple" style="color: black;"   /> 
+                    <br/>
+                 <p:commandButton action="#{archivoBean.AGREGAR_BOLETA()}" oncomplete="PF('VoucherDialog').hide();"  ajax="false" value="Subir" update=":from:tablag,growl"  />
+              
+                   </h:panelGrid>   
               
                  </p:dialog>
                    

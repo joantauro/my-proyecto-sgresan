@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./vista/Plantilla_main.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <ui:define name="titulo">
+        Caja
+    </ui:define>
+
+    <ui:define name="top">
+      
+    </ui:define>
+
+    <ui:define name="left">
+      
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="caja">
+       
+            <p:panel id="panel" >
+                 <p:commandButton   rendered="#{cajaBean.AC}" value="Realizar Apertura de Caja" oncomplete="PF('infoCajaA').show();" actionListener="#{cajaBean.APERTURAR()}" update=":cajaf:APERTURA" />
+        <p:commandButton rendered="#{cajaBean.CC}" value="Nueva Entrada" oncomplete="PF('infoCajaE').show();" />
+        <p:commandButton rendered="#{cajaBean.CC}" value="Nueva Salida" oncomplete="PF('infoCajaS').show();" />
+        <p:commandButton  rendered="#{cajaBean.CC}" value="Realizar Cierre de Caja" oncomplete="PF('infoCajaC').show();" actionListener="#{cajaBean.CERRAR()}" update=":formCaja:CIERRE" />
+        
+            </p:panel>
+            
+            <p:dataTable var="inte" value="#{cajaBean.listacaja}" rowIndexVar="valor" id="tablag" >
+            <f:facet name="header">
+                CAJA
+            </f:facet>
+            <p:column headerText="#">
+                <h:outputText value="#{valor+1}" />
+            </p:column>
+            <p:column headerText="Descripción" >
+                <h:outputText value="#{inte.descripcion}" />
+            </p:column>
+
+            <p:column headerText="Entrada">
+                <h:outputText value="#{inte.entrada}" />
+            </p:column>
+
+            <p:column headerText="Salida">
+                <h:outputText value="#{inte.salida}" />
+            </p:column>
+                
+             <p:column headerText="Saldo">
+                 <h:outputText value="#{inte.saldo}" />
+            </p:column>
+        </p:dataTable>
+        </h:form>
+        <h:form id="formCajaE">
+          <p:dialog header="Información del Caja" widgetVar="infoCajaE" resizable="false"  
+                          showEffect="fade" hideEffect="explode" modal="true" > 
+              
+                        <h:panelGrid   columns="2" cellpadding="4" style="margin:0 auto;"> 
+                            
+                            <h:outputText value="Descripción :" />  
+                            <p:inputText value="#{cajaBean.caja.descripcion}" style="font-weight:bold"/>  
+                            <h:outputText value="Entrada :" />  
+                            <p:inputText value="#{cajaBean.caja.entrada}" style="font-weight:bold"/>  
+                            <p:commandButton value="Registrar" icon="ui-icon-document"  update="@form,:caja:tablag"   actionListener="#{cajaBean.INSERTAR()}" oncomplete="PF('infoCajaE').hide();" />
+
+                        </h:panelGrid>  
+              
+                </p:dialog>
+        </h:form>
+        <h:form id="formCajaS">
+          <p:dialog header="Información del Caja" widgetVar="infoCajaS" resizable="false"  
+                          showEffect="fade" hideEffect="explode" modal="true" > 
+              
+                        <h:panelGrid   columns="2" cellpadding="4" style="margin:0 auto;"> 
+                            
+                            <h:outputText value="Descripción :" />  
+                            <p:inputText value="#{cajaBean.caja.descripcion}" style="font-weight:bold"/>   
+                            <h:outputText value="Salida :" />  
+                            <p:inputText value="#{cajaBean.caja.salida}" style="font-weight:bold"/> 
+                            <p:commandButton value="Registrar" icon="ui-icon-document"  update="@form,:caja:tablag"   actionListener="#{cajaBean.INSERTAR()}" oncomplete="PF('infoCajaS').hide();" />
+
+                        </h:panelGrid>  
+       
+                </p:dialog>
+        </h:form>
+        <h:form id="cajaf">
+                         <p:dialog header="Información de Caja" widgetVar="infoCajaA" resizable="false"  
+                  showEffect="fade" hideEffect="explode" modal="true" id="APERTURA" > 
+                   
+                        <h:panelGrid columns="2" cellpadding="4" style="margin:0 auto;"> 
+                            
+                            <h:outputText value="Descripción :" />  
+                            <p:inputText value="#{cajaBean.caja.descripcion}" style="font-weight:bold"/>   
+                            <h:outputText value="Saldo Inicial :" />  
+                            <p:inputText value="#{cajaBean.caja.saldo}" style="font-weight:bold"/> 
+                            <p:commandButton value="Registrar" icon="ui-icon-document"  update="@form,:caja:tablag,:caja:panel"   actionListener="#{cajaBean.INSERTAR()}" oncomplete="PF('infoCajaA').hide();" />
+
+                        </h:panelGrid>  
+                   
+            </p:dialog>
+        </h:form>
+        <h:form id="formCaja">
+            <p:dialog header="Información de Caja" widgetVar="infoCajaC" resizable="false"  
+                  showEffect="fade" hideEffect="explode" modal="true" id="CIERRE" > 
+                   
+                        <h:panelGrid columns="2" cellpadding="4" style="margin:0 auto;"> 
+                            
+                            <h:outputText value="Descripción :" />  
+                            <p:inputText value="#{cajaBean.caja.descripcion}" style="font-weight:bold"/>   
+                            <h:outputText value="Saldo Final :" />  
+                            <p:inputText value="#{cajaBean.caja.saldo}" style="font-weight:bold"/> 
+                            <h:outputText value="Saldo en Caja :" />
+                            <p:inputText value="#{cajaBean.saldoR}" style="font-weight:bold" >
+                                <p:ajax event="keyup" update="out" listener="#{cajaBean.CIERRE()}" />
+                            </p:inputText> 
+                            <h:outputText value="Arqueo :" />
+                            <h:outputText id="out" value="#{cajaBean.arqueo}" />
+                            <p:commandButton value="Registrar" icon="ui-icon-document"  update="@form,:caja:tablag,:caja:panel"   actionListener="#{cajaBean.INSERTAR()}" oncomplete="PF('infoCajaC').hide();" />
+
+                        </h:panelGrid>  
+                   
+                </p:dialog>
+        </h:form>
+        
+    </ui:define>
+
+</ui:composition>

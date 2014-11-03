@@ -56,4 +56,6 @@ div.timeline-event-selected {
     background: #BECEFE none !important;  
     border-color: #97B0F8 !important;  
 }  
-              
+.ui-state-default .icon-aceptar{
+    background-image:url(../img/accept.png)
+}

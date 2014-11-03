@@ -1,5 +1,5 @@
 package model;
-// Generated 19/10/2014 11:59:18 PM by Hibernate Tools 4.3.1
+// Generated 27/10/2014 12:31:22 AM by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -16,7 +16,7 @@ public class THabitacion  implements java.io.Serializable {
      private TTipohabitacion TTipohabitacion;
      private String nroHabitacion;
      private String descripcion;
-     private String precio;
+     private double precio;
      private Set TReservadetalles = new HashSet(0);
      private Set THabitaciondetalles = new HashSet(0);
 
@@ -24,7 +24,7 @@ public class THabitacion  implements java.io.Serializable {
     }
 
 	
-    public THabitacion(String idHabitacion, THotel THotel, TTipohabitacion TTipohabitacion, String nroHabitacion, String descripcion, String precio) {
+    public THabitacion(String idHabitacion, THotel THotel, TTipohabitacion TTipohabitacion,String nroHabitacion, String descripcion, double precio) {
         this.idHabitacion = idHabitacion;
         this.THotel = THotel;
         this.TTipohabitacion = TTipohabitacion;
@@ -32,7 +32,7 @@ public class THabitacion  implements java.io.Serializable {
         this.descripcion = descripcion;
         this.precio = precio;
     }
-    public THabitacion(String idHabitacion, THotel THotel, TTipohabitacion TTipohabitacion, String nroHabitacion, String descripcion, String precio, Set TReservadetalles, Set THabitaciondetalles) {
+    public THabitacion(String idHabitacion, THotel THotel, TTipohabitacion TTipohabitacion, String nroHabitacion, String descripcion, double precio, Set TReservadetalles, Set THabitaciondetalles) {
        this.idHabitacion = idHabitacion;
        this.THotel = THotel;
        this.TTipohabitacion = TTipohabitacion;
@@ -78,11 +78,11 @@ public class THabitacion  implements java.io.Serializable {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
-    public String getPrecio() {
+    public double getPrecio() {
         return this.precio;
     }
     
-    public void setPrecio(String precio) {
+    public void setPrecio(double precio) {
         this.precio = precio;
     }
     public Set getTReservadetalles() {

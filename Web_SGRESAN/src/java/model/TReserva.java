@@ -1,5 +1,5 @@
 package model;
-// Generated 19/10/2014 11:59:18 PM by Hibernate Tools 4.3.1
+// Generated 27/10/2014 12:31:22 AM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -22,6 +22,7 @@ public class TReserva  implements java.io.Serializable {
      private String modalidadPago;
      private byte[] voucher;
      private Double precio;
+     private String usuario;
      private Set TReservadetalles = new HashSet(0);
 
     public TReserva() {
@@ -34,7 +35,7 @@ public class TReserva  implements java.io.Serializable {
         this.estado = estado;
         this.descripcion = descripcion;
     }
-    public TReserva(String idReserva, TCliente TCliente, String estado, Date fechaRegistro, Date fechaEntrada, Date fechaSalida, String descripcion, String modalidadPago, byte[] voucher, Double precio, Set TReservadetalles) {
+    public TReserva(String idReserva, TCliente TCliente, String estado, Date fechaRegistro, Date fechaEntrada, Date fechaSalida, String descripcion, String modalidadPago, byte[] voucher, Double precio, String usuario, Set TReservadetalles) {
        this.idReserva = idReserva;
        this.TCliente = TCliente;
        this.estado = estado;
@@ -45,6 +46,7 @@ public class TReserva  implements java.io.Serializable {
        this.modalidadPago = modalidadPago;
        this.voucher = voucher;
        this.precio = precio;
+       this.usuario = usuario;
        this.TReservadetalles = TReservadetalles;
     }
    
@@ -117,6 +119,13 @@ public class TReserva  implements java.io.Serializable {
     
     public void setPrecio(Double precio) {
         this.precio = precio;
+    }
+    public String getUsuario() {
+        return this.usuario;
+    }
+    
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
     }
     public Set getTReservadetalles() {
         return this.TReservadetalles;
