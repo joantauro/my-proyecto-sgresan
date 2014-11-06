@@ -6,17 +6,14 @@
 package bean;
 
 import dao.ArchivoDao;
+import dao.ClienteDao;
 import dao.ReservaDao;
 import java.io.ByteArrayInputStream;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Arrays;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import model.TCliente;
 import model.TPersona;
@@ -26,6 +23,7 @@ import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
+import util.email;
 
 /**
  *
@@ -140,12 +138,21 @@ private List<TReserva> reservasALL;
     
     public void ACTUALIZAR(String id)
     {
+        TCliente cli = new TCliente();
         ArchivoDao ar = new ArchivoDao();
         reserva = ar.BuscaporId(id);
         reserva.setEstado("reservado");
+        
+         ClienteDao clidao = new ClienteDao();
+        email e = new email();
+ 
+         cli = clidao.buscarCliente(reserva.getTCliente().getIdCliente());
+         e.send(cli.getTPersona().getEmail(),"Confirmación de Reserva","Buenas Noches \n Su reserva fue aprobada exitosamente\nlo esperamos el día pactado\nAtte. La Querencia Hermanos");
+       
+        //System.out.println(reserva.getTCliente().getIdCliente());
         ar.ModificarReserva(reserva);
         FacesContext context = FacesContext.getCurrentInstance();
-         
+//
         context.addMessage(null, new FacesMessage("Successful",  "Se Aprobo la reserva "+reserva.getIdReserva()) );
       
     }

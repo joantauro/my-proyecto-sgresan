@@ -91,7 +91,6 @@ public class HabitacionBean {
         for (int i = 1; i <= 4; i++) {
             images.add("habitacion" + i + ".jpg");
         }
-        System.out.println(images.get(0));
         return images;
     }
 

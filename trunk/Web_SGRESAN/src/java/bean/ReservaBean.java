@@ -12,6 +12,7 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import model.TReserva;
+import model.TReservalog;
 
 /**
  *
@@ -24,6 +25,7 @@ public class ReservaBean {
     private TReserva reserva;
     private List<TReserva> estadodereservas;
     private List<TReserva> reservas;
+    private List<TReservalog> listareservaslog;
     
     public ArrayList<String> lista ;
     
@@ -171,4 +173,11 @@ public class ReservaBean {
     {
         getReservas();
     }
+
+    public List<TReservalog> getListareservaslog() {
+        ReservaDao dao = new ReservaDao();
+        listareservaslog=dao.listareservalog();
+        return listareservaslog;
+    }
+    
 }

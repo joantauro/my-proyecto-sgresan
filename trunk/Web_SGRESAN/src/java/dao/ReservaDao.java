@@ -10,6 +10,7 @@ import java.util.List;
 import model.THabitacion;
 import model.TReserva;
 import model.TReservadetalle;
+import model.TReservalog;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import util.HibernateUtil;
@@ -148,4 +149,9 @@ public class ReservaDao {
         Session session = HibernateUtil.getSessionFactory().openSession();
         return session.createQuery("from TReservadetalle where TReserva='"+id+"'").list();
     }
+     public List<TReservalog> listareservalog()
+    {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        return session.createQuery("from TReservalog").list();
+    } 
 }

@@ -19,7 +19,7 @@
  
     <h:form>
  
-    <p:dataTable id="reserva" var="a" value="#{reservaDetalleBean.listareservas}" widgetVar="tablaInformes" 
+        <p:dataTable id="reserva" var="a" value="#{reservaBean.listareservaslog}" widgetVar="tablaInformes" 
                      tableStyle="center" style = "width:auto"
                      paginator="true" rows="5" paginatorPosition="bottom"                     
                      paginatorTemplate="{RowsPerPageDropdown} {CurrentPageReport} {FirstPageLink} {PreviousPageLink} 
@@ -48,58 +48,31 @@
         
            
             
-        <p:column filterBy="#{a.TReserva.idReserva}" filterMatchMode="contains">
+            <p:column filterBy="#{a.idReserva}" filterMatchMode="contains">
                    <f:facet name="header">  
                         <h:outputText value="Codigo" />  
                    </f:facet>
-                <h:outputText value="#{a.TReserva.idReserva}" style=" text-align: center"/>
+                <h:outputText value="#{a.idReserva}" style=" text-align: center"/>
             </p:column>
  
-        <p:column filterBy="#{a.TReserva.estado}" filterMatchMode="contains">
+            <p:column filterBy="#{a.accion}" headerText="Acción" >
+                <h:outputText value="#{a.accion}"/>
+            </p:column>
+            <p:column filterBy="#{a.fecha}" headerText="Fecha de Acción" >
+                <h:outputText value="#{a.fecha.date}/#{a.fecha.month+1}/#{a.fecha.year+1900}" />
+            </p:column>
+            
+            <p:column filterBy="#{a.estado}" filterMatchMode="contains">
                    <f:facet name="header">  
                         <h:outputText value="Estado" />  
                    </f:facet> 
                 
-            <h:outputText value="#{a.TReserva.estado}"/>
+            <h:outputText value="#{a.estado}"/>
             </p:column>
  
         
         
-          <p:column filterBy="#{a.TReserva.TCliente.TPersona.nombres}" filterMatchMode="contains">
-                   <f:facet name="header">  
-                        <h:outputText value="Cliente" />  
-                   </f:facet> 
-                <h:outputText value="#{a.TReserva.TCliente.TPersona.nombres}" />
-                
-            </p:column> 
-        
-        
-        
-        
-        
-            <p:column headerText="Fecha Registro" style=" text-align: center">  
-                <h:outputText value="#{a.TReserva.fechaRegistro}" />  
-                     
-                
-            </p:column>
- 
-            
-            <p:column headerText="descripcion"   style=" text-align: center">
-                <h:outputText value="#{a.TReserva.descripcion}" />
-            </p:column>  
-            
-            <p:column headerText="modalidad de pago"  style=" text-align: center">
-                <h:outputText value="#{a.TReserva.modalidadPago}" />
-            </p:column>     
-
-            <p:column headerText="voucher"   style=" text-align: center">
-                <h:outputText value="#{a.TReserva.voucher}" />
-            </p:column>    
-
-            <p:column headerText="precio"   style=" text-align: center">
-                <h:outputText value="#{a.TReserva.precio}" />
-            </p:column>   
-
+          
 
             
 
@@ -107,22 +80,15 @@
         <p:rowExpansion  >
             <p:panelGrid  id="aa" columns="2" columnClasses="label,value" style="width:300px">
                 <h:outputText value="Fecha de Entrada:" />
-                <h:outputText value="#{a.TReserva.fechaEntrada}" />
+                <h:outputText value="#{a.fechaEntrada}" />
                 
             </p:panelGrid>
             
-                 <p:panelGrid columns="2" columnClasses="label,value" style="width:300px">
-                <h:outputText value="Fecha de Salida:" />
-                <h:outputText value="#{a.TReserva.fechaSalida}" />
-                
-            </p:panelGrid>
-                
             <p:panelGrid columns="2" columnClasses="label,value" style="width:300px">
-                <h:outputText value="Numero de habitacion:" />
-                <h:outputText value="#{a.THabitacion.nroHabitacion}" />
+                <h:outputText value="Fecha de Salida:" />
+                <h:outputText value="#{a.fechaSalida}" />
                 
             </p:panelGrid>
-                    
                 
         </p:rowExpansion>    
         
