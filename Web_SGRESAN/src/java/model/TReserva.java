@@ -21,6 +21,8 @@ public class TReserva  implements java.io.Serializable {
      private String descripcion;
      private String modalidadPago;
      private byte[] voucher;
+     private Double subtotal;
+     private Double igv;
      private Double precio;
      private String usuario;
      private Set TReservadetalles = new HashSet(0);
@@ -35,7 +37,7 @@ public class TReserva  implements java.io.Serializable {
         this.estado = estado;
         this.descripcion = descripcion;
     }
-    public TReserva(String idReserva, TCliente TCliente, String estado, Date fechaRegistro, Date fechaEntrada, Date fechaSalida, String descripcion, String modalidadPago, byte[] voucher, Double precio, String usuario, Set TReservadetalles) {
+    public TReserva(String idReserva, TCliente TCliente, String estado, Date fechaRegistro, Date fechaEntrada, Date fechaSalida, String descripcion, String modalidadPago, byte[] voucher, Double subtotal, Double igv, Double precio, String usuario, Set TReservadetalles) {
        this.idReserva = idReserva;
        this.TCliente = TCliente;
        this.estado = estado;
@@ -45,6 +47,8 @@ public class TReserva  implements java.io.Serializable {
        this.descripcion = descripcion;
        this.modalidadPago = modalidadPago;
        this.voucher = voucher;
+       this.subtotal = subtotal;
+       this.igv = igv;
        this.precio = precio;
        this.usuario = usuario;
        this.TReservadetalles = TReservadetalles;
@@ -112,6 +116,20 @@ public class TReserva  implements java.io.Serializable {
     
     public void setVoucher(byte[] voucher) {
         this.voucher = voucher;
+    }
+    public Double getSubtotal() {
+        return this.subtotal;
+    }
+    
+    public void setSubtotal(Double subtotal) {
+        this.subtotal = subtotal;
+    }
+    public Double getIgv() {
+        return this.igv;
+    }
+    
+    public void setIgv(Double igv) {
+        this.igv = igv;
     }
     public Double getPrecio() {
         return this.precio;

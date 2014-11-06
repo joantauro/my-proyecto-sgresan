@@ -47,9 +47,9 @@ public class ReservaDetalleBean {
     private TReservadetalle reserva;
     private TReserva reserv;
     private THabitacion hab;
-     public ArrayList<String> lista ;
+    private List<TReservadetalle> list;
     private TCliente cli ;
-    
+    private String motivo;
      public int nrohabitacion;
      private double igv; private double costoTotal;
     private TimelineModel model;  
@@ -81,8 +81,8 @@ public class ReservaDetalleBean {
     public ReservaDetalleBean() {
         event = new TimelineEvent();tipohab="";
         costo=0;editable=false;
-       nrohabitacion=1;igv=0.0;costoTotal=0.0;
-       createLista(nrohabitacion);
+       igv=0.0;costoTotal=0.0;
+     
         
         reserva = new TReservadetalle();
         reserva.setTHabitacion(new THabitacion());
@@ -116,7 +116,7 @@ public class ReservaDetalleBean {
     
     public void INICIALIZACION()
     {
-        costo=0.0;
+        costo=0.0;motivo="";
         reserva = new TReservadetalle();
         reserva.setTHabitacion(new THabitacion());
         reserva.setTReserva(new TReserva());
@@ -141,53 +141,7 @@ public class ReservaDetalleBean {
         BUSQUEDA2(reserv.getFechaEntrada(), reserv.getFechaSalida());
     }
     
-    public void createLista(int n)
-    {
-       
-        //HabitacionDao dao = new HabitacionDao();
-        lista= new ArrayList<String>();
-        for(int i=0;i<n;i++)
-        {
-           // lista.add(dao.listareserva().get(i).getDescripcion());
-            lista.add("dobles");
-        } 
-    }
-    
-    public void PRECIO()
-    {   
-        try
-        {
-            double suma=0;
-//        reserv.setPrecio(i);
-//        i++;
-        System.out.println(lista.size());
-        HabitacionDao o = new HabitacionDao();
-         for (int i = 0; i < nrohabitacion; i++) {
-            if (!"".equals(lista.get(i))) {
-                suma = suma + o.Precio(Integer.parseInt(lista.get(i)));
-            } else {
-                suma+=0;
-            }
-
-        }
-         reserv.setPrecio(suma);
-        }
-        catch(Exception e)
-        {
-            System.out.println(e.getMessage());
-        }
-    }
-    
-     public void ElegirNroCuarto(int n)
-    {
-        System.out.println("Valor de n : "+n);
-        nrohabitacion=n;
-         createLista(n);
-        System.out.println("Tamaño : " + lista.size());
-        System.out.println("Nro : " + nrohabitacion); 
-    }
-    
-    
+  
     public void createTimeline() {
         model = new TimelineModel();
     }
@@ -209,7 +163,11 @@ public class ReservaDetalleBean {
     }  
     
      public void onEdit(TimelineModificationEvent e) {  
-           event = e.getTimelineEvent();
+           event = e.getTimelineEvent();  
+           reserva =((TReservadetalle)event.getData());
+           ReservaDao rdao = new ReservaDao();
+           list= rdao.listarNumeroCuartos(reserva.getTReserva().getIdReserva());
+           
     } 
     
      public void onDelete(TimelineModificationEvent e) {  
@@ -224,6 +182,8 @@ public class ReservaDetalleBean {
        //  System.out.println(((TReservadetalle)event.getData()).getIdTReservaDetalle());
     } 
     
+     
+     
      public void onChange(TimelineModificationEvent e) {
         event = e.getTimelineEvent();  
         reserva =((TReservadetalle)event.getData());
@@ -238,20 +198,24 @@ public class ReservaDetalleBean {
     }
      public void REPROGRAMAR()
      {
+         reserv.setDescripcion(motivo);
          reserv.setFechaEntrada(start);
          reserv.setFechaSalida(end);
          dao.MoficiarReserva(reserv);
          model = new TimelineModel(); 
-         llenar();
+         llenar();INICIALIZACION();
      }
+     
      
      public void CANCEL()
      {
+         reserv.setDescripcion(motivo);
          reserv.setEstado("cancelado");
          System.out.println(reserv.getIdReserva());
          dao.MoficiarReserva(reserv);
          model = new TimelineModel(); 
        llenar();
+       INICIALIZACION();
      }
      
      public void registrarprereserva()
@@ -266,7 +230,7 @@ public class ReservaDetalleBean {
         reserv.setFechaRegistro(new Date());
         reserv.setModalidadPago("Deposito");
         reserv.setUsuario(((TUsuario)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario")).getNombreUsuario());
-        reserv.setTCliente(cli);
+        reserv.setTCliente(clie);
         reserv.setPrecio(costoTotal);
         dao.InsetartReserva(reserv);
         
@@ -345,16 +309,21 @@ public class ReservaDetalleBean {
             builder.append(((THabitacion) item).getNroHabitacion()).append("<br />");
             
         }
- 
-        costo=0;final long MILLSECS_PER_DAY = 24 * 60 * 60 * 1000;
+        costo=0.0;
+        reserv.setSubtotal(costo);
+        final long MILLSECS_PER_DAY = 24 * 60 * 60 * 1000;
        dia=(reserv.getFechaSalida().getTime()-reserv.getFechaEntrada().getTime())/MILLSECS_PER_DAY;
        for (int i = 0; i < cities.getTarget().size(); i++) {
             costo=costo+ cities.getTarget().get(i).getPrecio()*dia;
             
         }
-       igv=costo*0.18;
-       costoTotal=costo+igv;
        
+       igv=costo*0.18;
+       
+       costoTotal=costo+igv;
+       reserv.setSubtotal(costo);
+       reserv.setIgv(igv);
+       reserv.setPrecio(costoTotal);
           System.out.println(costo);
           System.out.println("Dias : " + (reserv.getFechaSalida().getTime()-reserv.getFechaEntrada().getTime())/MILLSECS_PER_DAY);
 //        FacesMessage msg = new FacesMessage();
@@ -386,7 +355,7 @@ public class ReservaDetalleBean {
         }
         reserv.setFechaRegistro(new Date());
      
-        reserv.setPrecio(costoTotal);
+        //reserv.setPrecio(costoTotal);
         reserv.setTCliente(cli);
         dao.InsetartReserva(reserv);
         
@@ -404,35 +373,7 @@ public class ReservaDetalleBean {
         llenar();INICIALIZACION();
       }
       
-    public void saveDetails() {  
-        
-        
-        TCliente cli = new TCliente();
-        cli.setIdCliente(reserv.getTCliente().getIdCliente());
-        reserv.setIdReserva(dao.PK());
-        reserv.setEstado("pre-reserva");
-        reserv.setDescripcion("Ninguna");
-        reserv.setTCliente(cli);
-        dao.InsetartReserva(reserv);
-        
-        reserva.setTReserva(reserv);
-        
-        
-        
-        for (int i = 0; i < nrohabitacion; i++) {
-            hab.setNroHabitacion(lista.get(i));
-            reserva.setTHabitacion(hab);
-            dao.InsetartReservaDetalle(reserva);
-        }
-        
-        model = new TimelineModel(); 
-        /*for(int i=0;i<cdao.listar().size();i++)
-         {
-           model.add(new TimelineEvent(cdao.listar().get(i), cdao.listar().get(i).getStart(), cdao.listar().get(i).getEnd()));
-         }*/
-        llenar();
-    }
-     
+ 
      
      public void llenar()
     {// set initial start / end dates for the axis of the timeline  
@@ -556,13 +497,7 @@ public class ReservaDetalleBean {
         this.hab = hab;
     }
 
-    public ArrayList<String> getLista() {
-        return lista;
-    }
-
-    public void setLista(ArrayList<String> lista) {
-        this.lista = lista;
-    }
+ 
 
     public int getNrohabitacion() {
         return nrohabitacion;
@@ -664,6 +599,18 @@ public class ReservaDetalleBean {
 
     public void setCostoTotal(double costoTotal) {
         this.costoTotal = costoTotal;
+    }
+
+    public List<TReservadetalle> getList() {
+        return list;
+    }
+
+    public String getMotivo() {
+        return motivo;
+    }
+
+    public void setMotivo(String motivo) {
+        this.motivo = motivo;
     }
 
  
