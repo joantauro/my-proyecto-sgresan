@@ -27,9 +27,9 @@
             <p:outputLabel value="Habitación Seleccionada" />
             <p:outputLabel value="#{reservaDetalleBean.reserva.THabitacion.idHabitacion}" />
             <p:outputLabel value="Fecha Entrada"  />
-            <p:outputLabel value="#{reservaDetalleBean.reserva.TReserva.fechaEntrada.date}/#{reservaDetalleBean.reserva.TReserva.fechaEntrada.month}/#{reservaDetalleBean.reserva.TReserva.fechaEntrada.year}"  />
+            <p:outputLabel value="#{reservaDetalleBean.startm}"  />
             <p:outputLabel value="Fecha Salida"  />
-            <p:outputLabel value="#{reservaDetalleBean.reserva.TReserva.fechaSalida.date}/#{reservaDetalleBean.reserva.TReserva.fechaSalida.month}/#{reservaDetalleBean.reserva.TReserva.fechaSalida.year}"  />
+            <p:outputLabel value="#{reservaDetalleBean.endm}"  />
              <p:outputLabel value="Cantidad de Habitaciones" />
              <p:outputLabel value="#{reservaDetalleBean.list.size()}" />
             
@@ -67,15 +67,15 @@
                                     
             </p:selectOneMenu>
             <poue:timeline id="timeline" value="#{reservaDetalleBean.model}" var="booking"  
-                           timeZone="#{reservaDetalleBean.timeZone}"   
-                           zoomMax="#{reservaDetalleBean.zoomMax}"   zoomMin="120000000"
+                           timeZone="#{reservaDetalleBean.timeZone}"    min="#{reservaDetalleBean.start}"
+                           zoomMax="#{reservaDetalleBean.zoomMax}"   zoomMin="1200000000" 
                            start="#{reservaDetalleBean.start}" 
                            end="#{reservaDetalleBean.end}" stackEvents="false"  axisOnTop="true"
                            editable="true" showNavigation="true" timeChangeable="#{reservaDetalleBean.timeChangeable}"  
                            showButtonNew="false" minHeight="200" widgetVar="timelineWdgt"  >
 
                 <p:ajax event="add" listener="#{reservaDetalleBean.onAdd}"  
-                        oncomplete="PF('dlgNuevo').show()"/>
+                        oncomplete="PF('dlgNuevo').show()" update=":formWizard:dlgNuevo" />
                 <p:ajax event="edit" update=":info:panelinfo"  
                         listener="#{reservaDetalleBean.onEdit}"  
                      />  

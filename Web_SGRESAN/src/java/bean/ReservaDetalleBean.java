@@ -34,6 +34,7 @@ import org.primefaces.extensions.event.timeline.TimelineModificationEvent;
 import org.primefaces.extensions.model.timeline.TimelineEvent;
 import org.primefaces.extensions.model.timeline.TimelineModel;
 import org.primefaces.model.DualListModel;
+import util.email;
 
 /**
  *
@@ -55,8 +56,8 @@ public class ReservaDetalleBean {
     private TimelineModel model;  
     private TimelineEvent event; // current event to be changed, edited, deleted or added  
     private long zoomMax;  
-    private Date start;  
-    private Date end;  
+    private Date start; private String startm;
+    private Date end;  private String endm; 
     private TimeZone timeZone = TimeZone.getTimeZone("America/Lima");  
     private boolean timeChangeable = true; 
     
@@ -79,6 +80,7 @@ public class ReservaDetalleBean {
     private String nombreC;
     
     public ReservaDetalleBean() {
+        zoomMax=1200000001;
         event = new TimelineEvent();tipohab="";
         costo=0;editable=false;
        igv=0.0;costoTotal=0.0;
@@ -116,7 +118,8 @@ public class ReservaDetalleBean {
     
     public void INICIALIZACION()
     {
-        costo=0.0;motivo="";
+        costo=0.0;motivo="";startm="";
+        endm="";
         reserva = new TReservadetalle();
         reserva.setTHabitacion(new THabitacion());
         reserva.setTReserva(new TReserva());
@@ -165,6 +168,9 @@ public class ReservaDetalleBean {
      public void onEdit(TimelineModificationEvent e) {  
            event = e.getTimelineEvent();  
            reserva =((TReservadetalle)event.getData());
+           startm=reserva.getTReserva().getFechaEntrada().getDate()+"/"+(reserva.getTReserva().getFechaEntrada().getMonth()+1)+"/"+(reserva.getTReserva().getFechaEntrada().getYear()+1900);
+           endm=reserva.getTReserva().getFechaSalida().getDate()+"/"+(reserva.getTReserva().getFechaSalida().getMonth()+1)+"/"+(reserva.getTReserva().getFechaSalida().getYear()+1900);
+           
            ReservaDao rdao = new ReservaDao();
            list= rdao.listarNumeroCuartos(reserva.getTReserva().getIdReserva());
            
@@ -221,17 +227,18 @@ public class ReservaDetalleBean {
      public void registrarprereserva()
      { ClienteDao clidao = new ClienteDao();
        String valor = clidao.buscarCliente(((TPersona)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("persona")).getIdPersona()).getIdCliente(); 
-         
-
-        TCliente clie = new TCliente();
-        clie.setIdCliente(valor);
+        email e = new email();
+ 
+         cli = clidao.buscarCliente(valor);
+   
         reserv.setIdReserva(dao.PK());
         reserv.setEstado("pre-reserva");
         reserv.setFechaRegistro(new Date());
         reserv.setModalidadPago("Deposito");
         reserv.setUsuario(((TUsuario)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario")).getNombreUsuario());
-        reserv.setTCliente(clie);
+        reserv.setTCliente(cli);
         reserv.setPrecio(costoTotal);
+        e.send(cli.getTPersona().getEmail(),"Reserva LQR","Buenas Noches \n Su reserva fue registrado exitosamente\nAtte. La Querencia Hermanos");
         dao.InsetartReserva(reserv);
         
         reserva.setTReserva(reserv);
@@ -242,6 +249,7 @@ public class ReservaDetalleBean {
             reserva.setCosto(cities.getTarget().get(i).getPrecio()*dia);
             dao.InsetartReservaDetalle(reserva);
         }
+         //INICIALIZACION();
      }
      
      public void registrarreserva()
@@ -611,6 +619,22 @@ public class ReservaDetalleBean {
 
     public void setMotivo(String motivo) {
         this.motivo = motivo;
+    }
+
+    public String getStartm() {
+        return startm;
+    }
+
+    public void setStartm(String startm) {
+        this.startm = startm;
+    }
+
+    public String getEndm() {
+        return endm;
+    }
+
+    public void setEndm(String endm) {
+        this.endm = endm;
     }
 
  

@@ -97,7 +97,7 @@ h6 { font-size:1em; color:#e7e7e7;}
 
 /*header*/
 #header .row-1 { height:136px; }
-#header .row-2 { height:390px; background:url(images/header-bg.png) no-repeat left bottom;}
+#header .row-2 { height:380px; background:url(images/header-bg.png) no-repeat left bottom;}
 #header .row-2.alt { height:278px; background:url(images/header-bg1.png) no-repeat left bottom; width:100%; padding:0; margin:0;}
 #header .row-2 .indent { padding:13px 0 0 13px;}
 
@@ -106,7 +106,7 @@ h6 { font-size:1em; color:#e7e7e7;}
 #header .logo strong { color:#ad0000; font-size:.91em; padding-left:5px;}
 #header .phones { float:right; font-family:"Trebuchet MS", Arial, Helvetica, sans-serif; font-size:25px; line-height:1em; color:#c30000; padding:43px 48px 0 0; letter-spacing:-1px;}
 
-.header-box { background:url(images/header-bg1.jpg) no-repeat left top; width:950px; height:364px;}
+.header-box { background:url(images/header-bg1.jpg) no-repeat left top; width:950px; height:330px;}
 .header-box .inner { padding:307px 0 0 2px;}
 
 .header-box-small { background:url(images/header-bg-small.jpg) no-repeat left top; width:950px; height:252px; }

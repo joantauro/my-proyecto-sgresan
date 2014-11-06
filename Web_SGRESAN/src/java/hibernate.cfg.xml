@@ -7,6 +7,7 @@
     <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/sgresan</property>
     <property name="hibernate.connection.username">root</property>
     <property name="hibernate.connection.password">1234</property>
+    <property name="hibernate.current_session_context_class">thread</property>
     <mapping resource="model/TJuridica.hbm.xml"/>
     <mapping resource="model/TReserva.hbm.xml"/>
     <mapping resource="model/TReservadetallelog.hbm.xml"/>
