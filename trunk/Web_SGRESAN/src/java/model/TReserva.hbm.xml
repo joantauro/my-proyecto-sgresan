@@ -32,6 +32,12 @@
         <property name="voucher" type="binary">
             <column name="voucher" />
         </property>
+        <property name="subtotal" type="java.lang.Double">
+            <column name="subtotal" precision="22" scale="0" />
+        </property>
+        <property name="igv" type="java.lang.Double">
+            <column name="IGV" precision="22" scale="0" />
+        </property>
         <property name="precio" type="java.lang.Double">
             <column name="precio" precision="22" scale="0" />
         </property>

@@ -142,5 +142,10 @@ public class ReservaDao {
     {
         Session session = HibernateUtil.getSessionFactory().openSession();
         return session.createQuery("from TReserva where ModalidadPago like '%"+id+"%'").list();
+    } 
+     public List<TReservadetalle> listarNumeroCuartos(String id)
+    {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        return session.createQuery("from TReservadetalle where TReserva='"+id+"'").list();
     }
 }

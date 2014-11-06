@@ -18,14 +18,38 @@
 
     <ui:define name="left">
         <h:form id="info">
-            <p:panelGrid columns="1" id="panelinfo" >
-            <h:outputText value="Codigo Reserva" />
-            <h:inputText value="#{reservaDetalleBean.reserva.TReserva.idReserva}" />
-            <h:outputText value="Cliente" />
-            <h:inputText value="#{reservaDetalleBean.reserva.TReserva.TCliente.TPersona.nombres}" />
-            <h:outputText value="Habitación" />
-            <h:inputText value="#{reservaDetalleBean.reserva.THabitacion.nroHabitacion}" />
-        </p:panelGrid>
+   
+            <h:panelGrid  id="panelinfo"  cellspacing="5" columns="2" style="margin-right:  auto"   >
+                     <p:outputLabel value="Codigo Reserva" />
+            <p:outputLabel value="#{reservaDetalleBean.reserva.TReserva.idReserva}" />
+            <p:outputLabel value="Cliente" />
+            <p:outputLabel value="#{reservaDetalleBean.reserva.TReserva.TCliente.TPersona.nombres} #{reservaDetalleBean.reserva.TReserva.TCliente.TPersona.apellidoP} #{reservaDetalleBean.reserva.TReserva.TCliente.TPersona.apellidoM}" />
+            <p:outputLabel value="Habitación Seleccionada" />
+            <p:outputLabel value="#{reservaDetalleBean.reserva.THabitacion.idHabitacion}" />
+            <p:outputLabel value="Fecha Entrada"  />
+            <p:outputLabel value="#{reservaDetalleBean.reserva.TReserva.fechaEntrada.date}/#{reservaDetalleBean.reserva.TReserva.fechaEntrada.month}/#{reservaDetalleBean.reserva.TReserva.fechaEntrada.year}"  />
+            <p:outputLabel value="Fecha Salida"  />
+            <p:outputLabel value="#{reservaDetalleBean.reserva.TReserva.fechaSalida.date}/#{reservaDetalleBean.reserva.TReserva.fechaSalida.month}/#{reservaDetalleBean.reserva.TReserva.fechaSalida.year}"  />
+             <p:outputLabel value="Cantidad de Habitaciones" />
+             <p:outputLabel value="#{reservaDetalleBean.list.size()}" />
+            
+            <p:outputLabel value="Dormitorios :"  />
+            <c:forEach items="#{reservaDetalleBean.list}" var="item" >
+                <div>
+                        <p:outputLabel />
+                        <p:outputLabel value="${item.THabitacion.idHabitacion}"  />
+                    </div>
+            </c:forEach>
+                             <p:outputLabel/>
+                             <p:outputLabel value="Descripción :"   />
+                             <p:outputLabel value="#{reservaDetalleBean.reserva.TReserva.descripcion}" />
+                             <p:outputLabel value="Subtotal :" />
+                             <p:outputLabel value="#{reservaDetalleBean.reserva.TReserva.subtotal}"  />
+                             <p:outputLabel value="IGV (18%) :"   />
+                             <p:outputLabel value="#{reservaDetalleBean.reserva.TReserva.igv}"   />
+                             <p:outputLabel value="TOTAL :"   />
+                             <p:outputLabel value="#{reservaDetalleBean.reserva.TReserva.precio}"   />
+                             </h:panelGrid>
         </h:form>
         
     </ui:define>
@@ -52,7 +76,9 @@
 
                 <p:ajax event="add" listener="#{reservaDetalleBean.onAdd}"  
                         oncomplete="PF('dlgNuevo').show()"/>
- 
+                <p:ajax event="edit" update=":info:panelinfo"  
+                        listener="#{reservaDetalleBean.onEdit}"  
+                     />  
                 <p:ajax event="change" update=":formreprogramacion:ReprogramacionInner" listener="#{reservaDetalleBean.onChange}" oncomplete="PF('ReprogramacionWdgt').show()" /> 
                 <p:ajax event="delete" update=":formcancelacion:deleteBookingInner,:info:panelinfo"  
                         listener="#{reservaDetalleBean.onDelete}"
@@ -65,56 +91,18 @@
                 
             </poue:timeline>
         </h:form>
-         
-        <h:form id="formVentana" >
-            <p:dialog id="detailsBookingDlg" header="Detalles de Reserva" widgetVar="detailsBookingWdgt"  
-                  showEffect="clip" hideEffect="clip">  
-           
-                            <p:panel header="Información de Habitación">
-                <p:panelGrid   columns="2" style="margin-right:  auto" id="panelsito"  >
-                    <h:outputText value="Cantidad de Habitaciones"  />
-                    <p:selectOneMenu  id="seleccion1" value="#{reservaDetalleBean.nrohabitacion}"  >
-                        <f:selectItem itemLabel="1" itemValue="1"  />
-                        <f:selectItem itemLabel="2" itemValue="2" />
-                        <f:selectItem itemLabel="3" itemValue="3" />
-                        <f:selectItem itemLabel="4" itemValue="4" />
-                        <p:ajax update="pan"   listener="#{reservaDetalleBean.ElegirNroCuarto(reservaDetalleBean.nrohabitacion)}" />
-                    </p:selectOneMenu>
-
-                </p:panelGrid>
-                <p:panel id="pan" >
-                    <c:forEach items="#{reservaDetalleBean.lista}" var="item"     >
-
-                        <div> 
-                            <h:outputText value="Tipo de Habitación" />
-                            <p:selectOneMenu value="${item}">
-                                <f:selectItem itemLabel="Seleccione" itemValue="" />
-                                <f:selectItems value="#{habitacionBean.habitaciones}" var="habs" itemLabel="#{habs.descripcion}" itemValue="#{habs.nroHabitacion}" /> 
-                            </p:selectOneMenu>
-                        </div> 
-                    </c:forEach>
-                </p:panel>
-                
-            </p:panel>
-<f:facet name="footer">  
-                <h:panelGroup layout="block" style="text-align:right; padding:2px; white-space:nowrap;">  
-                    <p:commandButton value="Save" process="detailsBookingDlg" update=":formRecep:timeline"  
-                                     action="#{reservaDetalleBean.saveDetails()}"  
-                                     oncomplete="if(!args.validationFailed){PF('detailsBookingWdgt').hide();}"/>  
-                    <p:commandButton type="button" value="Close" onclick="PF('detailsBookingWdgt').hide()"/>  
-                </h:panelGroup>  
-            </f:facet>  
-   
-        </p:dialog>  
-        </h:form>
-  
+ 
         <h:form id="formcancelacion" >
             <p:confirmDialog id="deleteBookingDlg" header="Cancelación de Reservas" severity="alert" widgetVar="deleteBookingWdgt"  
                       showEffect="fade" hideEffect="explode"   message="Desea cancelar esta reserva?" >  
                 <h:panelGroup id="deleteBookingInner" layout="block" style="margin:10px;">  
- 
+                    <h:panelGrid columns="2" >
+                        <h:outputText value="Motivo "/>
+                        <p:inputTextarea value="#{reservaDetalleBean.motivo}" />
                         <p:commandButton value="Aceptar" actionListener="#{reservaDetalleBean.CANCEL()}" onclick="PF('deleteBookingDlg').hide()" update=":formRecep:timeline"  icon="ui-icon-check"/>
                         <p:commandButton value="Cancelar" onclick="PF('deleteBookingDlg').hide()" />
+                    </h:panelGrid>
+                    
                    
                 </h:panelGroup>  
 
@@ -132,12 +120,14 @@
 
                     <h:panelGrid columns="2" columnClasses="bookingDetails1,bookingDetails2"> 
                         <h:outputText value="Fecha Entrada :" />
-                        <p:calendar value="#{reservaDetalleBean.start}" pattern="dd/MM/yyyy" disabled="true" />
+                        <h:outputText value="#{reservaDetalleBean.start.date}/#{reservaDetalleBean.start.month}/#{reservaDetalleBean.start.year}" />
                         <h:outputText value="Fecha Salida :" />
-                        <p:calendar value="#{reservaDetalleBean.end}" pattern="dd/MM/yyyy" disabled="true" />
-                         
+                        <h:outputText value="#{reservaDetalleBean.end.date}/#{reservaDetalleBean.end.month}/#{reservaDetalleBean.end.year}" />
+                        <h:outputText value="Motivo "/>
+                        <p:inputTextarea value="#{reservaDetalleBean.motivo}" />
+                        
                         <p:commandButton value="Aceptar" actionListener="#{reservaDetalleBean.REPROGRAMAR()}" update=":formRecep:timeline"  onclick="PF('deleteBookingDlg').hide()" />
-                        <p:commandButton value="Cancelar" onclick="PF('Reprogramaciondlg').hide()" />
+                        <p:commandButton value="Cancelar"  onclick="PF('Reprogramaciondlg').hide()" />
                     </h:panelGrid> 
                 </h:panelGroup>  
 
@@ -211,7 +201,7 @@
                                     <f:selectItem  itemLabel="Deposito" itemValue="Deposito"/> 
                                 </p:selectOneMenu>
                             <h:outputText value="Precio : " style="background: none;font-family: cursive; " />
-                            <h:outputText value="#{reservaDetalleBean.costo}" id="costo" style="background: none;font-family: cursive;"  /> 
+                            <h:outputText value="#{reservaDetalleBean.reserv.subtotal}" id="costo" style="background: none;font-family: cursive;"  /> 
                           
                         </h:panelGrid>
  
@@ -238,11 +228,11 @@
                              <p:outputLabel value="Descripción :" style="color: black" />
                              <p:inputTextarea value="#{reservaDetalleBean.reserv.descripcion}" />
                              <p:outputLabel value="Subtotal :" style="color: black" />
-                             <p:outputLabel value="#{reservaDetalleBean.costo}" style="color: black" />
+                             <p:outputLabel value="#{reservaDetalleBean.reserv.subtotal}" style="color: black" />
                              <p:outputLabel value="IGV (18%) :" style="color: black" />
-                             <p:outputLabel value="#{reservaDetalleBean.igv}" style="color: black" />
+                             <p:outputLabel value="#{reservaDetalleBean.reserv.igv}" style="color: black" />
                              <p:outputLabel value="TOTAL :" style="color: black" />
-                             <p:outputLabel value="#{reservaDetalleBean.costoTotal}" style="color: black" />
+                             <p:outputLabel value="#{reservaDetalleBean.reserv.precio}" style="color: black" />
                              </h:panelGrid>
                              
                         <p:commandButton oncomplete="PF('wiz').loadStep('clientetab',false)"  value="Registrar" action="#{reservaDetalleBean.GUARDARDETALLES()}" onclick="PF('dlgNuevo').hide()" update=":formRecep:timeline,growlR"   /> 

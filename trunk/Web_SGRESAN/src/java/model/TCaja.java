@@ -1,5 +1,5 @@
 package model;
-// Generated 27/10/2014 12:31:22 AM by Hibernate Tools 4.3.1
+// Generated 05/11/2014 01:05:10 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -11,6 +11,7 @@ public class TCaja  implements java.io.Serializable {
 
 
      private Integer idCaja;
+     private TRecepcionista TRecepcionista;
      private Date fecha;
      private Date hora;
      private String descripcion;
@@ -18,12 +19,12 @@ public class TCaja  implements java.io.Serializable {
      private Double salida;
      private Double saldo;
      private String moneda;
-     private String usuario;
 
     public TCaja() {
     }
 
-    public TCaja(Date fecha, Date hora, String descripcion, Double entrada, Double salida, Double saldo, String moneda, String usuario) {
+    public TCaja(TRecepcionista TRecepcionista, Date fecha, Date hora, String descripcion, Double entrada, Double salida, Double saldo, String moneda) {
+       this.TRecepcionista = TRecepcionista;
        this.fecha = fecha;
        this.hora = hora;
        this.descripcion = descripcion;
@@ -31,7 +32,6 @@ public class TCaja  implements java.io.Serializable {
        this.salida = salida;
        this.saldo = saldo;
        this.moneda = moneda;
-       this.usuario = usuario;
     }
    
     public Integer getIdCaja() {
@@ -40,6 +40,13 @@ public class TCaja  implements java.io.Serializable {
     
     public void setIdCaja(Integer idCaja) {
         this.idCaja = idCaja;
+    }
+    public TRecepcionista getTRecepcionista() {
+        return this.TRecepcionista;
+    }
+    
+    public void setTRecepcionista(TRecepcionista TRecepcionista) {
+        this.TRecepcionista = TRecepcionista;
     }
     public Date getFecha() {
         return this.fecha;
@@ -89,13 +96,6 @@ public class TCaja  implements java.io.Serializable {
     
     public void setMoneda(String moneda) {
         this.moneda = moneda;
-    }
-    public String getUsuario() {
-        return this.usuario;
-    }
-    
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
     }
 
 

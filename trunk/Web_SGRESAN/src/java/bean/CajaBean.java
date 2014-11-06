@@ -11,6 +11,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import model.TCaja;
+import model.TRecepcionista;
 import model.TUsuario;
 
 /**
@@ -33,6 +34,7 @@ public class CajaBean {
      */
     public CajaBean() {
         caja = new TCaja();
+        caja.setTRecepcionista(new TRecepcionista());
         saldoR=0.0;arqueo=0.0;
         COMPROBAR();
     }
@@ -72,23 +74,10 @@ public class CajaBean {
                      CC=false;
                 }
             }
-//             else
-//            {
-//                String d = dao.fech().getHours() + ":" + dao.fech().getMinutes() + ":" + (dao.fech().getSeconds() - 1);
-//                if (dao.PK("Ap", d) == 0) {
-//                    if (dao.PK("Ci", d) == 0) {
-//                        AC = false;
-//                        CC = true;
-//                        System.out.println("Esta aca 1");
-//                    } else {
-//                        AC = true;
-//                        CC = false;
-//                        System.out.println("Esta aca 2");
-//                    }
-//                }
-//            }
+            
         }
-        System.out.println(AC);
+        System.out.println("Abrir Caja : "+AC+"\n Cerrar Caja : "+CC);
+ 
     }
 
     public boolean isCC() {
@@ -129,17 +118,21 @@ public class CajaBean {
     {   CajaDao dao = new CajaDao();
         caja.setDescripcion("Cierre de Caja");
         caja.setSaldo(dao.Saldo());
+        System.out.println(caja.getDescripcion()+"\n"+caja.getSaldo());
     }
     
     public void CIERRE()
     {
-        arqueo = caja.getSaldo()-getSaldoR();
+        System.out.println(saldoR);
+        arqueo = saldoR-caja.getSaldo();
     }
     
     public void INSERTAR()
     {
         CajaDao dao = new CajaDao();
-        caja.setUsuario(((TUsuario)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario")).getNombreUsuario());
+        TRecepcionista re = new TRecepcionista();
+        re.setIdRecepcionista(((TUsuario)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario")).getNombreUsuario());
+        caja.setTRecepcionista(re);
         dao.InsetartReserva(caja);
         COMPROBAR();
         LIMPIAR();
@@ -147,6 +140,7 @@ public class CajaBean {
     public void LIMPIAR()
     {
         caja= new TCaja();
+        caja.setTRecepcionista(new TRecepcionista());
     }
     public List<TCaja> getListacaja() {
         CajaDao dao = new CajaDao();

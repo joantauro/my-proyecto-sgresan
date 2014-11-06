@@ -1,13 +1,16 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 27/10/2014 12:31:24 AM by Hibernate Tools 4.3.1 -->
+<!-- Generated 05/11/2014 01:05:13 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="model.TCaja" table="t_caja" catalog="sgresan" optimistic-lock="version">
         <id name="idCaja" type="java.lang.Integer">
             <column name="idCaja" />
             <generator class="identity" />
         </id>
+        <many-to-one name="TRecepcionista" class="model.TRecepcionista" fetch="select">
+            <column name="usuario" length="25" />
+        </many-to-one>
         <property name="fecha" type="date">
             <column name="fecha" length="10" />
         </property>
@@ -28,9 +31,6 @@
         </property>
         <property name="moneda" type="string">
             <column name="moneda" length="45" />
-        </property>
-        <property name="usuario" type="string">
-            <column name="usuario" length="45" />
         </property>
     </class>
 </hibernate-mapping>
