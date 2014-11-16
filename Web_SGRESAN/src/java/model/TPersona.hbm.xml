@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 27/10/2014 12:31:24 AM by Hibernate Tools 4.3.1 -->
+<!-- Generated 10/11/2014 08:33:43 AM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="model.TPersona" table="t_persona" catalog="sgresan" optimistic-lock="version">
         <id name="idPersona" type="string">
@@ -47,17 +47,20 @@
         <property name="imagen" type="binary">
             <column name="imagen" />
         </property>
+        <property name="observacion" type="string">
+            <column name="observacion" />
+        </property>
         <set name="TClientes" table="t_cliente" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="T_Persona_idPersona" length="25" not-null="true" />
             </key>
             <one-to-many class="model.TCliente" />
         </set>
-        <set name="TRecepcionistas" table="t_recepcionista" inverse="true" lazy="true" fetch="select">
+        <set name="TTrabajadors" table="t_trabajador" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="T_Persona_idPersona" length="25" not-null="true" />
             </key>
-            <one-to-many class="model.TRecepcionista" />
+            <one-to-many class="model.TTrabajador" />
         </set>
     </class>
 </hibernate-mapping>

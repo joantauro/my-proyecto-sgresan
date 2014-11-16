@@ -1,5 +1,5 @@
 package model;
-// Generated 27/10/2014 12:31:22 AM by Hibernate Tools 4.3.1
+// Generated 10/11/2014 08:33:41 AM by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -13,9 +13,12 @@ public class TCliente  implements java.io.Serializable {
 
      private String idCliente;
      private TPersona TPersona;
+     private String tipoCliente;
+     private Integer ruc;
+     private String razonSocial;
+     private String representanteLegal;
+     private String descripcion;
      private Set TReservas = new HashSet(0);
-     private TJuridica TJuridica;
-     private TNatural TNatural;
 
     public TCliente() {
     }
@@ -25,12 +28,15 @@ public class TCliente  implements java.io.Serializable {
         this.idCliente = idCliente;
         this.TPersona = TPersona;
     }
-    public TCliente(String idCliente, TPersona TPersona, Set TReservas, TJuridica TJuridica, TNatural TNatural) {
+    public TCliente(String idCliente, TPersona TPersona, String tipoCliente, Integer ruc, String razonSocial, String representanteLegal, String descripcion, Set TReservas) {
        this.idCliente = idCliente;
        this.TPersona = TPersona;
+       this.tipoCliente = tipoCliente;
+       this.ruc = ruc;
+       this.razonSocial = razonSocial;
+       this.representanteLegal = representanteLegal;
+       this.descripcion = descripcion;
        this.TReservas = TReservas;
-       this.TJuridica = TJuridica;
-       this.TNatural = TNatural;
     }
    
     public String getIdCliente() {
@@ -47,26 +53,47 @@ public class TCliente  implements java.io.Serializable {
     public void setTPersona(TPersona TPersona) {
         this.TPersona = TPersona;
     }
+    public String getTipoCliente() {
+        return this.tipoCliente;
+    }
+    
+    public void setTipoCliente(String tipoCliente) {
+        this.tipoCliente = tipoCliente;
+    }
+    public Integer getRuc() {
+        return this.ruc;
+    }
+    
+    public void setRuc(Integer ruc) {
+        this.ruc = ruc;
+    }
+    public String getRazonSocial() {
+        return this.razonSocial;
+    }
+    
+    public void setRazonSocial(String razonSocial) {
+        this.razonSocial = razonSocial;
+    }
+    public String getRepresentanteLegal() {
+        return this.representanteLegal;
+    }
+    
+    public void setRepresentanteLegal(String representanteLegal) {
+        this.representanteLegal = representanteLegal;
+    }
+    public String getDescripcion() {
+        return this.descripcion;
+    }
+    
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
     public Set getTReservas() {
         return this.TReservas;
     }
     
     public void setTReservas(Set TReservas) {
         this.TReservas = TReservas;
-    }
-    public TJuridica getTJuridica() {
-        return this.TJuridica;
-    }
-    
-    public void setTJuridica(TJuridica TJuridica) {
-        this.TJuridica = TJuridica;
-    }
-    public TNatural getTNatural() {
-        return this.TNatural;
-    }
-    
-    public void setTNatural(TNatural TNatural) {
-        this.TNatural = TNatural;
     }
 
 

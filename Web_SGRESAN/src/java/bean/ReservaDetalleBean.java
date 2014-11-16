@@ -6,6 +6,7 @@
 
 package bean;
 
+import dao.ArchivoDao;
 import dao.ClienteDao;
 import dao.HabitacionDao;
 import dao.ReservaDao;
@@ -22,8 +23,6 @@ import javax.faces.context.FacesContext;
 import model.TCliente;
 import model.THabitacion;
 import model.THotel;
-import model.TJuridica;
-import model.TNatural;
 import model.TPersona;
 import model.TReserva;
 import model.TReservadetalle;
@@ -104,7 +103,7 @@ public class ReservaDetalleBean {
              HabitacionDao daop = new HabitacionDao();
        habitacionesdisponibles = daop.listarhabitaciones(fecIn, fecSal);
         for(int i = 0;i<habitacionesdisponibles.size();i++)
-        {
+        { 
             citiesSource.add(new THabitacion(habitacionesdisponibles.get(i).getIdHabitacion(), 
                     habitacionesdisponibles.get(i).getTHotel(), 
                     habitacionesdisponibles.get(i).getTTipohabitacion(),
@@ -127,10 +126,11 @@ public class ReservaDetalleBean {
         reserv = new TReserva();
         reserv.setTCliente(new TCliente());
         cli = new TCliente();
-        cli.setTJuridica(new TJuridica());
-        cli.setTNatural(new TNatural());
         cli.setTPersona(new TPersona());
     }
+    
+    
+    
     
     public void CAMBIO()
     {
@@ -147,6 +147,19 @@ public class ReservaDetalleBean {
   
     public void createTimeline() {
         model = new TimelineModel();
+    }
+    
+    public void HOSPEDAR()
+    {
+        
+        ArchivoDao ar = new ArchivoDao();
+        reserv = reserva.getTReserva();
+        reserv.setEstado("hospedado");
+        ar.ModificarReserva(reserv);
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage("Successful",  "Se hospedo ") );
+        llenar();INICIALIZACION();
+        
     }
     
     public void onAdd(TimelineAddEvent e) {
@@ -238,7 +251,7 @@ public class ReservaDetalleBean {
         reserv.setUsuario(((TUsuario)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario")).getNombreUsuario());
         reserv.setTCliente(cli);
         reserv.setPrecio(costoTotal);
-        e.send(cli.getTPersona().getEmail(),"Reserva LQR","Buenas Noches \n Su reserva fue registrado exitosamente\nAtte. La Querencia Hermanos");
+        //e.send(cli.getTPersona().getEmail(),"Reserva LQR","Buenas Noches \n Su reserva fue registrado exitosamente\nAtte. La Querencia Hermanos");
         dao.InsetartReserva(reserv);
         
         reserva.setTReserva(reserv);

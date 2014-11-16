@@ -37,9 +37,9 @@ div.timeline-event-content {
     text-shadow: none;  
 }  
   
-div.unavailable {  
-    background: #F03030 none !important;  /* red */  
-    border-color: #bd2828 !important;     /* red */  
+div.hospedado {  
+    background: #3A6DA0 none !important;  /* blue */  
+    border-color: #036fab !important;     /* blue */  
 }  
   
 div.reservado {  

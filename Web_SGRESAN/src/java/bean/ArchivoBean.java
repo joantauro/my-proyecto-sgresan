@@ -147,14 +147,27 @@ private List<TReserva> reservasALL;
         email e = new email();
  
          cli = clidao.buscarCliente(reserva.getTCliente().getIdCliente());
-         e.send(cli.getTPersona().getEmail(),"Confirmación de Reserva","Buenas Noches \n Su reserva fue aprobada exitosamente\nlo esperamos el día pactado\nAtte. La Querencia Hermanos");
-       
-        //System.out.println(reserva.getTCliente().getIdCliente());
         ar.ModificarReserva(reserva);
         FacesContext context = FacesContext.getCurrentInstance();
-//
         context.addMessage(null, new FacesMessage("Successful",  "Se Aprobo la reserva "+reserva.getIdReserva()) );
       
+    }
+    
+    private void HOSPEDAR(String id)
+    {
+        TCliente cli = new TCliente();
+        ArchivoDao ar = new ArchivoDao();
+        reserva = ar.BuscaporId(id);
+        reserva.setEstado("hospedado");
+        
+         ClienteDao clidao = new ClienteDao();
+        email e = new email();
+ 
+         cli = clidao.buscarCliente(reserva.getTCliente().getIdCliente());
+        ar.ModificarReserva(reserva);
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage("Successful",  "Se hospedo ") );
+        
     }
     
    public TCliente BUSCAR()

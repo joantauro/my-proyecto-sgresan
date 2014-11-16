@@ -1,5 +1,5 @@
 package model;
-// Generated 27/10/2014 12:31:22 AM by Hibernate Tools 4.3.1
+// Generated 10/11/2014 08:33:41 AM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -26,8 +26,9 @@ public class TPersona  implements java.io.Serializable {
      private String email;
      private String estado;
      private byte[] imagen;
+     private String observacion;
      private Set TClientes = new HashSet(0);
-     private Set TRecepcionistas = new HashSet(0);
+     private Set TTrabajadors = new HashSet(0);
 
     public TPersona() {
     }
@@ -37,7 +38,7 @@ public class TPersona  implements java.io.Serializable {
         this.TUbigeo = TUbigeo;
         this.TUsuario = TUsuario;
     }
-    public TPersona(TUbigeo TUbigeo, TUsuario TUsuario, String nombres, String apellidoP, String apellidoM, String dni, Date fechaNacimiento, String direccion, String telefono, String celular, String email, String estado, byte[] imagen, Set TClientes, Set TRecepcionistas) {
+    public TPersona(TUbigeo TUbigeo, TUsuario TUsuario, String nombres, String apellidoP, String apellidoM, String dni, Date fechaNacimiento, String direccion, String telefono, String celular, String email, String estado, byte[] imagen, String observacion, Set TClientes, Set TTrabajadors) {
        this.TUbigeo = TUbigeo;
        this.TUsuario = TUsuario;
        this.nombres = nombres;
@@ -51,8 +52,9 @@ public class TPersona  implements java.io.Serializable {
        this.email = email;
        this.estado = estado;
        this.imagen = imagen;
+       this.observacion = observacion;
        this.TClientes = TClientes;
-       this.TRecepcionistas = TRecepcionistas;
+       this.TTrabajadors = TTrabajadors;
     }
    
     public String getIdPersona() {
@@ -153,6 +155,13 @@ public class TPersona  implements java.io.Serializable {
     public void setImagen(byte[] imagen) {
         this.imagen = imagen;
     }
+    public String getObservacion() {
+        return this.observacion;
+    }
+    
+    public void setObservacion(String observacion) {
+        this.observacion = observacion;
+    }
     public Set getTClientes() {
         return this.TClientes;
     }
@@ -160,12 +169,12 @@ public class TPersona  implements java.io.Serializable {
     public void setTClientes(Set TClientes) {
         this.TClientes = TClientes;
     }
-    public Set getTRecepcionistas() {
-        return this.TRecepcionistas;
+    public Set getTTrabajadors() {
+        return this.TTrabajadors;
     }
     
-    public void setTRecepcionistas(Set TRecepcionistas) {
-        this.TRecepcionistas = TRecepcionistas;
+    public void setTTrabajadors(Set TTrabajadors) {
+        this.TTrabajadors = TTrabajadors;
     }
 
 
