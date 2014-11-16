@@ -232,12 +232,47 @@ public class PersonaBean {
         return false;
     }
     
+    public void irAgregarJuridico()
+    {
+        RequestContext context = RequestContext.getCurrentInstance(); 
+        boolean loggedP =true;
+ 
+         
+        UsuarioDao usuariodao = new UsuarioDao();
+        usuario.setIdUsuario(usuario.getNombreUsuario());
+        usuario.setEstado("Activo");
+        usuario.setTipoUsuario("cliente");
+        usuariodao.ingresarUsuario(usuario);
+       
+        
+        //persona.setIdPersona(usuario.getNombreUsuario());
+        persona.setTUsuario(usuario);
+        persona.setEstado("Activo");
+        dao.ingresarPersona(persona);
+        
+       
+        
+        ClienteDao clientedao = new ClienteDao();
+        cliente.setIdCliente(usuario.getIdUsuario());
+        cliente.setTPersona(persona);
+        clientedao.ingresarCliente(cliente);
+        
+        
+        
+        usuario = new TUsuario();
+        persona = new TPersona();
+        persona.setTUbigeo(new TUbigeo());
+        cliente = new TCliente();
+        cliente.setTPersona(new TPersona());
+        
+        context.addCallbackParam("loggedP", loggedP); 
+    }
     
     public void irAgregar() {
         try
         {
             ValidacionCliente util = new ValidacionCliente();
-        RequestContext context = RequestContext.getCurrentInstance(); 
+            RequestContext context = RequestContext.getCurrentInstance(); 
         boolean loggedP = false;
         
         if(!util.esVistaValida(usuario, persona)){
@@ -368,6 +403,14 @@ public class PersonaBean {
 
     public void setUsuario(TUsuario usuario) {
         this.usuario = usuario;
+    }
+
+    public TCliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(TCliente cliente) {
+        this.cliente = cliente;
     }
    
     

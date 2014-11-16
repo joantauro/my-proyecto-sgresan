@@ -61,13 +61,13 @@ public class ArchivoDao {
         Transaction tx = null;
         try {
             tx =sesion.beginTransaction();
-            sesion.update(reserva);
+            sesion.merge(reserva);
             tx.commit();
         } catch  (Exception e) {
             if(tx!=null)
             {
-                tx.rollback();
-            }
+                tx.rollback();System.out.println(e.getMessage());
+            }System.out.println(e.getMessage());
         } finally {
             sesion.close();
         }

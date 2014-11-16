@@ -3,14 +3,11 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 10/11/2014 08:33:43 AM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="model.TCaja" table="t_caja" catalog="sgresan" optimistic-lock="version">
+    <class name="model.TCajalog" table="t_cajalog" catalog="sgresan" optimistic-lock="version">
         <id name="idCaja" type="java.lang.Integer">
             <column name="idCaja" />
             <generator class="identity" />
         </id>
-        <many-to-one name="TTrabajador" class="model.TTrabajador" fetch="select">
-            <column name="usuario" length="25" />
-        </many-to-one>
         <property name="fecha" type="date">
             <column name="fecha" length="10" />
         </property>
@@ -34,6 +31,15 @@
         </property>
         <property name="moneda" type="string">
             <column name="moneda" length="45" />
+        </property>
+        <property name="accion" type="string">
+            <column name="accion" length="45" />
+        </property>
+        <property name="fechalog" type="string">
+            <column name="fechalog" length="45" />
+        </property>
+        <property name="pc" type="string">
+            <column name="pc" length="45" />
         </property>
     </class>
 </hibernate-mapping>

@@ -18,39 +18,43 @@
 
     <ui:define name="left">
         <h:form id="info">
-   
+   <p:growl id="growlM" showDetail="true"   life="2000" />  
             <h:panelGrid  id="panelinfo"  cellspacing="5" columns="2" style="margin-right:  auto"   >
-                     <p:outputLabel value="Codigo Reserva" />
-            <p:outputLabel value="#{reservaDetalleBean.reserva.TReserva.idReserva}" />
-            <p:outputLabel value="Cliente" />
-            <p:outputLabel value="#{reservaDetalleBean.reserva.TReserva.TCliente.TPersona.nombres} #{reservaDetalleBean.reserva.TReserva.TCliente.TPersona.apellidoP} #{reservaDetalleBean.reserva.TReserva.TCliente.TPersona.apellidoM}" />
-            <p:outputLabel value="Habitación Seleccionada" />
-            <p:outputLabel value="#{reservaDetalleBean.reserva.THabitacion.idHabitacion}" />
-            <p:outputLabel value="Fecha Entrada"  />
-            <p:outputLabel value="#{reservaDetalleBean.startm}"  />
-            <p:outputLabel value="Fecha Salida"  />
-            <p:outputLabel value="#{reservaDetalleBean.endm}"  />
-             <p:outputLabel value="Cantidad de Habitaciones" />
-             <p:outputLabel value="#{reservaDetalleBean.list.size()}" />
-            
-            <p:outputLabel value="Dormitorios :"  />
-            <c:forEach items="#{reservaDetalleBean.list}" var="item" >
-                <div>
+                <p:outputLabel value="Codigo Reserva" />
+                <p:outputLabel value="#{reservaDetalleBean.reserva.TReserva.idReserva}" />
+                <p:outputLabel value="Cliente" />
+                <p:outputLabel value="#{reservaDetalleBean.reserva.TReserva.TCliente.TPersona.nombres} #{reservaDetalleBean.reserva.TReserva.TCliente.TPersona.apellidoP} #{reservaDetalleBean.reserva.TReserva.TCliente.TPersona.apellidoM}" />
+                <p:outputLabel value="Habitación Seleccionada" />
+                <p:outputLabel value="#{reservaDetalleBean.reserva.THabitacion.idHabitacion}" />
+                <p:outputLabel value="Fecha Entrada"  />
+                <p:outputLabel value="#{reservaDetalleBean.startm}"  />
+                <p:outputLabel value="Fecha Salida"  />
+                <p:outputLabel value="#{reservaDetalleBean.endm}"  />
+                <p:outputLabel value="Cantidad de Habitaciones" />
+                <p:outputLabel value="#{reservaDetalleBean.list.size()}" />
+
+                <p:outputLabel value="Dormitorios :"  />
+                <c:forEach items="#{reservaDetalleBean.list}" var="item" >
+                    <div>
                         <p:outputLabel />
                         <p:outputLabel value="${item.THabitacion.idHabitacion}"  />
                     </div>
-            </c:forEach>
-                             <p:outputLabel/>
-                             <p:outputLabel value="Descripción :"   />
-                             <p:outputLabel value="#{reservaDetalleBean.reserva.TReserva.descripcion}" />
-                             <p:outputLabel value="Subtotal :" />
-                             <p:outputLabel value="#{reservaDetalleBean.reserva.TReserva.subtotal}"  />
-                             <p:outputLabel value="IGV (18%) :"   />
-                             <p:outputLabel value="#{reservaDetalleBean.reserva.TReserva.igv}"   />
-                             <p:outputLabel value="TOTAL :"   />
-                             <p:outputLabel value="#{reservaDetalleBean.reserva.TReserva.precio}"   />
-                             </h:panelGrid>
-        </h:form>
+                </c:forEach>
+                <p:outputLabel/>
+                <p:outputLabel value="Descripción :"   />
+                <p:outputLabel value="#{reservaDetalleBean.reserva.TReserva.descripcion}" />
+                <p:outputLabel value="Subtotal :" />
+                <p:outputLabel value="#{reservaDetalleBean.reserva.TReserva.subtotal}"  />
+                <p:outputLabel value="IGV (18%) :"   />
+                <p:outputLabel value="#{reservaDetalleBean.reserva.TReserva.igv}"   />
+                <p:outputLabel value="TOTAL :"   />
+                <p:outputLabel value="#{reservaDetalleBean.reserva.TReserva.precio}"   />
+                <br/><br/>
+                <p:commandButton   rendered="#{reservaDetalleBean.reserva.TReserva.estado eq 'reservado' or reservaDetalleBean.reserva.TReserva.estado eq 'pre-reserva'}" update=":info:panelinfo,:formRecep:timeline,growlM" value="Marcar Llegada" actionListener="#{reservaDetalleBean.HOSPEDAR()}" style="margin-left: 30%" />
+    
+            </h:panelGrid>
+    
+               </h:form>
         
     </ui:define>
 
@@ -136,7 +140,7 @@
         </h:form>
         
         <h:form id="formWizard" >
-            <p:growl id="growlR" showDetail="true" sticky="true" life="1000" />  
+            <p:growl id="growlR" showDetail="true"   life="2000" />  
             <p:dialog header="Formulario de Factura" widgetVar="dlgNuevo" 
                       resizable="false" id="dlgNuevo"  modal="true" style="width: 500px;height: 300px" >
                 <p:wizard widgetVar="wiz"  

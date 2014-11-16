@@ -8,22 +8,21 @@
     <property name="hibernate.connection.username">root</property>
     <property name="hibernate.connection.password">1234</property>
     <property name="hibernate.current_session_context_class">thread</property>
-    <mapping resource="model/TJuridica.hbm.xml"/>
-    <mapping resource="model/TReserva.hbm.xml"/>
-    <mapping resource="model/TReservadetallelog.hbm.xml"/>
-    <mapping resource="model/TReservalog.hbm.xml"/>
-    <mapping resource="model/TUbigeo.hbm.xml"/>
-    <mapping resource="model/TUsuario.hbm.xml"/>
-    <mapping resource="model/TPersona.hbm.xml"/>
-    <mapping resource="model/TNatural.hbm.xml"/>
-    <mapping resource="model/TCliente.hbm.xml"/>
-    <mapping resource="model/THotel.hbm.xml"/>
-    <mapping resource="model/THabitaciondetalle.hbm.xml"/>
-    <mapping resource="model/TCaja.hbm.xml"/>
-    <mapping resource="model/TTipohabitacion.hbm.xml"/>
-    <mapping resource="model/TRecepcionista.hbm.xml"/>
     <mapping resource="model/TReservadetalle.hbm.xml"/>
-    <mapping resource="model/Promociones.hbm.xml"/>
+    <mapping resource="model/TCaja.hbm.xml"/>
+    <mapping resource="model/THabitaciondetalle.hbm.xml"/>
+    <mapping resource="model/TUbigeo.hbm.xml"/>
+    <mapping resource="model/TPromocion.hbm.xml"/>
+    <mapping resource="model/TUsuario.hbm.xml"/>
+    <mapping resource="model/TReservadetallelog.hbm.xml"/>
+    <mapping resource="model/TPersona.hbm.xml"/>
+    <mapping resource="model/TCajalog.hbm.xml"/>
+    <mapping resource="model/TTrabajador.hbm.xml"/>
+    <mapping resource="model/TReservalog.hbm.xml"/>
+    <mapping resource="model/TCliente.hbm.xml"/>
+    <mapping resource="model/TReserva.hbm.xml"/>
+    <mapping resource="model/THotel.hbm.xml"/>
     <mapping resource="model/THabitacion.hbm.xml"/>
+    <mapping resource="model/TTipohabitacion.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

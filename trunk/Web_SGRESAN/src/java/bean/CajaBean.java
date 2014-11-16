@@ -11,7 +11,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import model.TCaja;
-import model.TRecepcionista;
+import model.TTrabajador;
 import model.TUsuario;
 
 /**
@@ -34,7 +34,7 @@ public class CajaBean {
      */
     public CajaBean() {
         caja = new TCaja();
-        caja.setTRecepcionista(new TRecepcionista());
+        caja.setTTrabajador(new TTrabajador());
         saldoR=0.0;arqueo=0.0;
         COMPROBAR();
     }
@@ -130,9 +130,9 @@ public class CajaBean {
     public void INSERTAR()
     {
         CajaDao dao = new CajaDao();
-        TRecepcionista re = new TRecepcionista();
+        TTrabajador re = new TTrabajador();
         re.setIdRecepcionista(((TUsuario)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario")).getNombreUsuario());
-        caja.setTRecepcionista(re);
+        caja.setTTrabajador(re);
         dao.InsetartReserva(caja);
         COMPROBAR();
         LIMPIAR();
@@ -140,7 +140,7 @@ public class CajaBean {
     public void LIMPIAR()
     {
         caja= new TCaja();
-        caja.setTRecepcionista(new TRecepcionista());
+        caja.setTTrabajador(new TTrabajador());
     }
     public List<TCaja> getListacaja() {
         CajaDao dao = new CajaDao();

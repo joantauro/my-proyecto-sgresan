@@ -79,38 +79,87 @@
                 <p:dialog header="Información del Persona" widgetVar="infoDialog" resizable="false" id="carDlg"  
                           showEffect="fade" hideEffect="explode" modal="true" > 
                     <h:form>
+                        
+                        <p:selectOneRadio id="console" style="color: black;" value="#{personaBean.cliente.tipoCliente}" >
+                            <f:selectItem itemLabel="Natural" itemValue="Natural" />
+                            <f:selectItem itemLabel="Jurídica" itemValue="Jurídica" />
+                             <p:ajax  update="input" />
+                        </p:selectOneRadio>
+                        <p:panel id="input" >
+                             <h:panelGrid id="primerpanel" columns="2" cellpadding="4" style="margin:0 auto;">
+                                <p:outputLabel value="Usuario :" style="color: black;" />  
+                                    <p:inputText value="#{personaBean.usuario.nombreUsuario}"  /> 
+                                    <p:outputLabel value=" Contraseña :" style="color: black;" />  
+                                    <p:password value="#{personaBean.usuario.contrasena}" />
+                            </h:panelGrid>  
+                            <p:panel header="Natural" rendered="#{personaBean.cliente.tipoCliente eq 'Natural'}" >
+                                <h:panelGrid id="display2" columns="2" cellpadding="4" style="margin:0 auto;">  
+                                
+
+                                    <p:outputLabel value="Nombre(s) :" style="color: black;" />  
+                                    <p:inputText value="#{personaBean.persona.nombres}" />  
+                                    <p:outputLabel value="Apellido Paterno :" style="color: black;" />  
+                                    <p:inputText value="#{personaBean.persona.apellidoP}" /> 
+                                    <p:outputLabel value="Apellido Materno :" style="color: black;" />  
+                                    <p:inputText value="#{personaBean.persona.apellidoM}" />
+                                    <p:outputLabel value="Fecha de Nacimiento :" style="color: black;" />  
+                                    <p:calendar value="#{personaBean.persona.fechaNacimiento}" />  
+                                    <p:outputLabel value="DNI :" style="color: black;" />  
+                                    <p:inputText value="#{personaBean.persona.dni}"  maxlength="8" />  
+                                    <p:outputLabel value="Dirección :" style="color: black;" />  
+                                    <p:inputText value="#{personaBean.persona.direccion}"  />  
+                                    <p:outputLabel value="Teléfono :" style="color: black;" />  
+                                    <p:inputMask value="#{personaBean.persona.telefono}"  mask ="(999) 999-9999"/>  
+                                    <p:outputLabel value="Celular :" style="color: black;" />  
+                                    <p:inputText value="#{personaBean.persona.celular}" /> 
+                                    <p:outputLabel value="Correo :" style="color: black;" />  
+                                    <p:inputText value="#{personaBean.persona.email}" /> 
+                                    <p:outputLabel value="Departamento :" style="color: black;" /> 
+                                    <p:selectOneMenu  value="#{personaBean.persona.TUbigeo.idTUbigeo}"  >  
+                                        <f:selectItems value="#{ubigeoBean.listarUbigeo}" var="lista"  
+                                                       itemLabel="#{lista.nombre}" itemValue="#{lista.idTUbigeo}"/> 
+                                    </p:selectOneMenu>
+
+                                    <p:commandButton value="Registrar" icon="ui-icon-document"  update="@form,:formPersona:dataTable"   actionListener="#{personaBean.irAgregar()}"  oncomplete="handleAceptarRequest(xhr, status, args)" >
+                                    </p:commandButton>
+
+                                </h:panelGrid>  
+                            </p:panel>
+                            <p:panel header="Juridica" rendered="#{personaBean.cliente.tipoCliente eq 'Jurídica'}" >
+                                <h:panelGrid id="display3" columns="2" cellpadding="4" style="margin:0 auto;">  
+                                
+
+                                    <p:outputLabel value="Organización :" style="color: black;" />  
+                                    <p:inputText value="#{personaBean.persona.nombres}" />   
+                                    <p:outputLabel value="RUC :" style="color: black;" />  
+                                    <p:inputText value="#{personaBean.cliente.ruc}"  maxlength="8" />  
+                                    <p:outputLabel value="Representante Legal :" style="color: black;" />  
+                                    <p:inputText value="#{personaBean.cliente.representanteLegal}"  /> 
+                                    <p:outputLabel value="Fecha de Nacimiento :" style="color: black;" />  
+                                    <p:calendar value="#{personaBean.persona.fechaNacimiento}" />  
+                                    <p:outputLabel value="Dirección :" style="color: black;" />  
+                                    <p:inputText value="#{personaBean.persona.direccion}"  />  
+                                    <p:outputLabel value="Teléfono :" style="color: black;" />  
+                                    <p:inputMask value="#{personaBean.persona.telefono}"  mask ="(999) 999-9999"/>  
+                                    <p:outputLabel value="Celular :" style="color: black;" />  
+                                    <p:inputText value="#{personaBean.persona.celular}" /> 
+                                    <p:outputLabel value="Correo :" style="color: black;" />  
+                                    <p:inputText value="#{personaBean.persona.email}" /> 
+                                    <p:outputLabel value="Departamento :" style="color: black;" /> 
+                                    <p:selectOneMenu  value="#{personaBean.persona.TUbigeo.idTUbigeo}"  >  
+                                        <f:selectItems value="#{ubigeoBean.listarUbigeo}" var="lista"  
+                                                       itemLabel="#{lista.nombre}" itemValue="#{lista.idTUbigeo}"/> 
+                                    </p:selectOneMenu>
+
+                                    <p:commandButton value="Registrar" icon="ui-icon-document"  update="@form,:formPersona:dataTable"   actionListener="#{personaBean.irAgregarJuridico()}"  oncomplete="handleAceptarRequest(xhr, status, args)" >
+                                    </p:commandButton>
+
+                                </h:panelGrid>
+                            </p:panel>
+                           
+                        </p:panel>
                         <p:messages globalOnly="true" autoUpdate="true" showDetail="true" />
-                        <h:outputText value="Usuario :" />  
-                        <p:inputText value="#{personaBean.usuario.nombreUsuario}" style="font-weight:bold"/> 
-                        <h:outputText value=" Contraseña :" />  
-                        <p:inputText value="#{personaBean.usuario.contrasena}" style="font-weight:bold"/> 
-                        <h:panelGrid id="display2" columns="2" cellpadding="4" style="margin:0 auto;">  
-                            <h:outputText value="Nombre(s) :" />  
-                            <p:inputText value="#{personaBean.persona.nombres}" style="font-weight:bold"/>  
-                            <h:outputText value="Apellido Paterno :" />  
-                            <p:inputText value="#{personaBean.persona.apellidoP}" style="font-weight:bold"/> 
-                            <h:outputText value="Apellido Materno :" />  
-                            <p:inputText value="#{personaBean.persona.apellidoM}" style="font-weight:bold"/>  
-                            <h:outputText value="DNI :" />  
-                           <p:inputText value="#{personaBean.persona.dni}" style="font-weight:bold" maxlength="8" />  
-                            <h:outputText value="Dirección :" />  
-                            <p:inputText value="#{personaBean.persona.direccion}" style="font-weight:bold"/>  
-                            <h:outputText value="Teléfono :" />  
-                            <p:inputMask value="#{personaBean.persona.telefono}" style="font-weight:bold" mask ="(999) 999-9999"/>  
-                            <h:outputText value="Celular :" />  
-                            <p:inputText value="#{personaBean.persona.celular}" style="font-weight:bold"/> 
-                            <h:outputText value="Correo :" />  
-                            <p:inputText value="#{personaBean.persona.email}" style="font-weight:bold"/> 
-                            <h:outputText value="Departamento :" /> 
-                            <p:selectOneMenu  value="#{personaBean.persona.TUbigeo.idTUbigeo}" >  
-                                <f:selectItems value="#{ubigeoBean.listarUbigeo}" var="lista" 
-                                               itemLabel="#{lista.nombre}" itemValue="#{lista.idTUbigeo}"/> 
-                            </p:selectOneMenu>
-
-                            <p:commandButton value="Registrar" icon="ui-icon-document"  update="@form,:formPersona:dataTable"   actionListener="#{personaBean.irAgregar()}"  oncomplete="handleAceptarRequest(xhr, status, args)" >
-                            </p:commandButton>
-
-                        </h:panelGrid>  
+                       
                     </h:form>
                 </p:dialog>
 
