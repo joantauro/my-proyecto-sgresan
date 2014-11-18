@@ -30,7 +30,11 @@
             <p:column headerText="Cod. Reserva">
                 <h:outputText value="#{inte.idReserva}" />
             </p:column>
-
+            <p:column headerText="Fecha de Registro">
+                <h:outputText value="#{inte.fechaRegistro}" >
+                    <f:convertDateTime type="date" pattern="dd-MM-yyyy hh:mm:ss" timeZone="America/Lima" />
+                </h:outputText>
+            </p:column>
             <p:column headerText="nombre">
                 <h:outputText value="#{inte.TCliente.TPersona.nombres}" />
             </p:column>

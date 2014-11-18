@@ -21,7 +21,7 @@ public class ArchivoDao {
     public List<TReserva> listareserva(String id)
     {
         Session session = HibernateUtil.getSessionFactory().openSession();
-        return session.createQuery("from TReserva where TCliente='"+id+"'").list();
+        return session.createQuery("from TReserva where TCliente='"+id+"' order by fecharegistro desc").list();
     }//from TCliente where TPersona='abc124'
     
     public TCliente buscarcliente(String id)

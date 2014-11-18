@@ -60,6 +60,8 @@
 
     <ui:define name="content" >
         <h:form id="formRecep"  >
+            <p:graphicImage name="/img/estado.png"   />
+            <br/><br/>
             <p:selectOneMenu  value="#{reservaDetalleBean.tipohab}" >  
                                     <f:selectItem  itemLabel="Todos" itemValue=""/> 
                                     <f:selectItem  itemLabel="simple" itemValue="simple"/> 
@@ -70,6 +72,7 @@
                                     <p:ajax listener="#{reservaDetalleBean.llenar()}" update="timeline" />
                                     
             </p:selectOneMenu>
+            <br/>
             <poue:timeline id="timeline" value="#{reservaDetalleBean.model}" var="booking"  
                            timeZone="#{reservaDetalleBean.timeZone}"    min="#{reservaDetalleBean.start}"
                            zoomMax="#{reservaDetalleBean.zoomMax}"   zoomMin="1200000000" 
@@ -141,11 +144,11 @@
         
         <h:form id="formWizard" >
             <p:growl id="growlR" showDetail="true"   life="2000" />  
-            <p:dialog header="Formulario de Factura" widgetVar="dlgNuevo" 
+            <p:dialog header="Formulario de Reserva" widgetVar="dlgNuevo" 
                       resizable="false" id="dlgNuevo"  modal="true" style="width: 500px;height: 300px" >
                 <p:wizard widgetVar="wiz"  
                           flowListener="#{UserWizard.onFlowProcess}" backLabel="Atrás" nextLabel="Siguiente" >
-                    <p:tab id="clientetab" title="Cliente">
+                    <p:tab id="clientetab" title="1.-Cliente">
                         <p:panel header="Datos del Cliente" style="width: 500px;height: 300px"  id="panelC" >
                              <h:panelGrid   columns="2" style="margin-right:  auto"   >
                            <p:outputLabel value="Cliente : " style="color: black" />
@@ -163,7 +166,7 @@
                         </p:panel>
                     </p:tab>
                     
-                    <p:tab id="fechatab" title="Fecha">    
+                    <p:tab id="fechatab" title="2.-Fecha">    
                         <p:panel header="Datos del Fecha" style="width: 500px;height: 300px" >
                             <h:panelGrid   columns="2" style="margin-right:  auto;" id="detailsBookingInner" >
                                <h:outputText value="Fecha de Entrada" />
@@ -180,7 +183,7 @@
                             
                             </p:tab>
                     
-                    <p:tab id="dormitoriotab" title="Dormitorios" >
+                    <p:tab id="dormitoriotab" title="3.-Dormitorios" >
                         <p:growl id="msg" showDetail="true" escape="false"  />
                         <p:panel header="Datos del Dormitorio" style="width: 500px;height: 400px" >
                            <p:pickList id="pickList" value="#{reservaDetalleBean.cities}" var="cities" 
@@ -212,7 +215,7 @@
                         </p:panel>
                        
                     </p:tab>
-                    <p:tab id="detalletab" title="Detalle" >
+                    <p:tab id="detalletab" title="4.-Detalle" >
                          <p:panel header="Información de Reserva" style="width: 500px;height: 300px" >
                              <h:panelGrid   columns="2" style="margin-right:  auto"   >
                             <p:outputLabel value="Cliente" style="color: black" />
