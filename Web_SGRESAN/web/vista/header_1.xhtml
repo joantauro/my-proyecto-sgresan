@@ -5,61 +5,70 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui">
 
-   <ui:composition>
-    <div id="header">
-    <div class="row-1">
-      <h:form id="formulario"   >
-          <div class="wrapper">
-        <div class="logo">
-            
-          <h1><a href="#">La Querencia Hermanos SAC</a></h1>
-          <em>Hotel</em> <strong>True Luxury</strong><br />
-        <h:outputText id="ds" value="USUARIO : #{loginBean.usuario.nombreUsuario}" rendered="#{loginBean.sesion eq false}" /></div>
-          
-   
-          
-               
-              <h:outputText id="usuario" value="Usuario : " style="margin-left: 2%" rendered="#{loginBean.sesion}" />
-               <h:inputText value="#{loginBean.usuario.nombreUsuario}" style="margin-left: 2%" rendered="#{loginBean.sesion}"  />
-               <h:outputText value="Contraseña : " style="margin-left: 2%" rendered="#{loginBean.sesion}" />
-               <h:inputSecret value="#{loginBean.usuario.contrasena}" style="margin-left: 2%" rendered="#{loginBean.sesion}" /><br />
-               <h:commandButton value="Entrar" action="#{loginBean.logueo()}" style="width: 50px;margin-left: 5%" rendered="#{loginBean.sesion}"  />
-             
-               <p:commandLink id="cerrar" style="margin-left: 5%" action="#{loginBean.logoud()}" 
-                              update=":formulario:ds,:formulario:usuario" title="Cerrar Sesión" rendered="#{loginBean.sesion eq false}"
-                                oncomplete="handleLoginRequest(xhr, status, args)" >
-               <h:outputText value="Cerrar Sesión" />
-               </p:commandLink>
-               <br/><br/>
-               <p:spacer width="25px"   />  
-              <!-- <h:commandButton value="Registrate Aqui!!!" rendered="#{loginBean.sesion}" action="RegistroCliente.xhtml" />
-       --> <div class="phones"> 530-2458<br />
-          1-800-542-64-48 </div>
-      </div></h:form>
-    </div>
-    <div class="row-2">
-      <div class="indent">
-        <!-- header-box begin -->
-        <div class="header-box">
-          <div class="inner">
-              <ui:include src="/vista/menu.xhtml" />
-              
-          </div>
-        </div>
-        <!-- header-box end -->
-      </div>
-    </div>
-  </div>  
-              <script type="text/javascript">  
-    function handleLoginRequest(xhr, status, args) {  
-        if(args.validationFailed || !args.loggedIn) {  
-       
-        } else {  
-            jQuery('#loginLink').fadeOut();  
-            window.location="/Web_SGRESAN/index.xhtml";
-        }  
-    }  
-</script>
-   </ui:composition>
+    <ui:composition>
+        <div id="header">
+            <div class="row-1">
+                <h:form id="formulario"   >
+                    <div class="wrapper">
+                        <div class="logo">
+                            <img src="images/bannerLaQuerenciaBlanco.png" />
+
+                            <!-- <h1><a href="#">La Querencia Hermanos SAC</a></h1>
+                            <em>Hotel</em> <strong>Hospedaje</strong><br /> -->
+                        </div>
+
+                        <h:panelGrid columns="2" class="formLogin">
+                            <h:outputText id="usuario" value="Usuario : " style="margin-left: 2%; " rendered="#{loginBean.sesion}" />
+                            <h:inputText value="#{loginBean.usuario.nombreUsuario}" style="margin-left: 2%; " rendered="#{loginBean.sesion}"  />
+                            <h:outputText value="Contraseña: " style="margin-left: 2%; " rendered="#{loginBean.sesion}" />
+                            <h:inputSecret value="#{loginBean.usuario.contrasena}" style="margin-left: 2%; " rendered="#{loginBean.sesion}" /><br />
+                            <h:commandButton value="Entrar" action="#{loginBean.logueo()}" style="width: 110px;margin-left: 5%" rendered="#{loginBean.sesion}"  />
+                            <div style="text-align: right;">
+                                <h:outputText id="ds" value="USUARIO : #{loginBean.usuario.nombreUsuario}" rendered="#{loginBean.sesion eq false}" /><br />
+                                <p:commandLink id="cerrar" action="#{loginBean.logoud()}" 
+                                               update=":formulario:ds,:formulario:usuario" title="Cerrar Sesión" rendered="#{loginBean.sesion eq false}"
+                                               oncomplete="handleLoginRequest(xhr, status, args)" >
+                                    <h:outputText value="Cerrar Sesión" />
+                                </p:commandLink>
+                            </div>
+
+                        </h:panelGrid>
+
+
+                        <br/><br/>
+                        <p:spacer width="25px"   />
+                            <!-- <h:commandButton value="Registrate Aqui!!!" rendered="#{loginBean.sesion}" action="RegistroCliente.xhtml" />
+                        --> 
+                        <div class="phones">
+                            530-7299<br />
+                            402*157
+                        </div>
+                    </div>
+                </h:form>
+            </div>
+            <div class="row-2">
+                <div class="indent">
+                    <!-- header-box begin -->
+                    <div class="header-box">
+                        <div class="inner">
+                            <ui:include src="/vista/menu.xhtml" />
+
+                        </div>
+                    </div>
+                    <!-- header-box end -->
+                </div>
+            </div>
+        </div>  
+        <script type="text/javascript">
+            function handleLoginRequest(xhr, status, args) {
+                if (args.validationFailed || !args.loggedIn) {
+
+                } else {
+                    jQuery('#loginLink').fadeOut();
+                    window.location = "/Web_SGRESAN/index.xhtml";
+                }
+            }
+        </script>
+    </ui:composition>
 
 </html>
