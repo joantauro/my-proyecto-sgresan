@@ -1,6 +1,8 @@
 #main {width:976px; margin:0 auto; position:relative;}
 
-#header {height:526px; background:url(images/header-bg-top.jpg) no-repeat left top;}
+#header {
+    height:310px; /*526px*/ 
+    /*background: url(images/header-bg-top.jpg) no-repeat left top;*/}
 #header.small { height:414px;}
 #header, #content, #footer { font-size:0.75em;}
 
