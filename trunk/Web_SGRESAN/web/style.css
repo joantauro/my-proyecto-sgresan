@@ -1,7 +1,7 @@
 * { margin:0; padding:0;}
 html, body { height:100%;}
 body { 
-    background:url(images/pattern-8hiu.png) center top #37271c; 
+    background:url(images/background3.png) center top #37271c; 
     font-family:Tahoma, Geneva, sans-serif; 
     font-size:100%; 
     line-height:1.125em; 
@@ -104,7 +104,10 @@ h6 { font-size:1em; color:#e7e7e7;}
 .title { margin-bottom:20px;}
 
 /*==================boxes====================*/
-.box { background:#1d110b; width:100%;}
+.box {
+    //background:#1d110b;
+    width:100%;
+}
 .box .inner { padding:21px 30px 30px 28px;}
 
 .dept-list { float:left;}
@@ -153,13 +156,17 @@ h6 { font-size:1em; color:#e7e7e7;}
     -moz-border-radius-topright: 10px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
-    background:url(images/header-bg-small_x.jpg) no-repeat left top; 
+    background:url(images/header-bg-small.jpg) no-repeat left top; 
+    background-color: #FF0000;
     width:976px;  /*width:950px; */
-    height:120px; /*height:330px;*/
+    height:205px; /*height:120px;*/ /*height:330px;*/
+    //display: block;
 
 }
 .header-box .inner { 
-    padding:121px 0 0 0px; /*padding:307px 0 0 2px;*/
+    padding:150px 0 0 0px; 
+    /*padding:121px 0 0 0px; */
+    /*padding:307px 0 0 2px;*/
 }
 
 .header-box-small { background:url(images/header-bg-small.jpg) no-repeat left top; width:950px; height:252px; }
@@ -195,7 +202,7 @@ h6 { font-size:1em; color:#e7e7e7;}
 /*content*/
 #content { 
     background:url(images/content-bg.png) left top;
-    margin:0px;
+    //margin:0px;
     padding:11px 11px 11px 11px;
     //sombras
     -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);

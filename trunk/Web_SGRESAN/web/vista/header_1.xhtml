@@ -7,16 +7,14 @@
 
     <ui:composition>
         <div id="header">
-            <div class="row-1">
+            <div >
                 <h:form id="formulario"   >
-                    <div class="wrapper">
+                    <div >
                         <div class="logo">
                             <img src="images/bannerLaQuerenciaBlanco.png" />
-
                             <!-- <h1><a href="#">La Querencia Hermanos SAC</a></h1>
                             <em>Hotel</em> <strong>Hospedaje</strong><br /> -->
                         </div>
-
                         <h:panelGrid columns="2" class="formLogin">
                             <h:outputText id="usuario" value="Usuario : " style="margin-left: 2%; " rendered="#{loginBean.sesion}" />
                             <h:inputText value="#{loginBean.usuario.nombreUsuario}" style="margin-left: 2%; " rendered="#{loginBean.sesion}"  />
@@ -31,30 +29,24 @@
                                     <h:outputText value="Cerrar Sesión" />
                                 </p:commandLink>
                             </div>
-
                         </h:panelGrid>
-
-
-                        <br/><br/>
-                        <p:spacer width="25px"   />
+                        <p:imageSwitch effect="fade" id="fadeEffect">
+                            <ui:repeat value="#{imagesView.images}" var="image" id="fadeEffectImages">
+                                <p:graphicImage name="images/banner/#{image}" id="image" />
+                            </ui:repeat>
+                        </p:imageSwitch>
+                        <p:spacer width="10px"   />
                             <!-- <h:commandButton value="Registrate Aqui!!!" rendered="#{loginBean.sesion}" action="RegistroCliente.xhtml" />
                         --> 
-                        <div class="phones">
-                            530-7299<br />
-                            402*157
-                        </div>
                     </div>
                 </h:form>
             </div>
-            <div class="row-2">
-                <div class="indent">
+            <div >
+                <div >
                     <!-- header-box begin -->
-                    <div class="header-box">
-                        <div class="inner">
-                            <ui:include src="/vista/menu.xhtml" />
-
-                        </div>
+                    <div >
                     </div>
+                    <ui:include src="/vista/menu.xhtml" />
                     <!-- header-box end -->
                 </div>
             </div>
