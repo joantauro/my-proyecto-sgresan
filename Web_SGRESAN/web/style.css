@@ -275,8 +275,21 @@ h6 { font-size:1em; color:#e7e7e7;}
     background-color: black;
     padding: 5px;
     margin-top: 10px;
+    margin-bottom: 10px;
     font-size: 11px;
     width: 210px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}
+
+.banner1{
+    
+    //sombras
+    -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+    //redondeo
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     border-radius: 10px;

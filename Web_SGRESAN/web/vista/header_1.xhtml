@@ -32,7 +32,7 @@
                         </h:panelGrid>
                         <p:imageSwitch effect="fade" id="fadeEffect">
                             <ui:repeat value="#{imagesView.images}" var="image" id="fadeEffectImages">
-                                <p:graphicImage name="images/banner/#{image}" id="image" />
+                                <p:graphicImage url="images/banner/#{image}" id="image" class="banner1" />
                             </ui:repeat>
                         </p:imageSwitch>
                         <p:spacer width="10px"   />
