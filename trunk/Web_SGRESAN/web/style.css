@@ -1,13 +1,22 @@
 * { margin:0; padding:0;}
 html, body { height:100%;}
 body { 
-    background:url(images/background3.png) center top #37271c; 
+    background:url(images/vistamar_1.png) center top #37271c; 
     font-family:Tahoma, Geneva, sans-serif; 
     font-size:100%; 
     line-height:1.125em; 
     color:#bca695;
+    
+    
+    
 }
 
+.wrapper ui-widget {
+    font-size: 90%;
+ }
+.wrapper ui-widget .ui-widget {
+    font-size: 90%;
+ }
 /*
 body { 
     background:url(images/body-bg.gif) center top #37271c; 
@@ -201,17 +210,30 @@ h6 { font-size:1em; color:#e7e7e7;}
  
 /*content*/
 #content { 
-    background:url(images/content-bg.png) left top;
+    //background:url(images/content-bg.png) left top;
     //margin:0px;
-    padding:11px 11px 11px 11px;
+    //padding:11px 11px 11px 11px;
+    /*
     //sombras
     -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
     -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
     box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
-    //redondeo
+    */
+    /*
+    //redondeo las cuatro esquinas
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     border-radius: 10px;
+    */
+    //redondeo solo abajo
+    /*
+    -webkit-border-bottom-right-radius: 10px;
+    -webkit-border-bottom-left-radius: 10px;
+    -moz-border-radius-bottomright: 10px;
+    -moz-border-radius-bottomleft: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    */
 }
 /*
 #content { background:url(images/content-bg.png) left top; margin:0 8px;  padding:11px 40px 20px 40px;}
@@ -274,6 +296,7 @@ h6 { font-size:1em; color:#e7e7e7;}
 .formLogin{
     background-color: black;
     padding: 5px;
+    margin: 5px;
     margin-top: 10px;
     margin-bottom: 10px;
     font-size: 11px;
@@ -281,16 +304,51 @@ h6 { font-size:1em; color:#e7e7e7;}
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     border-radius: 10px;
+    
 }
 
 .banner1{
-    
+    border: #000;
+    border-width: 1 0 1 0px;
+    border-style: solid;
+    /*
     //sombras
     -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
     -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
     box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
-    //redondeo
+    */
+    
+    
+    /*//redondeo las cuatro esquinas
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     border-radius: 10px;
+    */
+    
+    /*
+    //redondeo solo arriba
+    -webkit-border-top-left-radius: 10px;
+    -webkit-border-top-right-radius: 10px;
+    -moz-border-radius-topleft: 10px;
+    -moz-border-radius-topright: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    z-index: 50;*/
+}
+
+.footer{
+    background-color: #000;
+    color: #bbb;
+    height: 65px;
+    font-size: 12px;
+    text-align: center;
+    
+    //redondeo solo abajo
+    -webkit-border-bottom-right-radius: 9px;
+    -webkit-border-bottom-left-radius: 9px;
+    -moz-border-radius-bottomright: 9px;
+    -moz-border-radius-bottomleft: 9px;
+    border-bottom-right-radius: 9px;
+    border-bottom-left-radius: 9px;
+    
 }
