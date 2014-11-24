@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 18/11/2014 11:11:33 AM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="model.TIngrediente" table="t_ingrediente" catalog="sgresan" optimistic-lock="version">
+        <id name="idtIngrediente" type="string">
+            <column name="idt_ingrediente" length="45" />
+            <generator class="assigned" />
+        </id>
+        <property name="codIngrediente" type="string">
+            <column name="codIngrediente" length="45" />
+        </property>
+        <property name="nombre" type="string">
+            <column name="nombre" length="45" />
+        </property>
+        <property name="cantidad" type="string">
+            <column name="cantidad" length="45" />
+        </property>
+        <property name="precio" type="java.lang.Double">
+            <column name="precio" precision="22" scale="0" />
+        </property>
+        <property name="cantGrasa" type="string">
+            <column name="cantGrasa" length="45" />
+        </property>
+        <property name="cantCalorias" type="string">
+            <column name="cantCalorias" length="45" />
+        </property>
+        <set name="TPlatilloiingredientes" table="t_platilloiingrediente" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="t_ingrediente_idt_ingrediente" length="45" not-null="true" />
+            </key>
+            <one-to-many class="model.TPlatilloiingrediente" />
+        </set>
+    </class>
+</hibernate-mapping>

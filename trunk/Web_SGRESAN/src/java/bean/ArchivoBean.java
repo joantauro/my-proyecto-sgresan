@@ -63,7 +63,7 @@ private List<TReserva> reservasALL;
                //byte[] bytes = event.getFile().getContents();
                byte[] bytes = IOUtils.toByteArray(file.getInputstream());
                reserva.setVoucher(bytes);
-               reserva.setDescripcion(file.getFileName());
+               //reserva.setDescripcion(file.getFileName());
                System.out.println(file.getFileName());
                ar.ModificarReserva(reserva);
            }else

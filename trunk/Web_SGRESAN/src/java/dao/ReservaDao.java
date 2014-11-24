@@ -154,4 +154,10 @@ public class ReservaDao {
         Session session = HibernateUtil.getSessionFactory().openSession();
         return session.createQuery("from TReservalog order by id desc").list();
     } 
+     
+    public List<TReserva> listarsoloreserva()
+    {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        return session.createQuery("from TReserva order by fechaRegistro desc").list();
+    } 
 }

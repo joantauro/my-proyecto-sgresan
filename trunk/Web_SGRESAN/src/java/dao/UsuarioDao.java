@@ -14,6 +14,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import util.HibernateUtil;
+import util.Utilidades;
 
 /**
  *
@@ -59,8 +60,14 @@ public class UsuarioDao {
         return nuevoID;
     }
     
-   public TUsuario buscarporusuario(TUsuario user) {
-     
+   public TUsuario buscarporusuario(TUsuario user) throws Exception {
+       Utilidades obj = new Utilidades();
+        String encriptado = obj.Encriptar(user.getContrasena());
+        
+       // System.out.println(encriptado);
+       // String desencriptado = obj.Desencriptar(encriptado);
+       // System.out.println(desencriptado);
+        
 //      TUsuario usuario = null;
 //        final Session sesion = HibernateUtil.getSessionFactory().openSession();
 //        Transaction tx = null;
@@ -90,7 +97,7 @@ public class UsuarioDao {
        
         Query query = sesion.createQuery(sql);
         query.setString("user", user.getNombreUsuario());
-        query.setString("pass", user.getContrasena());
+        query.setString("pass", encriptado);
         return (TUsuario) query.uniqueResult();
         
         
