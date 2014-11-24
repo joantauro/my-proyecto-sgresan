@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 18/11/2014 11:11:33 AM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="model.TPedidodetalle" table="t_pedidodetalle" catalog="sgresan" optimistic-lock="version">
+        <id name="TPedDetalle" type="java.lang.Integer">
+            <column name="t_pedDetalle" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="TPedido" class="model.TPedido" fetch="select">
+            <column name="idt_pedido" length="45" not-null="true" />
+        </many-to-one>
+        <many-to-one name="TPlatillo" class="model.TPlatillo" fetch="select">
+            <column name="idt_platillo" length="45" not-null="true" />
+        </many-to-one>
+        <property name="diaNumero" type="string">
+            <column name="diaNumero" length="45" />
+        </property>
+        <property name="diaNombre" type="string">
+            <column name="diaNombre" length="45" />
+        </property>
+    </class>
+</hibernate-mapping>

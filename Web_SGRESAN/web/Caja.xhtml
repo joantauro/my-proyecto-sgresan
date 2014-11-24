@@ -29,7 +29,8 @@
         
             </p:panel>
             
-            <p:dataTable var="inte" value="#{cajaBean.listacaja}" rowIndexVar="valor" id="tablag" >
+            <p:dataTable var="inte" value="#{cajaBean.listacaja}" rowIndexVar="valor" id="tablag"
+                     emptyMessage="No hay ningun movimiento de caja realizado hoy"    >
             <f:facet name="header">
                 CAJA
             </f:facet>
@@ -41,15 +42,15 @@
             </p:column>
 
             <p:column headerText="Entrada">
-                <h:outputText value="#{inte.entrada}" />
+                <h:outputText value="S/. #{inte.entrada}" />
             </p:column>
 
             <p:column headerText="Salida">
-                <h:outputText value="#{inte.salida}" />
+                <h:outputText value="S/. #{inte.salida}" />
             </p:column>
                 
              <p:column headerText="Saldo">
-                 <h:outputText value="#{inte.saldo}" />
+                 <h:outputText value="S/. #{inte.saldo}" />
             </p:column>
         </p:dataTable>
         </h:form>
@@ -61,7 +62,7 @@
                             
                             <h:outputText value="Descripción :" />  
                             <p:inputText value="#{cajaBean.caja.descripcion}" style="font-weight:bold"/>  
-                            <h:outputText value="Entrada :" />  
+                            <h:outputText value="Entrada : S/." />  
                             <p:spinner value="#{cajaBean.caja.entrada}" stepFactor="0.10" prefix="S/." min="0" style="font-weight:bold"/>  
                             <p:commandButton value="Registrar" icon="ui-icon-document"  update="@form,:caja:tablag"   actionListener="#{cajaBean.INSERTAR()}" oncomplete="PF('infoCajaE').hide();" />
 
@@ -77,7 +78,7 @@
                             
                             <h:outputText value="Descripción :" />  
                             <p:inputText value="#{cajaBean.caja.descripcion}" style="font-weight:bold"/>   
-                            <h:outputText value="Salida :" />  
+                            <h:outputText value="Salida : S/." />  
                             <p:spinner value="#{cajaBean.caja.salida}" stepFactor="0.10" prefix="S/." min="0" style="font-weight:bold"/>  
                             <p:commandButton value="Registrar" icon="ui-icon-document"  update="@form,:caja:tablag"   actionListener="#{cajaBean.INSERTAR()}" oncomplete="PF('infoCajaS').hide();" />
 
@@ -93,7 +94,7 @@
                             
                             <p:outputLabel value="Descripción" style="font-weight:bold;color: black;" />
                             <p:outputLabel value="#{cajaBean.caja.descripcion}" style="font-weight:bold;color: black;"/>   
-                            <p:outputLabel value="Saldo Inicial :" style="font-weight:bold;color: black;" />  
+                            <p:outputLabel value="Saldo Inicial : S/." style="font-weight:bold;color: black;" />  
                             <p:inputText value="#{cajaBean.caja.saldo}" style="font-weight:bold"/> 
                             <br/>
                             <p:commandButton value="Registrar" icon="ui-icon-document"  update="@form,:caja:tablag,:caja:panel"   actionListener="#{cajaBean.INSERTAR()}" oncomplete="PF('infoCajaA').hide();" />
@@ -113,10 +114,11 @@
                             <p:outputLabel value="S/. #{cajaBean.caja.saldo}" style="font-weight:bold;color: black;"/> 
                             <p:outputLabel value="Saldo en Caja :" style="font-weight:bold;color: black;" />
                            
-                            <p:spinner value="#{cajaBean.saldoR}" stepFactor="0.10" prefix="S/." min="0" style="font-weight:bold" >
-                            <p:ajax update="out" process="@this" listener="#{cajaBean.CIERRE()}" />
-                            </p:spinner>  
-                           
+                            
+                  
+                            <p:inputText value="#{cajaBean.saldoR}" >
+                                <p:ajax event="keyup"  update="out" listener="#{cajaBean.CIERRE()}" />
+                            </p:inputText>
                             
                             <p:outputLabel value="Arqueo :" style="font-weight:bold;color: black;" />
                             <p:outputLabel id="out" value="#{cajaBean.arqueo}"  style="font-weight:bold;color: black;"/>

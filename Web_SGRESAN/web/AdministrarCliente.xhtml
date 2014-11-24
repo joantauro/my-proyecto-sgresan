@@ -43,20 +43,16 @@
 
                         </p:column>
 
-                        <p:column  headerText="Cliente" >  
+                        <p:column  headerText="Cod. Cliente" >  
 
                             <h:outputText value="#{persona.idCliente}" />  
-                        </p:column>                          
-
-                        <p:column  headerText="Cliente" >  
-
-                            <h:outputText value="#{persona.TPersona.idPersona}" />  
-                        </p:column>    
-                        <p:column  headerText="Cliente" >  
-
+                        </p:column>                            
+                        <p:column  headerText="Nombre" > 
                             <h:outputText value="#{persona.TPersona.nombres}" />  
                         </p:column>
-
+                        <p:column  headerText="Apellidos" > 
+                            <h:outputText value="#{persona.TPersona.apellidoP} #{persona.TPersona.apellidoM}" />  
+                        </p:column>
 
                         <p:column headerText="Editar">
                             <f:facet name="header">
@@ -103,7 +99,7 @@
                                     <p:outputLabel value="Apellido Materno :" style="color: black;" />  
                                     <p:inputText value="#{personaBean.persona.apellidoM}" />
                                     <p:outputLabel value="Fecha de Nacimiento :" style="color: black;" />  
-                                    <p:calendar value="#{personaBean.persona.fechaNacimiento}" />  
+                                    <p:calendar value="#{personaBean.persona.fechaNacimiento}" navigator="true"  />  
                                     <p:outputLabel value="DNI :" style="color: black;" />  
                                     <p:inputText value="#{personaBean.persona.dni}"  maxlength="8" />  
                                     <p:outputLabel value="Dirección :" style="color: black;" />  

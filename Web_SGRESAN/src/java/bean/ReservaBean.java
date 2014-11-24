@@ -7,12 +7,43 @@
 package bean;
 
 import dao.ReservaDao;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import model.TReserva;
 import model.TReservalog;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporter;
+import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.JasperRunManager;
+import net.sf.jasperreports.engine.export.JRPdfExporter;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
+import org.apache.catalina.core.ApplicationContext;
+import org.apache.commons.io.IOUtils;
+import vista.Conexion;
+import vista.NewMain;
 
 /**
  *
@@ -25,6 +56,7 @@ public class ReservaBean {
     private TReserva reserva;
     private List<TReserva> estadodereservas;
     private List<TReserva> reservas;
+    private List<TReserva> soloreserva;
     private List<TReservalog> listareservaslog;
     
     public ArrayList<String> lista ;
@@ -167,6 +199,68 @@ public class ReservaBean {
         ReservaDao dao = new ReservaDao();
         reservas=dao.listareserva(sino);
         return reservas;
+    }
+
+    public List<TReserva> getSoloreserva() {
+        ReservaDao dao = new ReservaDao();
+        soloreserva  = dao.listarsoloreserva();
+        return soloreserva;
+    }
+    
+    public void EXPORTAR(String id) 
+    {
+        Conexion conn = new  Conexion();
+        FacesContext fc = FacesContext.getCurrentInstance();
+        ExternalContext ec = fc.getExternalContext();
+        
+                
+        ServletContext  context = (ServletContext) ec.getContext();
+        String tplPath = context.getRealPath("/reporte/reporte.jrxml");
+        HttpServletResponse response = (HttpServletResponse) ec.getResponse();
+//        File reportfile = new File(context.getRealPath("/reporte/reporte.jasper"));
+               
+         //   OutputStream os = null;
+        try
+        {
+           // os= response.getOutputStream();
+            conn.conectar();
+            
+            Map parametros = new HashMap();
+            parametros.put("id", id);
+//            JasperReport reporteJasper = JasperCompileManager.compileReport(tplPath);
+////            JasperPrint jasperPrint = JasperFillManager.fillReport(reporteJasper, parametros,conn.getConn());
+//////            String pdfName = "/reporte.pdf";
+//////            String pdfPath = ec.getRealPath(pdfName);
+//////             JasperExportManager.exportReportToPdfFile(jasperPrint, pdfPath);
+////             System.out.println("PDF ready!");
+             
+ File reportfile = new File(context.getRealPath("/reporte/reporte.jasper"));
+  byte[] bytes = JasperRunManager.runReportToPdf(reportfile.getPath(), parametros, conn.getConn());   
+                ec.responseReset();
+                ec.setResponseContentType("application/pdf");
+                ec.setResponseContentLength(bytes.length);
+                ec.setResponseHeader("Content-Disposition","inline;filename=\"reporte.pdf\"");
+                OutputStream output = ec.getResponseOutputStream();
+                output.write(bytes, 0, bytes.length);
+                fc.responseComplete();
+  
+//             ec.responseReset(); 
+//        ec.setResponseContentType(ec.getMimeType(pdfPath)); 
+//        //ec.setResponseContentLength(contentLength); 
+//        ec.setResponseHeader("Content-Disposition", "attachment; filename=\"" + pdfName + "\""); 
+//       InputStream input = new FileInputStream(pdfPath);
+//        OutputStream output = ec.getResponseOutputStream();
+//        IOUtils.copy(input, output);
+ 
+        System.out.println("Sending to browser...");
+
+//        fc.responseComplete();  
+        }
+        catch(Exception e)
+        {
+            System.out.println("Error : "+e.getMessage());
+        }
+
     }
     
     public void LLENAR()

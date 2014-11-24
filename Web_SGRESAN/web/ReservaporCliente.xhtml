@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                template="./vista/Plantilla_main_1.xhtml"
+                template="./vista/Plantilla_main.xhtml"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:h="http://xmlns.jcp.org/jsf/html">
@@ -15,7 +15,16 @@
     </ui:define>
 
     <ui:define name="left">
-        left
+        <p:accordionPanel    >
+        <p:tab title="¿Cómo subir una imagen?">
+         <h:panelGrid  columns="1" cellspacing="10" >
+                <p:outputLabel value="Paso 1 : Dar clic en la botón en el botón 'Subir' de la columna archivo" style="color: #000000" /> 
+                <p:outputLabel value="Paso 2 : Seleccionar la imagen del voucher y dar en Aceptar" style="color: #000000" /> 
+                <p:outputLabel value="Paso 3 : Si desea visualizar la imagen, dar clic en el boton ver de la columna ver" style="color: #000000" /> 
+            </h:panelGrid> 
+        </p:tab>
+       
+    </p:accordionPanel>
     </ui:define>
 
     <ui:define name="content">
@@ -24,21 +33,17 @@
             <f:facet name="header">
                 MIS RESERVAS 
             </f:facet>
-            <p:column headerText="#">
+                <p:column headerText="#" style="width: 25px" >
                 <h:outputText value="#{valor+1}" />
             </p:column>
             <p:column headerText="Cod. Reserva">
                 <h:outputText value="#{inte.idReserva}" />
             </p:column>
-            <p:column headerText="Fecha de Registro">
+                <p:column headerText="Fecha de Registro" style="width: 100px" >
                 <h:outputText value="#{inte.fechaRegistro}" >
-                    <f:convertDateTime type="date" pattern="dd-MM-yyyy hh:mm:ss" timeZone="America/Lima" />
+                    <f:convertDateTime type="date" pattern="dd-MM-yyyy hh:mm a" timeZone="America/Lima" />
                 </h:outputText>
             </p:column>
-            <p:column headerText="nombre">
-                <h:outputText value="#{inte.TCliente.TPersona.nombres}" />
-            </p:column>
-
             <p:column headerText="Estado">
                 <h:outputText value="#{inte.estado}" />
             </p:column>

@@ -44,7 +44,7 @@ public class LoginBean {
         persona.setTUbigeo(new TUbigeo());
     }
     
-     public String logueo()
+     public String logueo() throws Exception
     {
       
         RequestContext context = RequestContext.getCurrentInstance();  

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 18/11/2014 11:11:33 AM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="model.TPlatilloiingrediente" table="t_platilloiingrediente" catalog="sgresan" optimistic-lock="version">
+        <id name="idtPlatilloIingrediente" type="java.lang.Integer">
+            <column name="idt_platilloIingrediente" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="TIngrediente" class="model.TIngrediente" fetch="select">
+            <column name="t_ingrediente_idt_ingrediente" length="45" not-null="true" />
+        </many-to-one>
+        <many-to-one name="TPlatillo" class="model.TPlatillo" fetch="select">
+            <column name="t_platillo_idt_platillo" length="45" not-null="true" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>

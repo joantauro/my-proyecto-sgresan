@@ -19,13 +19,13 @@
  
     <h:form>
  
-        <p:dataTable id="reserva" var="a" value="#{reservaBean.listareservaslog}" widgetVar="tablaInformes" 
+        <p:dataTable id="reserva" var="a" value="#{reservaBean.soloreserva}" widgetVar="tablaInformes" 
                      tableStyle="center" style = "width:auto"
                      paginator="true" rows="5" paginatorPosition="bottom"                     
                      paginatorTemplate="{RowsPerPageDropdown} {CurrentPageReport} {FirstPageLink} {PreviousPageLink} 
                      {CurrentPageReport} {NextPageLink} {LastPageLink} "                                          
                      rowsPerPageTemplate="5,10,20,30,40" 
-                     emptyMessage="No hay ninguna reserva">
+                     emptyMessage="No hay nada">
             
             
         <f:facet name="header">
@@ -55,17 +55,13 @@
                 <h:outputText value="#{a.idReserva}" style=" text-align: center"/>
             </p:column>
  
-            <p:column filterBy="#{a.accion}" headerText="Acción" >
-                <h:outputText value="#{a.accion}"/>
-            </p:column>
-            <p:column filterBy="#{a.fecha}" headerText="Fecha de Acción" >
-                <h:outputText value="#{a.fecha}" />
-            </p:column>
             
-            <p:column headerText="Usuario" >
-                <h:outputText value="#{a.usuario}" style=" text-align: center"/>
+            <p:column headerText="Cliente" >
+                <h:outputText value="#{a.TCliente.TPersona.nombres}" style=" text-align: center"/>
             </p:column>
-
+            <p:column headerText="Apellidos" >
+                <h:outputText value="#{a.TCliente.TPersona.apellidoP} #{a.TCliente.TPersona.apellidoM}" style=" text-align: center"/>
+            </p:column>
             
             <p:column filterBy="#{a.estado}" filterMatchMode="contains">
                    <f:facet name="header">  
@@ -75,8 +71,9 @@
             <h:outputText value="#{a.estado}"/>
             </p:column>
  
-        
-        
+        <p:column headerText="Ver">
+            <a href="${request.contextPath}/showFile.jsp?file=#{a.idReserva}"   target="_blank" >Mostrar</a>
+       </p:column>
           
 
             
