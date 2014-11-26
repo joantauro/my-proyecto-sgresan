@@ -12,7 +12,7 @@
             <column name="nombreUsuario" length="45" />
         </property>
         <property name="contrasena" type="string">
-            <column name="contrasena" length="45" not-null="true" />
+            <column name="contrasena" not-null="true" />
         </property>
         <property name="estado" type="string">
             <column name="estado" length="45" not-null="true" />
