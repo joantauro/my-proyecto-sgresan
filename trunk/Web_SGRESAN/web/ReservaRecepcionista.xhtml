@@ -20,35 +20,35 @@
         <h:form id="info">
    <p:growl id="growlM" showDetail="true"   life="2000" />  
             <h:panelGrid  id="panelinfo"  cellspacing="5" columns="2" style="margin-right:  auto"   >
-                <p:outputLabel value="Codigo Reserva" style="color: white;" />
-                <p:outputLabel value="#{reservaDetalleBean.reserva.TReserva.idReserva}" style="color: white;" />
-                <p:outputLabel value="Cliente" style="color: white;" />
-                <p:outputLabel value="#{reservaDetalleBean.reserva.TReserva.TCliente.TPersona.nombres} #{reservaDetalleBean.reserva.TReserva.TCliente.TPersona.apellidoP} #{reservaDetalleBean.reserva.TReserva.TCliente.TPersona.apellidoM}" style="color: white;" />
-                <p:outputLabel value="Habitación Seleccionada" style="color: white;" />
-                <p:outputLabel value="#{reservaDetalleBean.reserva.THabitacion.idHabitacion}" style="color: white;" />
-                <p:outputLabel value="Fecha Entrada" style="color: white;" />
-                <p:outputLabel value="#{reservaDetalleBean.startm}" style="color: white;"  />
-                <p:outputLabel value="Fecha Salida" style="color: white;" />
-                <p:outputLabel value="#{reservaDetalleBean.endm}"  style="color: white;" />
-                <p:outputLabel value="Cantidad de Habitaciones" style="color: white;" />
-                <p:outputLabel value="#{reservaDetalleBean.list.size()}" style="color: white;" />
+                <p:outputLabel value="Codigo Reserva" style="color: black;" />
+                <p:outputLabel value="#{reservaDetalleBean.reserva.TReserva.idReserva}" style="color: black;" />
+                <p:outputLabel value="Cliente" style="color: black;" />
+                <p:outputLabel value="#{reservaDetalleBean.reserva.TReserva.TCliente.TPersona.nombres} #{reservaDetalleBean.reserva.TReserva.TCliente.TPersona.apellidoP} #{reservaDetalleBean.reserva.TReserva.TCliente.TPersona.apellidoM}" style="color: black;" />
+                <p:outputLabel value="Habitación Seleccionada" style="color: black;" />
+                <p:outputLabel value="#{reservaDetalleBean.reserva.THabitacion.idHabitacion}" style="color: black;" />
+                <p:outputLabel value="Fecha Entrada" style="color: black;" />
+                <p:outputLabel value="#{reservaDetalleBean.startm}" style="color: black;"  />
+                <p:outputLabel value="Fecha Salida" style="color: black;" />
+                <p:outputLabel value="#{reservaDetalleBean.endm}"  style="color: black;" />
+                <p:outputLabel value="Cantidad de Habitaciones" style="color: black;" />
+                <p:outputLabel value="#{reservaDetalleBean.list.size()}" style="color: black;" />
 
-                <p:outputLabel value="Dormitorios :" style="color: white;"  />
+                <p:outputLabel value="Dormitorios :" style="color: black;"  />
                 <c:forEach items="#{reservaDetalleBean.list}" var="item" >
                     <div>
                         <p:outputLabel />
-                        <p:outputLabel value="${item.THabitacion.idHabitacion}" style="color: white;"  />
+                        <p:outputLabel value="${item.THabitacion.idHabitacion}" style="color: black;"  />
                     </div>
                 </c:forEach>
                 <p:outputLabel/>
-                <p:outputLabel value="Descripción :" style="color: white;"  />
-                <p:outputLabel value="#{reservaDetalleBean.reserva.TReserva.descripcion}" style="color: white;" />
-                <p:outputLabel value="Subtotal :" style="color: white;" />
-                <p:outputLabel value="#{reservaDetalleBean.reserva.TReserva.subtotal}" style="color: white;"  />
-                <p:outputLabel value="IGV (18%) :" style="color: white;"  />
-                <p:outputLabel value="#{reservaDetalleBean.reserva.TReserva.igv}" style="color: white;"  />
-                <p:outputLabel value="TOTAL :" style="color: white;"  />
-                <p:outputLabel value="#{reservaDetalleBean.reserva.TReserva.precio}" style="color: white;"  />
+                <p:outputLabel value="Descripción :" style="color: black;"  />
+                <p:outputLabel value="#{reservaDetalleBean.reserva.TReserva.descripcion}" style="color: black;" />
+                <p:outputLabel value="Subtotal :" style="color: black;" />
+                <p:outputLabel value="#{reservaDetalleBean.reserva.TReserva.subtotal}" style="color: black;"  />
+                <p:outputLabel value="IGV (18%) :" style="color: black;"  />
+                <p:outputLabel value="#{reservaDetalleBean.reserva.TReserva.igv}" style="color: black;"  />
+                <p:outputLabel value="TOTAL :" style="color: black;"  />
+                <p:outputLabel value="#{reservaDetalleBean.reserva.TReserva.precio}" style="color: black;"  />
                 <br/><br/>
                 <p:commandButton   rendered="#{reservaDetalleBean.reserva.TReserva.estado eq 'reservado' or reservaDetalleBean.reserva.TReserva.estado eq 'pre-reserva'}" update=":info:panelinfo,:formRecep:timeline,growlM" value="Marcar Llegada" actionListener="#{reservaDetalleBean.HOSPEDAR()}" style="margin-left: 30%" />
     

@@ -62,6 +62,6 @@
     
     <context-param>  
     <param-name>primefaces.THEME</param-name>  
-    <param-value>blitzer</param-value>  
+    <param-value>bluesky</param-value>  
 </context-param> 
 </web-app>

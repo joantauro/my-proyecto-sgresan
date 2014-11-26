@@ -27,6 +27,9 @@ public class UsuarioDao {
     
     public boolean ingresarUsuario (TUsuario usuario) {
        try {
+           Utilidades obj = new Utilidades();
+             String encriptado = obj.Encriptar(usuario.getContrasena());
+           usuario.setContrasena(encriptado);
             sesion = HibernateUtil.getSessionFactory().openSession();
             trans = sesion.beginTransaction();
 //            String idcl = obtenerIDUsuario();
