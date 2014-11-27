@@ -42,19 +42,12 @@
                             <h:outputText value="#{persona.TPersona.apellidoP} #{persona.TPersona.apellidoM}" />  
                         </p:column>
 
-                         <p:column>  
-                            <f:facet name="header">  
-                                <h:outputText value="Ver Info." />  
-                            </f:facet> 
-
+                        <p:column headerText="Ver Info">  
                             <p:commandButton icon="ui-icon-pencil"  action="#{personaBean.irActualizar(persona.TPersona.idPersona)}" 
                                              oncomplete="PF('verPersonaDialog').show();" update=":formPersonaVer:pgPersonaVer" />
                         </p:column>
                         
                         <p:column headerText="Editar">
-                            <f:facet name="header">
-                                <h:outputText value="Editar"></h:outputText>
-                            </f:facet>
                             <p:commandButton icon="ui-icon-pencil"  action="#{personaBean.irActualizar(persona.TPersona.idPersona)}" 
                                              oncomplete="PF('editarPersonaDialog').show();" update=":formPersonaEditar:dlgPersonaditar" />
                         </p:column>
