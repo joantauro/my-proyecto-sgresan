@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 10/11/2014 08:33:43 AM by Hibernate Tools 4.3.1 -->
+<!-- Generated 07/06/2015 10:37:52 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="model.TCliente" table="t_cliente" catalog="sgresan" optimistic-lock="version">
+    <class name="model.TCliente" table="t_cliente" catalog="sgresan">
         <id name="idCliente" type="string">
             <column name="idCliente" length="25" />
-            <generator class="assigned" />
+            <generator class="assigned"></generator>
         </id>
         <many-to-one name="TPersona" class="model.TPersona" fetch="select">
             <column name="T_Persona_idPersona" length="25" not-null="true" />

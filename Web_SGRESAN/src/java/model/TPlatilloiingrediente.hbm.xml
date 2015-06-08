@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 18/11/2014 11:11:33 AM by Hibernate Tools 4.3.1 -->
+<!-- Generated 07/06/2015 10:37:52 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="model.TPlatilloiingrediente" table="t_platilloiingrediente" catalog="sgresan" optimistic-lock="version">
+    <class name="model.TPlatilloiingrediente" table="t_platilloiingrediente" catalog="sgresan">
         <id name="idtPlatilloIingrediente" type="java.lang.Integer">
             <column name="idt_platilloIingrediente" />
-            <generator class="identity" />
+            <generator class="identity"></generator>
         </id>
         <many-to-one name="TIngrediente" class="model.TIngrediente" fetch="select">
             <column name="t_ingrediente_idt_ingrediente" length="45" not-null="true" />

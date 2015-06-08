@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 10/11/2014 08:33:43 AM by Hibernate Tools 4.3.1 -->
+<!-- Generated 07/06/2015 10:37:52 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="model.TReservadetalle" table="t_reservadetalle" catalog="sgresan" optimistic-lock="version">
+    <class name="model.TReservadetalle" table="t_reservadetalle" catalog="sgresan">
         <id name="idTReservaDetalle" type="java.lang.Integer">
             <column name="idT_ReservaDetalle" />
-            <generator class="identity" />
+            <generator class="identity"></generator>
         </id>
         <many-to-one name="THabitacion" class="model.THabitacion" fetch="select">
             <column name="T_Habitacion_idHabitacion" length="25" not-null="true" />
