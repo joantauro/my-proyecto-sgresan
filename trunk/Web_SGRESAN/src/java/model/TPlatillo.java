@@ -1,5 +1,5 @@
 package model;
-// Generated 18/11/2014 11:11:32 AM by Hibernate Tools 4.3.1
+// Generated 07/06/2015 10:37:49 PM by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -15,6 +15,7 @@ public class TPlatillo  implements java.io.Serializable {
      private String codPlatillo;
      private String nombrePlatillo;
      private Double precio;
+     private byte[] imgPlatillo;
      private Set TPlatilloiingredientes = new HashSet(0);
      private Set TPedidodetalles = new HashSet(0);
 
@@ -25,11 +26,12 @@ public class TPlatillo  implements java.io.Serializable {
     public TPlatillo(String idtPlatillo) {
         this.idtPlatillo = idtPlatillo;
     }
-    public TPlatillo(String idtPlatillo, String codPlatillo, String nombrePlatillo, Double precio, Set TPlatilloiingredientes, Set TPedidodetalles) {
+    public TPlatillo(String idtPlatillo, String codPlatillo, String nombrePlatillo, Double precio, byte[] imgPlatillo, Set TPlatilloiingredientes, Set TPedidodetalles) {
        this.idtPlatillo = idtPlatillo;
        this.codPlatillo = codPlatillo;
        this.nombrePlatillo = nombrePlatillo;
        this.precio = precio;
+       this.imgPlatillo = imgPlatillo;
        this.TPlatilloiingredientes = TPlatilloiingredientes;
        this.TPedidodetalles = TPedidodetalles;
     }
@@ -61,6 +63,13 @@ public class TPlatillo  implements java.io.Serializable {
     
     public void setPrecio(Double precio) {
         this.precio = precio;
+    }
+    public byte[] getImgPlatillo() {
+        return this.imgPlatillo;
+    }
+    
+    public void setImgPlatillo(byte[] imgPlatillo) {
+        this.imgPlatillo = imgPlatillo;
     }
     public Set getTPlatilloiingredientes() {
         return this.TPlatilloiingredientes;

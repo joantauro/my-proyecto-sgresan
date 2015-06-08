@@ -1,5 +1,5 @@
 package model;
-// Generated 10/11/2014 08:33:41 AM by Hibernate Tools 4.3.1
+// Generated 07/06/2015 10:37:49 PM by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -24,11 +24,10 @@ public class THabitacion  implements java.io.Serializable {
     }
 
 	
-    public THabitacion(String idHabitacion, THotel THotel, TTipohabitacion TTipohabitacion, String nroHabitacion,String descripcion, double precio) {
+    public THabitacion(String idHabitacion, THotel THotel, TTipohabitacion TTipohabitacion, String descripcion, double precio) {
         this.idHabitacion = idHabitacion;
         this.THotel = THotel;
         this.TTipohabitacion = TTipohabitacion;
-        this.nroHabitacion= nroHabitacion;
         this.descripcion = descripcion;
         this.precio = precio;
     }

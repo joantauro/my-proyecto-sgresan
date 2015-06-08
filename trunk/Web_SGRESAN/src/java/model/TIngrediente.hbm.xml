@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 18/11/2014 11:11:33 AM by Hibernate Tools 4.3.1 -->
+<!-- Generated 07/06/2015 10:37:52 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="model.TIngrediente" table="t_ingrediente" catalog="sgresan" optimistic-lock="version">
+    <class name="model.TIngrediente" table="t_ingrediente" catalog="sgresan">
         <id name="idtIngrediente" type="string">
             <column name="idt_ingrediente" length="45" />
-            <generator class="assigned" />
+            <generator class="assigned"></generator>
         </id>
         <property name="codIngrediente" type="string">
             <column name="codIngrediente" length="45" />
