@@ -24,7 +24,11 @@ public class THabitacion  implements java.io.Serializable {
     }
 
 	
-    public THabitacion(String idHabitacion, THotel THotel, TTipohabitacion TTipohabitacion, String descripcion, double precio) {
+    public THabitacion(String idHabitacion, 
+                       THotel THotel, 
+                       TTipohabitacion TTipohabitacion, 
+                       String descripcion, 
+                       double precio) {
         this.idHabitacion = idHabitacion;
         this.THotel = THotel;
         this.TTipohabitacion = TTipohabitacion;

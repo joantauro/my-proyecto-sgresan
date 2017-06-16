@@ -53,7 +53,7 @@ public class HabitacionBean {
         /* -----------------------------------------------------------------------  */
         images = new ArrayList<String>();
         for (int i = 1; i <= 4; i++) {
-            images.add("habitacion" + i + ".jpg");
+            images.add("habitacion" + i + ".jpg");//*revisar
         }
         System.out.println(images.get(0));
     }

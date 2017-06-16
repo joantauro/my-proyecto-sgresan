@@ -6,7 +6,8 @@
 
 package bean;
 
-import dao.ArchivoDao;
+import Entidad.TimelineDetalleReserva;
+import Entidad.TimelineReserva;
 import dao.ClienteDao;
 import dao.HabitacionDao;
 import dao.ReservaDao;
@@ -28,11 +29,16 @@ import model.TReserva;
 import model.TReservadetalle;
 import model.TUsuario;
 import org.primefaces.event.TransferEvent;
-import org.primefaces.extensions.event.timeline.TimelineAddEvent;
-import org.primefaces.extensions.event.timeline.TimelineModificationEvent;
-import org.primefaces.extensions.model.timeline.TimelineEvent;
-import org.primefaces.extensions.model.timeline.TimelineModel;
+import org.primefaces.event.timeline.TimelineAddEvent;
+import org.primefaces.event.timeline.TimelineDragDropEvent;
+import org.primefaces.event.timeline.TimelineModificationEvent;
+import org.primefaces.event.timeline.TimelineSelectEvent;
+ 
+
 import org.primefaces.model.DualListModel;
+import org.primefaces.model.timeline.TimelineEvent;
+import org.primefaces.model.timeline.TimelineModel;
+
 import util.email;
 
 /**
@@ -42,9 +48,14 @@ import util.email;
 @ManagedBean
 @SessionScoped
 public class ReservaDetalleBean {
-
-    private List<TReservadetalle> listareservas;
-    private TReservadetalle reserva;
+    
+    /***** ACTUALIZACION *****/
+    private List<TimelineDetalleReserva> listareservas;
+    private TimelineReserva reserva1;
+    //private List<TReservadetalle> listareservas;
+     private TReservadetalle reserva;
+    /***********************************************/
+    
     private TReserva reserv;
     private THabitacion hab;
     private List<TReservadetalle> list;
@@ -79,11 +90,11 @@ public class ReservaDetalleBean {
     private String nombreC;
     
     public ReservaDetalleBean() {
-        zoomMax=1200000001;
+        zoomMax=600000001;
         event = new TimelineEvent();tipohab="";
         costo=0;editable=false;
        igv=0.0;costoTotal=0.0;
-     
+     motivo="";
         
         reserva = new TReservadetalle();
         reserva.setTHabitacion(new THabitacion());
@@ -94,7 +105,7 @@ public class ReservaDetalleBean {
         hab = new THabitacion();
         hab.setTHotel(new THotel());
        
-        llenar();
+        llenar();System.out.println("Prueba");
          List<THabitacion> citiesSource = new ArrayList<THabitacion>();
         List<THabitacion> citiesTarget = new ArrayList<THabitacion>();
        
@@ -107,7 +118,7 @@ public class ReservaDetalleBean {
             citiesSource.add(new THabitacion(habitacionesdisponibles.get(i).getIdHabitacion(), 
                     habitacionesdisponibles.get(i).getTHotel(), 
                     habitacionesdisponibles.get(i).getTTipohabitacion(),
-                    habitacionesdisponibles.get(i).getNroHabitacion(),
+                   /* habitacionesdisponibles.get(i).getNroHabitacion(),*/
                     habitacionesdisponibles.get(i).getDescripcion(), 
                     habitacionesdisponibles.get(i).getPrecio()));
 
@@ -152,14 +163,24 @@ public class ReservaDetalleBean {
     public void HOSPEDAR()
     {
         
-        ArchivoDao ar = new ArchivoDao();
+       /* ArchivoDao ar = new ArchivoDao();
         reserv = reserva.getTReserva();
         reserv.setEstado("hospedado");
         ar.ModificarReserva(reserv);
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage("Successful",  "Se hospedo ") );
         llenar();INICIALIZACION();
-        
+        */
+        reserva1.setEstado("hospedado");
+        if(dao.SP_MoficiarReserva(1,reserva1)){
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage("Successful",  "Se hospedo ") );
+            
+            llenar();INICIALIZACION();
+        }else{
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage("Warning",  "Ocurrio un Error ") );
+        }
     }
     
     public void onAdd(TimelineAddEvent e) {
@@ -178,36 +199,38 @@ public class ReservaDetalleBean {
          
     }  
     
-     public void onEdit(TimelineModificationEvent e) {  
-           event = e.getTimelineEvent();  
-           reserva =((TReservadetalle)event.getData());
+     public void onEdit(TimelineSelectEvent e) {  
+         System.out.println("Editando...");
+           event = e.getTimelineEvent(); 
+           reserva1= (TimelineReserva) event.getData();
+           
+           /*reserva =((TReservadetalle)event.getData());
            startm=reserva.getTReserva().getFechaEntrada().getDate()+"/"+(reserva.getTReserva().getFechaEntrada().getMonth()+1)+"/"+(reserva.getTReserva().getFechaEntrada().getYear()+1900);
            endm=reserva.getTReserva().getFechaSalida().getDate()+"/"+(reserva.getTReserva().getFechaSalida().getMonth()+1)+"/"+(reserva.getTReserva().getFechaSalida().getYear()+1900);
-           
+           */
            ReservaDao rdao = new ReservaDao();
-           list= rdao.listarNumeroCuartos(reserva.getTReserva().getIdReserva());
-           
+           //list= rdao.listarNumeroCuartos(reserva.getTReserva().getIdReserva());
+           list= rdao.listarNumeroCuartos(reserva1.getIdReserva());
     } 
     
      public void onDelete(TimelineModificationEvent e) {  
         // get clone of the TimelineEvent to be deleted  
         event = e.getTimelineEvent();
         
-        //reserva = dao.BuscaporId(((TReservadetalle)event.getData()).getIdTReservaDetalle());
-        reserva =((TReservadetalle)event.getData());
-        reserv = reserva.getTReserva();
-        
-       //  System.out.println(reserva.getIdTReservaDetalle());
-       //  System.out.println(((TReservadetalle)event.getData()).getIdTReservaDetalle());
+       /* reserva =((TReservadetalle)event.getData());
+        reserv = reserva.getTReserva();*/
+       reserva1= (TimelineReserva) event.getData();
     } 
     
      
      
      public void onChange(TimelineModificationEvent e) {
+         System.out.println("Modificacion");
         event = e.getTimelineEvent();  
-        reserva =((TReservadetalle)event.getData());
+       /* reserva =((TReservadetalle)event.getData());
         reserv = reserva.getTReserva();
-        
+        */
+       reserva1= (TimelineReserva) event.getData();
         start = event.getStartDate();
         end = event.getEndDate();
 //        FacesMessage msg =  
@@ -215,26 +238,63 @@ public class ReservaDetalleBean {
 //        FacesContext.getCurrentInstance().addMessage(null, msg);  
 
     }
+     public void onDrop(TimelineDragDropEvent e) {
+         System.out.println("PRUEBA...");
+ 
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Probando drop", null);
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
      public void REPROGRAMAR()
      {
+        /* System.out.println("Se reprogramo :D");
          reserv.setDescripcion(motivo);
          reserv.setFechaEntrada(start);
          reserv.setFechaSalida(end);
          dao.MoficiarReserva(reserv);
          model = new TimelineModel(); 
-         llenar();INICIALIZACION();
+         llenar();INICIALIZACION();*/
+         
+       
+         reserva1.setDescripcion(motivo);
+         reserva1.setFecha_entrada(start);
+         reserva1.setFecha_salida(end);
+         if(dao.SP_MoficiarReserva(2, reserva1)){
+             model = new TimelineModel(); 
+              FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage("Successful",  "Se modifico la reserva ") );
+             llenar();INICIALIZACION();
+         } else{
+              FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage("Warning",  "Hubo un error en la modificación") );
+         }
+          
      }
      
      
      public void CANCEL()
      {
-         reserv.setDescripcion(motivo);
+         
+        /* reserv.setDescripcion(motivo);
          reserv.setEstado("cancelado");
          System.out.println(reserv.getIdReserva());
          dao.MoficiarReserva(reserv);
          model = new TimelineModel(); 
        llenar();
+       INICIALIZACION();*/
+       
+       reserva1.setDescripcion(motivo);
+       reserva1.setEstado("cancelado");
+        if(dao.SP_MoficiarReserva(3, reserva1)){
+             model = new TimelineModel(); 
+              FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage("Successful",  "Se canceló la reserva ") );
+              model = new TimelineModel(); 
+       llenar();
        INICIALIZACION();
+         } else{
+              FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage("Warning",  "Hubo un error en la cancelación") );
+         }
      }
      
      public void registrarprereserva()
@@ -303,7 +363,7 @@ public class ReservaDetalleBean {
             citiesSource.add(new THabitacion(habitacionesdisponibles.get(i).getIdHabitacion(), 
                     habitacionesdisponibles.get(i).getTHotel(), 
                     habitacionesdisponibles.get(i).getTTipohabitacion(),
-                    habitacionesdisponibles.get(i).getNroHabitacion(),
+                    /*habitacionesdisponibles.get(i).getNroHabitacion(),*/
                     habitacionesdisponibles.get(i).getDescripcion(), 
                     habitacionesdisponibles.get(i).getPrecio()));
         }
@@ -414,7 +474,8 @@ public class ReservaDetalleBean {
         end = cal.getTime();  
           //  event = new TimelineEvent("Joel", start, end, true, "1", "available");
       
-        listareservas = dao.listareservafiltros(tipohab);System.out.println("Lista" + listareservas.size());
+       /* listareservas = dao.listareservafiltros(tipohab);
+        System.out.println("Lista" + listareservas.size());
         for(int i=0;i<listareservas.size();i++)
          {
         if(!"cancelado".equals(listareservas.get(i).getTReserva().getEstado()))
@@ -425,10 +486,32 @@ public class ReservaDetalleBean {
                                                               listareservas.get(i).getTReserva().getEstado())); // eSTADO
         
             System.out.println("N°" + i);}
+         }  */
+        listareservas = dao.SP_listareservafiltros();
+        for(int i=0;i<listareservas.size();i++)
+         {
+        if(!"cancelado".equals(listareservas.get(i).getEstado()))
+        {
+             model.add(new TimelineEvent(listareservas.get(i).getTimelinereserva(), listareservas.get(i).getFecha_entrada(), 
+                                                              listareservas.get(i).getFecha_salida(), true, 
+                                                              listareservas.get(i).getHabitacion() + "", 
+                                                              listareservas.get(i).getEstado())); // eSTADO
+        
+        }
          }  
+        
     }
 
-    public List<TReservadetalle> getListareservas() {
+    public List<TimelineDetalleReserva> getListareservas() {
+        return listareservas;
+    }
+
+    public void setListareservas(List<TimelineDetalleReserva> listareservas) {
+        this.listareservas = listareservas;
+    }
+
+     
+    /*public List<TReservadetalle> getListareservas() {
         
         listareservas = dao.listareservafiltros(tipohab);
         return listareservas;
@@ -436,7 +519,7 @@ public class ReservaDetalleBean {
 
     public void setListareservas(List<TReservadetalle> listareservas) {
         this.listareservas = listareservas;
-    }
+    }*/
 
     public TimelineModel getModel() {
         return model;
@@ -648,6 +731,14 @@ public class ReservaDetalleBean {
 
     public void setEndm(String endm) {
         this.endm = endm;
+    }
+
+    public TimelineReserva getReserva1() {
+        return reserva1;
+    }
+
+    public void setReserva1(TimelineReserva reserva1) {
+        this.reserva1 = reserva1;
     }
 
  

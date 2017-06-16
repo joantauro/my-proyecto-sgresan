@@ -6,11 +6,17 @@
 
 package dao;
 
+import Entidad.TimelineDetalleReserva;
+import Entidad.TimelineReserva;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import model.THabitacion;
 import model.TReserva;
 import model.TReservadetalle;
 import model.TReservalog;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import util.HibernateUtil;
@@ -34,6 +40,44 @@ public class ReservaDao {
                 + "inner join j.TTipohabitacion t\n"
                 + "where t.nombre like '%" + id + "%'").list();
     }
+    
+    public List<TimelineDetalleReserva> SP_listareservafiltros()
+    {
+          List<TimelineDetalleReserva> lista= new ArrayList<TimelineDetalleReserva>();
+                Session session = HibernateUtil.getSessionFactory().openSession();
+                 try {
+          
+             Query q = session.createSQLQuery("{ CALL SP_Timeline() }");
+         
+			List<Object[]> d=q.list();
+			for (Object[] result : d) {
+				
+                        String idReserva = (String)result[0];
+                        String cliente = (String)result[1];
+                        String descripcion =(String)result[2];
+                         double subtotal =Double.parseDouble(result[3].toString());
+                         double igv =Double.parseDouble(result[4].toString());
+                         double monto=Double.parseDouble(result[5].toString());
+                          Date fecha_entrada = (Date) result[6];
+                          Date fecha_salida = (Date) result[7];
+                          boolean booleano=  Boolean.parseBoolean(result[8].toString());
+                          String habitacion= ((String) result[9]) ;
+                          String estado= ((String) result[10] );
+
+                        
+                        lista.add(new TimelineDetalleReserva(
+                                new TimelineReserva(idReserva, cliente, fecha_entrada, fecha_salida, descripcion, subtotal, igv, monto,estado),
+                                fecha_entrada, fecha_salida, booleano, habitacion, estado));
+                       // lista.add(new PacientePresencial(posicion, paciente,fecha, cod_cli, cod_vis, cod_ter));
+			}
+        } catch (Exception e) {
+            System.out.println("Error SP_ListarPacienteEnEspera : "+e.getMessage());
+        } finally {
+            session.flush();
+            session.close();
+        }
+          return lista;
+    }   
 
      public List<THabitacion> listarhabitacionesconfiltros(String id,String fecEnt,String fecSal)
     {
@@ -84,6 +128,7 @@ public class ReservaDao {
             sesion.merge(reserva);
             tx.commit();
         } catch  (Exception e) {
+            System.out.println("ERROR : "+e.getMessage());
             if(tx!=null)
             {
                 tx.rollback();
@@ -91,6 +136,31 @@ public class ReservaDao {
         } finally {
             sesion.close();
         }
+    }
+    public boolean SP_MoficiarReserva(int accion,TimelineReserva reserva)
+    { 
+        boolean resultado = false;
+         Session session = HibernateUtil.getSessionFactory().openSession();
+         try {
+             Query q = session.createSQLQuery("{ CALL SP_ModificarReserva(:accion,:reserva,:flag,:motivo,:inicio,:fin) }");
+             q.setParameter("accion", accion);
+             q.setParameter("reserva", reserva.getIdReserva());
+             q.setParameter("flag", reserva.getEstado());
+             q.setParameter("motivo", reserva.getDescripcion());
+             q.setParameter("inicio", reserva.getFecha_entrada());
+             q.setParameter("fin", reserva.getFecha_salida());
+             q.executeUpdate();
+             resultado = true;
+         }
+         catch(Exception e)
+         {
+             System.out.println("ERROR de SP_MoficiarReserva : "+e.getMessage());
+             resultado=false;
+         } finally {
+            session.flush();
+            session.close();
+        }
+         return resultado;
     }
     
      public String PK() {
