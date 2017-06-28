@@ -103,8 +103,8 @@
                             </p:column>
                             </p:pickList>
                         <h:panelGrid   columns="2" style="margin-right:  auto;background: none;" cellpadding="4"  >
-                            <p:outputLabel value="Precio : " style="background: none;font-family: cursive;font-family: monospace;color: white; " />
-                            <p:outputLabel value="#{reservaDetalleBean.costo}" id="costo" style="background: none;font-family: cursive;color: white;"  /> 
+                            <p:outputLabel value="Precio : " style="background: none;font-family: cursive;font-family: monospace;color: black; " />
+                            <p:outputLabel value="#{reservaDetalleBean.reserv.precio}" id="costo" style="background: none;font-family: cursive;color: black;"  /> 
                           
                         </h:panelGrid>
                         
@@ -117,9 +117,9 @@
                             <p:outputLabel value="Cliente" style="color: black" />
                             <p:outputLabel style="color: black" value="#{loginBean.persona.nombres} #{loginBean.persona.apellidoP} #{loginBean.persona.apellidoM}"  />
                             <p:outputLabel value="Fecha Entrada" style="color: black" />
-                            <p:outputLabel style="color: black" value="#{reservaDetalleBean.reserv.fechaEntrada.date}/#{reservaDetalleBean.reserv.fechaEntrada.month}/#{reservaDetalleBean.reserv.fechaEntrada.year}"  />
+                            <p:outputLabel style="color: black" value="#{reservaDetalleBean.reserv.fechaEntrada.date}/#{reservaDetalleBean.reserv.fechaEntrada.month}/#{reservaDetalleBean.reserv.fechaEntrada.year+1900}"  />
                             <p:outputLabel value="Fecha Salida" style="color: black" />
-                            <p:outputLabel style="color: black" value="#{reservaDetalleBean.reserv.fechaSalida.date}/#{reservaDetalleBean.reserv.fechaSalida.month}/#{reservaDetalleBean.reserv.fechaSalida.year}"  />
+                            <p:outputLabel style="color: black" value="#{reservaDetalleBean.reserv.fechaSalida.date}/#{reservaDetalleBean.reserv.fechaSalida.month}/#{reservaDetalleBean.reserv.fechaSalida.year+1900}"  />
                              <p:outputLabel value="Dormitorios :" style="color: black" />
                              <c:forEach items="#{reservaDetalleBean.cities.target}" var="item" >
                                  <div>
