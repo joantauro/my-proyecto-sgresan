@@ -187,7 +187,17 @@
                                 <h:outputText value="Fecha de Salida" />
                                 <p:calendar id="fechSa" mindate="#{reservaDetalleBean.reserv.fechaEntrada}" value="#{reservaDetalleBean.reserv.fechaSalida}" pattern="dd/MM/yyyy" required="true" >
                                 <p:ajax event="dateSelect" listener="#{reservaDetalleBean.BUSQUEDA2(reservaDetalleBean.reserv.fechaEntrada, reservaDetalleBean.reserv.fechaSalida)}" update="pickList" />
-                                </p:calendar>        
+                                </p:calendar>   
+                                 <p:outputLabel /><p:outputLabel /><p:outputLabel /><p:outputLabel />
+                                <p:outputLabel value="Cantidad de Huespedes" /><p:outputLabel />
+                                <p:outputLabel value="Niños : " style="font-family: cursive;color: #000000" />
+                                <p:spinner min="0" value="#{reservaDetalleBean.reserv.cantN}" >
+                                    <p:ajax  listener="#{reservaDetalleBean.calcularPersonar()}" process="@this" />
+                                </p:spinner>
+                                <p:outputLabel value="Adultos : " style="font-family: cursive;color: #000000" />
+                                <p:spinner min="0" value="#{reservaDetalleBean.reserv.cantA}" >
+                                <p:ajax  listener="#{reservaDetalleBean.calcularPersonar()}" process="@this" />
+                                </p:spinner>
                            </h:panelGrid>
                            
                         </p:panel>

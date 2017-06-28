@@ -26,6 +26,9 @@ public class TReserva  implements java.io.Serializable {
      private Double precio;
      private String usuario;
      private Set TReservadetalles = new HashSet(0);
+     private int cantN;
+     private int cantA;
+     private int cantTotal;
 
     public TReserva() {
     }
@@ -37,21 +40,24 @@ public class TReserva  implements java.io.Serializable {
         this.estado = estado;
         this.descripcion = descripcion;
     }
-    public TReserva(String idReserva, TCliente TCliente, String estado, Date fechaRegistro, Date fechaEntrada, Date fechaSalida, String descripcion, String modalidadPago, byte[] voucher, Double subtotal, Double igv, Double precio, String usuario, Set TReservadetalles) {
-       this.idReserva = idReserva;
-       this.TCliente = TCliente;
-       this.estado = estado;
-       this.fechaRegistro = fechaRegistro;
-       this.fechaEntrada = fechaEntrada;
-       this.fechaSalida = fechaSalida;
-       this.descripcion = descripcion;
-       this.modalidadPago = modalidadPago;
-       this.voucher = voucher;
-       this.subtotal = subtotal;
-       this.igv = igv;
-       this.precio = precio;
-       this.usuario = usuario;
-       this.TReservadetalles = TReservadetalles;
+
+    public TReserva(String idReserva, TCliente TCliente, String estado, Date fechaRegistro, Date fechaEntrada, Date fechaSalida, String descripcion, String modalidadPago, byte[] voucher, Double subtotal, Double igv, Double precio, String usuario, int cantN, int cantA, int cantTotal) {
+        this.idReserva = idReserva;
+        this.TCliente = TCliente;
+        this.estado = estado;
+        this.fechaRegistro = fechaRegistro;
+        this.fechaEntrada = fechaEntrada;
+        this.fechaSalida = fechaSalida;
+        this.descripcion = descripcion;
+        this.modalidadPago = modalidadPago;
+        this.voucher = voucher;
+        this.subtotal = subtotal;
+        this.igv = igv;
+        this.precio = precio;
+        this.usuario = usuario;
+        this.cantN = cantN;
+        this.cantA = cantA;
+        this.cantTotal =cantTotal;
     }
    
     public String getIdReserva() {
@@ -153,6 +159,31 @@ public class TReserva  implements java.io.Serializable {
         this.TReservadetalles = TReservadetalles;
     }
 
+    public int getCantN() {
+        return cantN;
+    }
+
+    public void setCantN(int cantN) {
+        this.cantN = cantN;
+    }
+
+    public int getCantA() {
+        return cantA;
+    }
+
+    public void setCantA(int cantA) {
+        this.cantA = cantA;
+    }
+
+    public int getCantTotal() {
+        return cantTotal;
+    }
+
+    public void setCantTotal(int cantTotal) {
+        this.cantTotal = cantTotal;
+    }
+
+ 
 
 
 

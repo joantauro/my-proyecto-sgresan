@@ -395,10 +395,10 @@ public class ReservaDetalleBean {
         final long MILLSECS_PER_DAY = 24 * 60 * 60 * 1000;
        dia=(reserv.getFechaSalida().getTime()-reserv.getFechaEntrada().getTime())/MILLSECS_PER_DAY;
        for (int i = 0; i < cities.getTarget().size(); i++) {
-            costo=costo+ cities.getTarget().get(i).getPrecio()*dia;
+            costo=costo+ cities.getTarget().get(i).getPrecio()*dia*reserv.getCantTotal();
             
         }
-       
+       costo=costo/cities.getTarget().size();
        igv=costo*0.18;
        
        costoTotal=costo+igv;
@@ -743,7 +743,10 @@ public class ReservaDetalleBean {
 
  
      
-     
+     public void calcularPersonar(){
+         reserv.setCantTotal(reserv.getCantA()+reserv.getCantN());
+         System.out.println("Cantidad de Personas : "+ reserv.getCantTotal());
+     }
      
      
 }

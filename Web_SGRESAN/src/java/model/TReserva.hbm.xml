@@ -44,6 +44,15 @@
         <property name="usuario" type="string">
             <column name="usuario" length="45" />
         </property>
+        <property name="cantN" type="int">
+            <column name="cantN"   />
+        </property>
+        <property name="cantA" type="int">
+            <column name="cantA"   />
+        </property>
+        <property name="cantTotal" type="int">
+            <column name="cantTotal"   />
+        </property>
         <set name="TReservadetalles" table="t_reservadetalle" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="T_Reserva_idReserva" length="25" not-null="true" />
