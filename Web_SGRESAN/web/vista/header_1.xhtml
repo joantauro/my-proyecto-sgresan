@@ -15,11 +15,11 @@
                                 <td><img src="images/bannerLaQuerenciaBlanco.png" /></td>
                                 <td>
                                     <h:panelGrid columns="2" class="formLogin">
-                                        <h:outputText id="usuario" value="Usuario : " style="margin-left: 2%; " rendered="#{loginBean.sesion}" />
-                                        <h:inputText value="#{loginBean.usuario.nombreUsuario}" style="margin-left: 2%; " rendered="#{loginBean.sesion}"  />
-                                        <h:outputText value="Contraseña: " style="margin-left: 2%; " rendered="#{loginBean.sesion}" />
-                                        <h:inputSecret value="#{loginBean.usuario.contrasena}" style="margin-left: 2%; " rendered="#{loginBean.sesion}" /><br />
-                                        <h:commandButton value="Entrar" action="#{loginBean.logueo()}" style="width: 110px;margin-left: 5%" rendered="#{loginBean.sesion}"  />
+                                        <h:outputText id="usuario" value="Usuario : " rendered="#{loginBean.sesion}" />
+                                        <h:inputText value="#{loginBean.usuario.nombreUsuario}" style="width: 100%;" rendered="#{loginBean.sesion}"  />
+                                        <h:outputText value="Contraseña: " rendered="#{loginBean.sesion}" />
+                                        <h:inputSecret value="#{loginBean.usuario.contrasena}" style="width: 100%;" rendered="#{loginBean.sesion}" /><br />
+                                        <h:commandButton value="Entrar" action="#{loginBean.logueo()}" style="width: 100%;" rendered="#{loginBean.sesion}"  />
                                         <div style="text-align: right;">
                                             <h:outputText id="ds" value="USUARIO : #{loginBean.usuario.nombreUsuario}" rendered="#{loginBean.sesion eq false}" /><br />
                                             <p:commandLink id="cerrar" action="#{loginBean.logoud()}" 

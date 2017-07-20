@@ -43,12 +43,18 @@
                 <p:outputLabel/>
                 <p:outputLabel value="Descripción :" style="color: black;"  />
                 <p:outputLabel value="#{reservaDetalleBean.reserva1.descripcion}" style="color: black;" />
-                <p:outputLabel value="Subtotal :" style="color: black;" />
-                <p:outputLabel value="#{reservaDetalleBean.reserva1.subtotal}" style="color: black;"  />
+                <p:outputLabel value="Subtotal :" style="color: black;"/>
+                <p:outputLabel value="#{reservaDetalleBean.reserva1.subtotal}" style="color: black;">
+                    <f:convertNumber type="currency" currencySymbol="S/. " locale="en_US" />
+                </p:outputLabel>
                 <p:outputLabel value="IGV (18%) :" style="color: black;"  />
-                <p:outputLabel value="#{reservaDetalleBean.reserva1.igv}" style="color: black;"  />
+                <p:outputLabel value="#{reservaDetalleBean.reserva1.igv}" style="color: black;" >
+                    <f:convertNumber type="currency" currencySymbol="S/. " locale="en_US" />
+                </p:outputLabel>
                 <p:outputLabel value="TOTAL :" style="color: black;"  />
-                <p:outputLabel value="#{reservaDetalleBean.reserva1.total}" style="color: black;"  />
+                <p:outputLabel value="#{reservaDetalleBean.reserva1.total}" style="color: black;" >
+                    <f:convertNumber type="currency" currencySymbol="S/. " locale="en_US" />
+                </p:outputLabel>
                 <p:outputLabel value="ESTADO :" style="color: black;"  />
                 <p:outputLabel value="#{reservaDetalleBean.reserva1.estado}" style="color: black;"  />
                 <br/><br/>
