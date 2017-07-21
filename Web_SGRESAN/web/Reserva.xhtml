@@ -104,7 +104,9 @@
                             </p:pickList>
                         <h:panelGrid   columns="2" style="margin-right:  auto;background: none;" cellpadding="4"  >
                             <p:outputLabel value="Precio : " style="background: none;font-family: cursive;font-family: monospace;color: black; " />
-                            <p:outputLabel value="#{reservaDetalleBean.reserv.precio}" id="costo" style="background: none;font-family: cursive;color: black;"  /> 
+                            <p:outputLabel value="#{reservaDetalleBean.reserv.precio}" id="costo" style="background: none;font-family: cursive;color: black;"  >
+                            <f:convertNumber type="currency" currencySymbol="S/. " locale="en_US" />
+                            </p:outputLabel> 
                           
                         </h:panelGrid>
                         
@@ -131,11 +133,17 @@
                              <p:outputLabel value="Descripción :" style="color: black" />
                              <p:inputTextarea value="#{reservaDetalleBean.reserv.descripcion}" />
                              <p:outputLabel value="Subtotal :" style="color: black" />
-                             <p:outputLabel value="#{reservaDetalleBean.costo}" style="color: black" />
+                             <p:outputLabel value="#{reservaDetalleBean.costo}" style="color: black" >
+                             <f:convertNumber type="currency" currencySymbol="S/. " locale="en_US" />
+                             </p:outputLabel>
                              <p:outputLabel value="IGV (18%) :" style="color: black" />
-                             <p:outputLabel value="#{reservaDetalleBean.igv}" style="color: black" />
+                             <p:outputLabel value="#{reservaDetalleBean.igv}" style="color: black" >
+                             <f:convertNumber type="currency" currencySymbol="S/. " locale="en_US" />
+                             </p:outputLabel>
                              <p:outputLabel value="TOTAL :" style="color: black" />
-                             <p:outputLabel value="#{reservaDetalleBean.costoTotal}" style="color: black" />
+                             <p:outputLabel value="#{reservaDetalleBean.costoTotal}" style="color: black" >
+                             <f:convertNumber type="currency" currencySymbol="S/. " locale="en_US" />
+                             </p:outputLabel>
                              </h:panelGrid>
                              
                         <p:commandButton update="dia" value="Registrar Pre-Reserva" action="#{reservaDetalleBean.registrarprereserva()}" style="margin-left: 60% " onclick="PF('dlg2').show();"  oncomplete="PF('wiz').loadStep('clientetab',false)" /> 

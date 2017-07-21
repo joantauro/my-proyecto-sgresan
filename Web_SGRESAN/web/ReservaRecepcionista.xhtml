@@ -27,9 +27,13 @@
                 <p:outputLabel value="Habitación Seleccionada" style="color: black;" />
                 <p:outputLabel value="#{reservaDetalleBean.reserva.THabitacion.idHabitacion}" style="color: black;" />
                 <p:outputLabel value="Fecha Entrada" style="color: black;" />
-                <p:outputLabel value="#{reservaDetalleBean.reserva1.fecha_entrada}" style="color: black;"  />
+                <p:outputLabel value="#{reservaDetalleBean.reserva1.fecha_entrada}" style="color: black;"  >
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                </p:outputLabel>
                 <p:outputLabel value="Fecha Salida" style="color: black;" />
-                <p:outputLabel value="#{reservaDetalleBean.reserva1.fecha_salida}"  style="color: black;" />
+                <p:outputLabel value="#{reservaDetalleBean.reserva1.fecha_salida}"  style="color: black;" >
+                <f:convertDateTime pattern="dd/MM/yyyy" />
+                </p:outputLabel>
                 <p:outputLabel value="Cantidad de Habitaciones" style="color: black;" />
                 <p:outputLabel value="#{reservaDetalleBean.list.size()}" style="color: black;" />
 
@@ -71,7 +75,7 @@
 
     <ui:define name="content" >
         <h:form id="formRecep"  >
-            <p:graphicImage name="/img/estado.png"   />
+            <p:graphicImage name="/img/estado_1.png"   />
             <br/><br/>
             <p:selectOneMenu  value="#{reservaDetalleBean.tipohab}" >  
                                     <f:selectItem  itemLabel="Todos" itemValue=""/> 
@@ -157,6 +161,7 @@
             <p:growl id="growlR" showDetail="true"   life="2000" />  
             <p:dialog header="Formulario de Reserva" widgetVar="dlgNuevo" 
                       resizable="false" id="dlgNuevo"  modal="true" style="width: 500px;height: 300px" >
+                <p:ajax event="close" update=":formRecep:timeline" listener="#{reservaDetalleBean.llenar()}" />
                 <p:wizard widgetVar="wiz"  
                           flowListener="#{UserWizard.onFlowProcess}" backLabel="Atrás" nextLabel="Siguiente" >
                     <p:tab id="clientetab" title="1.-Cliente">
@@ -180,16 +185,16 @@
                     <p:tab id="fechatab" title="2.-Fecha">    
                         <p:panel header="Datos del Fecha" style="width: 500px;height: 300px" >
                             <h:panelGrid   columns="2" style="margin-right:  auto;" id="detailsBookingInner" >
-                               <h:outputText value="Fecha de Entrada" />
+                                <p:outputLabel value="Fecha de Entrada" style="font-family: cursive;color: #000000"  />
                                 <p:calendar mindate="#{habitacionBean.max}" value="#{reservaDetalleBean.reserv.fechaEntrada}" pattern="dd/MM/yyyy" locale="es">
                                     <p:ajax event="dateSelect" listener="#{reservaDetalleBean.CAMBIO()}" update="fechSa,pickList" />
                                 </p:calendar>
-                                <h:outputText value="Fecha de Salida" />
+                                <p:outputLabel value="Fecha de Salida" style="font-family: cursive;color: #000000"  />
                                 <p:calendar id="fechSa" mindate="#{reservaDetalleBean.reserv.fechaEntrada}" value="#{reservaDetalleBean.reserv.fechaSalida}" pattern="dd/MM/yyyy" required="true" locale="es">
                                     <p:ajax event="dateSelect" listener="#{reservaDetalleBean.BUSQUEDA2(reservaDetalleBean.reserv.fechaEntrada, reservaDetalleBean.reserv.fechaSalida)}" update="pickList" />
                                 </p:calendar>   
                                 <p:outputLabel /><p:outputLabel /><p:outputLabel /><p:outputLabel />
-                                <p:outputLabel value="Cantidad de Huespedes" /><p:outputLabel />
+                                <p:outputLabel value="Cantidad de Huespedes" style="color: royalblue"  /><p:outputLabel />
                                 <p:outputLabel value="Niños : " style="font-family: cursive;color: #000000" />
                                 <p:spinner min="0" value="#{reservaDetalleBean.reserv.cantN}" >
                                     <p:ajax  listener="#{reservaDetalleBean.calcularPersonar()}" process="@this" />
@@ -216,20 +221,22 @@
                             <p:ajax event="transfer" listener="#{reservaDetalleBean.onTransfer}" update="msg,costo" />
 
                             <p:column style="width:35%;">
-                                <h:outputText value="#{cities.idHabitacion}" />
+                                <h:outputText value="#{cities.idHabitacion}" style="color: black;" />
                             </p:column>
                             <p:column style="width:65%;">
-                                <h:outputText value="#{cities.TTipohabitacion.nombre}" />
+                                <h:outputText value="#{cities.TTipohabitacion.nombre}" style="color: black;" />
                             </p:column>
                         </p:pickList>
                         <h:panelGrid   columns="2" style="margin-right:  auto;background: none;" cellpadding="4"  >
-                            <h:outputText value="Tipo Pago : " style="background: none;font-family: cursive; " />
+                            <h:outputText value="Tipo Pago : " style="background: none;font-family: cursive;color: black; " />
                             <p:selectOneMenu  value="#{reservaDetalleBean.reserv.modalidadPago}" >  
                                     <f:selectItem  itemLabel="Efectivo" itemValue="Efectivo"/> 
                                     <f:selectItem  itemLabel="Deposito" itemValue="Deposito"/> 
                                 </p:selectOneMenu>
-                            <h:outputText value="Precio : " style="background: none;font-family: cursive; " />
-                            <h:outputText value="#{reservaDetalleBean.reserv.precio}" id="costo" style="background: none;font-family: cursive;"  /> 
+                            <h:outputText value="Precio : " style="background: none;font-family: cursive;color: black; " />
+                            <p:outputLabel value="#{reservaDetalleBean.reserv.precio}" id="costo" style="background: none;font-family: cursive;color : black;"  >
+                            <f:convertNumber type="currency" currencySymbol="S/. " locale="en_US" />
+                            </p:outputLabel> 
                           
                         </h:panelGrid>
  
