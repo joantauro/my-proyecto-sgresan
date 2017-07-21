@@ -11,7 +11,6 @@ public class TPedidodetalle  implements java.io.Serializable {
 
      private Integer TPedDetalle;
      private TPedido TPedido;
-     private TPlatillo TPlatillo;
      private String diaNumero;
      private String diaNombre;
 
@@ -19,13 +18,11 @@ public class TPedidodetalle  implements java.io.Serializable {
     }
 
 	
-    public TPedidodetalle(TPedido TPedido, TPlatillo TPlatillo) {
+    public TPedidodetalle(TPedido TPedido) {
         this.TPedido = TPedido;
-        this.TPlatillo = TPlatillo;
     }
-    public TPedidodetalle(TPedido TPedido, TPlatillo TPlatillo, String diaNumero, String diaNombre) {
+    public TPedidodetalle(TPedido TPedido, String diaNumero, String diaNombre) {
        this.TPedido = TPedido;
-       this.TPlatillo = TPlatillo;
        this.diaNumero = diaNumero;
        this.diaNombre = diaNombre;
     }
@@ -44,13 +41,7 @@ public class TPedidodetalle  implements java.io.Serializable {
     public void setTPedido(TPedido TPedido) {
         this.TPedido = TPedido;
     }
-    public TPlatillo getTPlatillo() {
-        return this.TPlatillo;
-    }
     
-    public void setTPlatillo(TPlatillo TPlatillo) {
-        this.TPlatillo = TPlatillo;
-    }
     public String getDiaNumero() {
         return this.diaNumero;
     }

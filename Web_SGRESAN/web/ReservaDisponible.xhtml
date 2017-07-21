@@ -23,9 +23,9 @@
                 <h:form>
                     <h:panelGrid   columns="2" style="margin-right:  auto" id="panelfecha" cellpadding="4"  >
                       <h:outputText value="Fecha de Entrada" />
-                      <p:calendar value="#{habitacionBean.fecInicio}" pattern="dd-MM-yyyy" mindate="#{habitacionBean.max}" />
+                      <p:calendar value="#{habitacionBean.fecInicio}" pattern="dd-MM-yyyy" mindate="#{habitacionBean.max}" locale="es"/>
                       <h:outputText value="Fecha de Salida" />
-                      <p:calendar value="#{habitacionBean.fecSalida}" pattern="dd-MM-yyyy" mindate="#{habitacionBean.max}" />  
+                      <p:calendar value="#{habitacionBean.fecSalida}" pattern="dd-MM-yyyy" mindate="#{habitacionBean.max}" locale="es"/>  
                     </h:panelGrid>
                     <p:commandButton update="listhabitacion,pickList" action="#{habitacionBean.BUSQUEDA()}" value="Buscar" />
                     

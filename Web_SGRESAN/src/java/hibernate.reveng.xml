@@ -7,10 +7,8 @@
   <table-filter match-name="t_habitaciondetalle"/>
   <table-filter match-name="t_ubigeo"/>
   <table-filter match-name="t_pedidodetalle"/>
-  <table-filter match-name="t_platillo"/>
   <table-filter match-name="t_reservalog"/>
   <table-filter match-name="t_trabajador"/>
-  <table-filter match-name="t_ingrediente"/>
   <table-filter match-name="t_promocion"/>
   <table-filter match-name="t_caja"/>
   <table-filter match-name="t_reserva"/>
@@ -21,6 +19,5 @@
   <table-filter match-name="t_usuario"/>
   <table-filter match-name="t_hotel"/>
   <table-filter match-name="t_persona"/>
-  <table-filter match-name="t_platilloiingrediente"/>
   <table-filter match-name="t_reservadetalle"/>
 </hibernate-reverse-engineering>

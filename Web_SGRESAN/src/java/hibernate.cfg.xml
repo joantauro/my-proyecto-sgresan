@@ -8,7 +8,6 @@
     <property name="hibernate.connection.username">root</property>
     <property name="hibernate.current_session_context_class">thread</property>
     <property name="hibernate.connection.password">1234</property>
-    <mapping resource="model/TPlatillo.hbm.xml"/>
     <mapping resource="model/THabitaciondetalle.hbm.xml"/>
     <mapping resource="model/TPedidodetalle.hbm.xml"/>
     <mapping resource="model/TUsuario.hbm.xml"/>
@@ -21,11 +20,9 @@
     <mapping resource="model/TPedido.hbm.xml"/>
     <mapping resource="model/TCajalog.hbm.xml"/>
     <mapping resource="model/THotel.hbm.xml"/>
-    <mapping resource="model/TIngrediente.hbm.xml"/>
     <mapping resource="model/TPromocion.hbm.xml"/>
     <mapping resource="model/TReservalog.hbm.xml"/>
     <mapping resource="model/TReservadetallelog.hbm.xml"/>
-    <mapping resource="model/TPlatilloiingrediente.hbm.xml"/>
     <mapping resource="model/THabitacion.hbm.xml"/>
     <mapping resource="model/TUbigeo.hbm.xml"/>
     <mapping resource="model/TCaja.hbm.xml"/>

@@ -70,7 +70,7 @@ private List<TReserva> reservasALL;
            {
                FacesContext context = FacesContext.getCurrentInstance();
          
-                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Successful",  "El Archivo que subio no es una imagen") );
+                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Advertencia",  "El Archivo que subio no es una imagen") );
       
            }
              
@@ -149,7 +149,7 @@ private List<TReserva> reservasALL;
          cli = clidao.buscarCliente(reserva.getTCliente().getIdCliente());
         ar.ModificarReserva(reserva);
         FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage("Successful",  "Se Aprobo la reserva "+reserva.getIdReserva()) );
+        context.addMessage(null, new FacesMessage("Proceso Exitoso",  "Se Aprobo la reserva "+reserva.getIdReserva()) );
       
     }
     
@@ -166,7 +166,7 @@ private List<TReserva> reservasALL;
          cli = clidao.buscarCliente(reserva.getTCliente().getIdCliente());
         ar.ModificarReserva(reserva);
         FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage("Successful",  "Se hospedo ") );
+        context.addMessage(null, new FacesMessage("Proceso Exitoso",  "Se hospedo ") );
         
     }
     

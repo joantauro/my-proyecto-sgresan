@@ -10,7 +10,7 @@
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     
     <ui:define name ="titulo">
-        Reservitas
+        Reserva La Querencia Hermanos
     </ui:define>
     <ui:define name="top">
   
@@ -87,32 +87,26 @@
             <p:timeline id="timeline" value="#{reservaDetalleBean.model}" var="booking"  
                            timeZone="#{reservaDetalleBean.timeZone}"    min="#{reservaDetalleBean.start}"
                            zoomMax="#{reservaDetalleBean.zoomMax}"   zoomMin="600000000" 
-                           start="#{reservaDetalleBean.start}" 
+                           start="#{reservaDetalleBean.start}" locale="tes"
                            end="#{reservaDetalleBean.end}" stackEvents="false"  axisOnTop="true"
                            editable="true" showNavigation="true" timeChangeable="#{reservaDetalleBean.timeChangeable}"  
                            showButtonNew="false" minHeight="200" widgetVar="timelineWdgt"  >
-
                 <p:ajax event="add" listener="#{reservaDetalleBean.onAdd}"  
                         oncomplete="PF('dlgNuevo').show()" update=":formWizard:dlgNuevo" />
                 <p:ajax event="select" update=":info:panelinfo"  
-                        listener="#{reservaDetalleBean.onEdit}"  
-                     />  
+                        listener="#{reservaDetalleBean.onEdit}" />  
                 <p:ajax event="changed" update=":formreprogramacion:ReprogramacionInner" 
                         listener="#{reservaDetalleBean.onChange}" 
-                        oncomplete="PF('ReprogramacionWdgt').show()"  /> 
-                
+                        oncomplete="PF('ReprogramacionWdgt').show()"  />                 
                 <p:ajax event="edit" update=":formreprogramacion:ReprogramacionInner" 
                         listener="#{reservaDetalleBean.onChange}" 
                         oncomplete="PF('ReprogramacionWdgt').show()"  /> 
                 <p:ajax event="delete" update=":formcancelacion:deleteBookingInner,:info:panelinfo"  
                         listener="#{reservaDetalleBean.onDelete}"
-            onstart="PF('timelineWdgt').cancelDelete()" oncomplete="PF('deleteBookingWdgt').show()"/>
-                
+                        onstart="PF('timelineWdgt').cancelDelete()" oncomplete="PF('deleteBookingWdgt').show()"/>                
                 <h:panelGrid columns="1">   
-                    <h:outputText value="#{booking.cliente}" style="color: black" />  
-                 
-            </h:panelGrid> 
-                
+                    <h:outputText value="#{booking.cliente}" style="color: black" />                   
+                </h:panelGrid>
             </p:timeline>
         </h:form>
  
@@ -187,14 +181,14 @@
                         <p:panel header="Datos del Fecha" style="width: 500px;height: 300px" >
                             <h:panelGrid   columns="2" style="margin-right:  auto;" id="detailsBookingInner" >
                                <h:outputText value="Fecha de Entrada" />
-                                <p:calendar mindate="#{habitacionBean.max}" value="#{reservaDetalleBean.reserv.fechaEntrada}" pattern="dd/MM/yyyy" >
+                                <p:calendar mindate="#{habitacionBean.max}" value="#{reservaDetalleBean.reserv.fechaEntrada}" pattern="dd/MM/yyyy" locale="es">
                                     <p:ajax event="dateSelect" listener="#{reservaDetalleBean.CAMBIO()}" update="fechSa,pickList" />
                                 </p:calendar>
                                 <h:outputText value="Fecha de Salida" />
-                                <p:calendar id="fechSa" mindate="#{reservaDetalleBean.reserv.fechaEntrada}" value="#{reservaDetalleBean.reserv.fechaSalida}" pattern="dd/MM/yyyy" required="true" >
-                                <p:ajax event="dateSelect" listener="#{reservaDetalleBean.BUSQUEDA2(reservaDetalleBean.reserv.fechaEntrada, reservaDetalleBean.reserv.fechaSalida)}" update="pickList" />
+                                <p:calendar id="fechSa" mindate="#{reservaDetalleBean.reserv.fechaEntrada}" value="#{reservaDetalleBean.reserv.fechaSalida}" pattern="dd/MM/yyyy" required="true" locale="es">
+                                    <p:ajax event="dateSelect" listener="#{reservaDetalleBean.BUSQUEDA2(reservaDetalleBean.reserv.fechaEntrada, reservaDetalleBean.reserv.fechaSalida)}" update="pickList" />
                                 </p:calendar>   
-                                 <p:outputLabel /><p:outputLabel /><p:outputLabel /><p:outputLabel />
+                                <p:outputLabel /><p:outputLabel /><p:outputLabel /><p:outputLabel />
                                 <p:outputLabel value="Cantidad de Huespedes" /><p:outputLabel />
                                 <p:outputLabel value="Niños : " style="font-family: cursive;color: #000000" />
                                 <p:spinner min="0" value="#{reservaDetalleBean.reserv.cantN}" >
@@ -262,11 +256,17 @@
                              <p:outputLabel value="Descripción :" style="color: black" />
                              <p:inputTextarea value="#{reservaDetalleBean.reserv.descripcion}" />
                              <p:outputLabel value="Subtotal :" style="color: black" />
-                             <p:outputLabel value="#{reservaDetalleBean.reserv.subtotal}" style="color: black" />
+                             <p:outputLabel value="#{reservaDetalleBean.reserv.subtotal}" style="color: black" >
+                                 <f:convertNumber type="currency" currencySymbol="S/. " locale="en_US" />
+                             </p:outputLabel>
                              <p:outputLabel value="IGV (18%) :" style="color: black" />
-                             <p:outputLabel value="#{reservaDetalleBean.reserv.igv}" style="color: black" />
+                             <p:outputLabel value="#{reservaDetalleBean.reserv.igv}" style="color: black" >
+                                 <f:convertNumber type="currency" currencySymbol="S/. " locale="en_US" />
+                             </p:outputLabel>
                              <p:outputLabel value="TOTAL :" style="color: black" />
-                             <p:outputLabel value="#{reservaDetalleBean.reserv.precio}" style="color: black" />
+                             <p:outputLabel value="#{reservaDetalleBean.reserv.precio}" style="color: black" >
+                                 <f:convertNumber type="currency" currencySymbol="S/. " locale="en_US" />
+                             </p:outputLabel>
                              </h:panelGrid>
                              
                         <p:commandButton oncomplete="PF('wiz').loadStep('clientetab',false)"  value="Registrar" action="#{reservaDetalleBean.GUARDARDETALLES()}" onclick="PF('dlgNuevo').hide()" update=":formRecep:timeline,growlR"   /> 
