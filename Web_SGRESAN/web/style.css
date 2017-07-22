@@ -1,7 +1,7 @@
 * { margin:0; padding:0;}
 html, body { height:100%;}
 body { 
-    background:url(images/vistamar_1.png) center top #37271c; 
+    background:url(images/pattern.png) center top #37271c; 
     font-family:Tahoma, Geneva, sans-serif; 
     font-size:100%; 
     line-height:1.125em; 
@@ -308,7 +308,6 @@ h6 { font-size:1em; color:#e7e7e7;}
 }
 
 .banner1{
-    border: #000;
     border-width: 1 0 1 0px;
     border-style: solid;
     /*
@@ -343,12 +342,27 @@ h6 { font-size:1em; color:#e7e7e7;}
     font-size: 12px;
     text-align: center;
     
-    //redondeo solo abajo
     -webkit-border-bottom-right-radius: 9px;
     -webkit-border-bottom-left-radius: 9px;
     -moz-border-radius-bottomright: 9px;
     -moz-border-radius-bottomleft: 9px;
     border-bottom-right-radius: 9px;
-    border-bottom-left-radius: 9px;
-    
+    border-bottom-left-radius: 9px;    
+}
+
+.no-border-radius{
+    -moz-border-radius: 0px !important;
+    -webkit-border-radius: 0px !important;
+    border-radius: 0px !important;
+}
+
+.menu-boot {
+    background: none;
+    background-color: #f4f4f4;
+}
+
+.menu-boot a:hover{
+    background: none !important;
+    background-color: #6d6666 !important;
+    color: #fff !important;
 }

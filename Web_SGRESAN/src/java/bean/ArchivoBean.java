@@ -143,7 +143,7 @@ private List<TReserva> reservasALL;
         reserva = ar.BuscaporId(id);
         reserva.setEstado("reservado");
         
-         ClienteDao clidao = new ClienteDao();
+        ClienteDao clidao = new ClienteDao();
         email e = new email();
  
          cli = clidao.buscarCliente(reserva.getTCliente().getIdCliente());

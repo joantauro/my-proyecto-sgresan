@@ -311,7 +311,7 @@ public class ReservaDetalleBean {
         reserv.setUsuario(((TUsuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario")).getNombreUsuario());
         reserv.setTCliente(cli);
         reserv.setPrecio(costoTotal);
-        //e.send(cli.getTPersona().getEmail(),"Reserva LQR","Buenas Noches \n Su reserva fue registrado exitosamente\nAtte. La Querencia Hermanos");
+        e.send(cli.getTPersona().getEmail(),"Reserva LQR","Estimado(a) \n Su reserva fue registrado exitosamente\nAtte. La Querencia Hermanos");
         dao.InsetartReserva(reserv);
 
         reserva.setTReserva(reserv);

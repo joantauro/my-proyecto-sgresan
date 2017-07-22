@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 template="./vista/Plantilla_main.xhtml"
                 xmlns:p="http://primefaces.org/ui"
@@ -20,10 +20,10 @@
                 <p:outputLabel value="Paso 2 : El sistema mostrará un menú con una serie de datos." style="color: #000000" /> 
                 <p:outputLabel value="Paso 3 : El cliente ingresa al menú 'Reservas' seguido del sub-menú 'Pre-Reservas'" style="color: #000000" /> 
                 <p:outputLabel value="Paso 4 : El sistema mostrará una ficha con los siguientes datos:" style="color: #000000" />
-                <p:outputLabel value="&nbsp;&nbsp;&nbsp;&nbsp;- Cliente: Mostrará los datos generales del cliente" style="color: #000000" />
-                <p:outputLabel value="&nbsp;&nbsp;&nbsp;&nbsp;- Fecha: Indica la fecha de ingreso y salida del cliente." style="color: #000000" />
-                <p:outputLabel value="&nbsp;&nbsp;&nbsp;&nbsp;- Dormitorios: Muestra los tipos de dormitorios disponibles e indica que seleccione uno o más tipos de dormitorios." style="color: #000000" />
-                <p:outputLabel value="&nbsp;&nbsp;&nbsp;&nbsp;- Detalle: Muestra el detalle completo de la pre-reserva" style="color: #000000" />
+                <p:outputLabel value="- Cliente: Mostrará los datos generales del cliente" style="color: #000000" />
+                <p:outputLabel value="- Fecha: Indica la fecha de ingreso y salida del cliente." style="color: #000000" />
+                <p:outputLabel value="- Dormitorios: Muestra los tipos de dormitorios disponibles e indica que seleccione uno o más tipos de dormitorios." style="color: #000000" />
+                <p:outputLabel value="- Detalle: Muestra el detalle completo de la pre-reserva" style="color: #000000" />
                 <p:outputLabel value="Paso 5 : Presiona el botón 'Registrar'" style="color: #000000" />
                 <p:outputLabel value="Paso 6 : El sistema genera automáticamente un código de pre-reserva." style="color: #000000" />
             </h:panelGrid> 
@@ -130,7 +130,7 @@
                                  </div>
                              </c:forEach>
                              <p:outputLabel/>
-                             <p:outputLabel value="Descripción :" style="color: black" />
+                             <p:outputLabel value="Comentario :" style="color: black" />
                              <p:inputTextarea value="#{reservaDetalleBean.reserv.descripcion}" />
                              <p:outputLabel value="Subtotal :" style="color: black" />
                              <p:outputLabel value="#{reservaDetalleBean.costo}" style="color: black" >

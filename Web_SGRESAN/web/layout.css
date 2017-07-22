@@ -1,15 +1,12 @@
-#main {width:976px; margin:20px auto; position:relative;
-
--webkit-border-radius: 11px;
--moz-border-radius: 11px;
-border-radius: 11px;
--webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
--moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
-background-color: #fff;
-
-
-
+#main {
+    width:976px; margin:20px auto; position:relative;
+    -webkit-border-radius: 11px;
+    -moz-border-radius: 11px;
+    border-radius: 11px;
+    -webkit-box-shadow: 10px 10px 100px 0px #c6c6c6;
+    -moz-box-shadow: 10px 10px 100px 0px #c6c6c6;
+    box-shadow: 10px 10px 100px 0px #c6c6c6;
+    background-color: #fff;
 }
 
 #header {
