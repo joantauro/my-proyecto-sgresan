@@ -476,7 +476,7 @@ public class ReservaDetalleBean {
         
             System.out.println("N°" + i);}
          }  */
-        listareservas = dao.SP_listareservafiltros();
+        listareservas = dao.SP_listareservafiltrosF(tipohab);
         for (int i = 0; i < listareservas.size(); i++) {
             if (!"cancelado".equals(listareservas.get(i).getEstado())) {
                 model.add(new TimelineEvent(listareservas.get(i).getTimelinereserva(), listareservas.get(i).getFecha_entrada(),
