@@ -12,7 +12,8 @@
         <link href="${request.contextPath}/style.css" rel="stylesheet" type="text/css" />
         <link href="${request.contextPath}/layout.css" rel="stylesheet" type="text/css" />
         <link href="${request.contextPath}/menu.css" rel="stylesheet" type="text/css" />
-        <script src="${request.contextPath}/maxheight.js" type="text/javascript"></script> 
+        <script src="${request.contextPath}/maxheight.js" type="text/javascript"></script>       
+        
         <title>
             <ui:insert name="titulo">
                 Facelets Template
@@ -32,7 +33,7 @@
                     <ui:insert name="content"></ui:insert>
                 </div>
             </center>
-                <ui:include src="/vista/footer_1.xhtml"  />
+                <ui:include src="/vista/footer_1.xhtml"/>
                 <ui:insert name="bottom"></ui:insert>
         </div>
         <br />
