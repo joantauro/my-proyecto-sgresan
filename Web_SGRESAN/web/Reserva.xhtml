@@ -94,7 +94,8 @@
                             <f:facet name="targetCaption">Seleccionados</f:facet>
 
                             <p:ajax event="transfer" listener="#{reservaDetalleBean.onTransfer}" update="costo" />
-
+                            <p:ajax event="select" listener="#{reservaDetalleBean.onSelect}" update="img_hab" />
+                            
                             <p:column style="width:35%;">
                                 <p:outputLabel value="#{cities.idHabitacion}" style="font-family: cursive;color: #000000" />
                             </p:column>
@@ -181,7 +182,7 @@
                     </p:tab>
                 
                 </p:wizard>
-            
+            <p:graphicImage value="#{reservaDetalleBean.rutaImagen}" width="500" height="300" id="img_hab" />       
             <p:dialog  header="Modal Dialog" widgetVar="dlg2" modal="true" height="100">
                 <h:panelGrid   id="dia" columns="1" style="margin-right:  auto;background: none;" cellpadding="4"  >
                     <h:outputText value="Su Código de Reserva es el siguiente: #{reservaDetalleBean.reserv.idReserva}" />

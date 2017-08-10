@@ -27,6 +27,7 @@ import model.TPersona;
 import model.TReserva;
 import model.TReservadetalle;
 import model.TUsuario;
+import org.primefaces.event.SelectEvent;
 import org.primefaces.event.TransferEvent;
 import org.primefaces.event.timeline.TimelineAddEvent;
 import org.primefaces.event.timeline.TimelineDragDropEvent;
@@ -57,7 +58,7 @@ public class ReservaDetalleBean {
     /**
      * ********************************************
      */
-
+    private String rutaImagen;
     private TReserva reserv;
     private THabitacion hab;
     private List<TReservadetalle> list;
@@ -112,7 +113,8 @@ public class ReservaDetalleBean {
         reserv.setTCliente(new TCliente());
         hab = new THabitacion();
         hab.setTHotel(new THotel());
-
+        rutaImagen="/images/bed/blanco.png";
+        
         llenar();
         System.out.println("Prueba");
         List<THabitacion> citiesSource = new ArrayList<THabitacion>();
@@ -147,6 +149,7 @@ public class ReservaDetalleBean {
         reserv.setTCliente(new TCliente());
         cli = new TCliente();
         cli.setTPersona(new TPersona());
+        rutaImagen="/images/bed/blanco.png";
     }
 
     public void CAMBIO() {
@@ -409,6 +412,26 @@ public class ReservaDetalleBean {
 //        msg.setDetail(builder.toString());
 //         
 //        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+    
+    public void onSelect(SelectEvent event) {
+        THabitacion t = (THabitacion) event.getObject();
+        //FacesContext context = FacesContext.getCurrentInstance();
+        //context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Item Selected", event.getObject().toString()));
+        if(t.getTTipohabitacion().getNombre().equals("simple")){
+            rutaImagen="/images/bed/cama_simple.jpg";
+        } else if (t.getTTipohabitacion().getNombre().equals("doble")){
+            rutaImagen="/images/bed/cama_doble.jpg";
+        }else{
+            rutaImagen="/images/bed/cama_triple.jpg";
+        }
+                
+         
+    }
+    
+    public void cambioImg(){
+        rutaImagen="/images/bed/blanco.png";
+        System.out.println("RUTA : "+rutaImagen);
     }
 
     public void nombre() {
@@ -727,6 +750,14 @@ public class ReservaDetalleBean {
     public void calcularPersonar() {
         reserv.setCantTotal(reserv.getCantA() + reserv.getCantN());
         System.out.println("Cantidad de Personas : " + reserv.getCantTotal());
+    }
+
+    public String getRutaImagen() {
+        return rutaImagen;
+    }
+
+    public void setRutaImagen(String rutaImagen) {
+        this.rutaImagen = rutaImagen;
     }
 
 }
