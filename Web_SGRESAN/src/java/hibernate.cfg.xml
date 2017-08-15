@@ -6,8 +6,8 @@
     <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
     <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/sgresan</property>
     <property name="hibernate.connection.username">root</property>
-    <property name="hibernate.current_session_context_class">thread</property>
     <property name="hibernate.connection.password">1234</property>
+    <property name="hibernate.current_session_context_class">thread</property>
     <mapping resource="model/THabitaciondetalle.hbm.xml"/>
     <mapping resource="model/TPedidodetalle.hbm.xml"/>
     <mapping resource="model/TUsuario.hbm.xml"/>
@@ -26,5 +26,8 @@
     <mapping resource="model/THabitacion.hbm.xml"/>
     <mapping resource="model/TUbigeo.hbm.xml"/>
     <mapping resource="model/TCaja.hbm.xml"/>
+    <mapping resource="model/TCategoria.hbm.xml"/>
+    <mapping resource="model/TProducto.hbm.xml"/>
+    <mapping resource="model/TResxprod.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

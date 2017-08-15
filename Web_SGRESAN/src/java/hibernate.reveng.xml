@@ -20,4 +20,7 @@
   <table-filter match-name="t_hotel"/>
   <table-filter match-name="t_persona"/>
   <table-filter match-name="t_reservadetalle"/>
+  <table-filter match-name="t_categoria"/>
+  <table-filter match-name="t_producto"/>
+  <table-filter match-name="t_resxprod"/>
 </hibernate-reverse-engineering>
