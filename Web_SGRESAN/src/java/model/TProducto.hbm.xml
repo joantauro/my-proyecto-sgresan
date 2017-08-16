@@ -20,7 +20,7 @@
         <property name="stock" type="java.lang.Integer">
             <column name="Stock" />
         </property>
-        <property name="imagen" type="binary">
+        <property name="imagen" type="text">
             <column name="imagen" />
         </property>
     </class>
