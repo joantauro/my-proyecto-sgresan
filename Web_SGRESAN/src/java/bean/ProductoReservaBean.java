@@ -20,6 +20,7 @@ import model.TPersona;
 import model.TProducto;
 import model.TReserva;
 import model.TResxprod;
+import org.apache.commons.codec.binary.Base64;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
@@ -65,7 +66,8 @@ public class ProductoReservaBean {
 
     public void DEVOLVER_IMAGEN(TProducto prod){
          if(prod.getImagen()!=null){
-             imagen =new DefaultStreamedContent(new ByteArrayInputStream(prod.getImagen()));
+             byte[] base64Bytes = Base64.decodeBase64(prod.getImagen());
+             imagen =new DefaultStreamedContent(new ByteArrayInputStream(base64Bytes));
          }else{
              System.out.println("ERROR NO HAY BYTES"+prod.getNombreProducto());
          }

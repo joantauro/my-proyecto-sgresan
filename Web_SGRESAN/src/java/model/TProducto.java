@@ -14,12 +14,12 @@ public class TProducto  implements java.io.Serializable {
      private String nombreProducto;
      private Double precioUnitario;
      private Integer stock;
-     private byte[] imagen;
+     private String imagen;
 
     public TProducto() {
     }
 
-    public TProducto(TCategoria TCategoria, String nombreProducto, Double precioUnitario, Integer stock, byte[] imagen) {
+    public TProducto(TCategoria TCategoria, String nombreProducto, Double precioUnitario, Integer stock, String imagen) {
        this.TCategoria = TCategoria;
        this.nombreProducto = nombreProducto;
        this.precioUnitario = precioUnitario;
@@ -63,13 +63,21 @@ public class TProducto  implements java.io.Serializable {
         this.stock = stock;
     }
 
-    public byte[] getImagen() {
+    /**
+     * @return the imagen
+     */
+    public String getImagen() {
         return imagen;
     }
 
-    public void setImagen(byte[] imagen) {
+    /**
+     * @param imagen the imagen to set
+     */
+    public void setImagen(String imagen) {
         this.imagen = imagen;
     }
+
+
 
     
 
