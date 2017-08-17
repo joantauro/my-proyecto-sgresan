@@ -19,6 +19,7 @@ import model.TCliente;
 import model.TPersona;
 import model.TReserva;
 import org.apache.commons.io.IOUtils;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -65,6 +66,7 @@ private List<TReserva> reservasALL;
                reserva.setVoucher(bytes);
                //reserva.setDescripcion(file.getFileName());
                System.out.println(file.getFileName());
+               reserva.setEstado("pre-reserva-cv");
                ar.ModificarReserva(reserva);
            }else
            {
@@ -89,6 +91,14 @@ private List<TReserva> reservasALL;
 // 
 //        
 //        dato = new Dato();
+    }
+    
+    public String devolverEstado(String str){
+        if(str.equals("pre-reserva-cv")){
+            return "pre-reserva";
+        }else{
+            return str;
+        }
     }
 
      public void handleFileUpload(FileUploadEvent event) {
@@ -141,13 +151,17 @@ private List<TReserva> reservasALL;
         TCliente cli = new TCliente();
         ArchivoDao ar = new ArchivoDao();
         reserva = ar.BuscaporId(id);
-        reserva.setEstado("reservado");
+        reserva.setEstado("reservado"); 
         
         ClienteDao clidao = new ClienteDao();
         email e = new email();
  
          cli = clidao.buscarCliente(reserva.getTCliente().getIdCliente());
         ar.ModificarReserva(reserva);
+        
+        ReservaDetalleBean rBean = new ReservaDetalleBean();
+        rBean.llenar();
+        RequestContext.getCurrentInstance().update(":formRecep:timeline");
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage("Proceso Exitoso",  "Se Aprobo la reserva "+reserva.getIdReserva()) );
       

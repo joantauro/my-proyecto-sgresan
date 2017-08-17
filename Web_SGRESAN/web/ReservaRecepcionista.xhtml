@@ -77,7 +77,9 @@
         <h:form id="formRecep"  >
             <p:graphicImage name="/img/estado_1.png"   />
             <br/><br/>
-            <p:selectOneMenu  value="#{reservaDetalleBean.tipohab}" >  
+            <p:panelGrid columns="4" styleClass="ui-noborder" >
+                <p:outputLabel value="Tipo de Habitaciones : " />
+                <p:selectOneMenu  value="#{reservaDetalleBean.tipohab}" >  
                                     <f:selectItem  itemLabel="Todos" itemValue=""/> 
                                     <f:selectItem  itemLabel="simple" itemValue="simple"/> 
                                     <f:selectItem  itemLabel="doble" itemValue="doble"/> 
@@ -87,6 +89,16 @@
                                     <p:ajax listener="#{reservaDetalleBean.llenar()}" update="timeline" />
                                     
             </p:selectOneMenu>
+                <p:outputLabel value="Estado : " />
+                <p:selectOneMenu value="#{reservaDetalleBean.estado}" >  
+                                    <f:selectItem  itemLabel="Todos" itemValue=""/> 
+                                    <f:selectItem  itemLabel="Pre-Reserva (Sin Voucher)" itemValue="pre-reserva"/> 
+                                    <f:selectItem  itemLabel="Pre-Reserva (Con Voucher)" itemValue="pre-reserva-cv"/> 
+                                    <f:selectItem  itemLabel="Reservado" itemValue="reservado"/> 
+                                    <f:selectItem  itemLabel="Hospedado" itemValue="hospedado"/>
+                                    <p:ajax listener="#{reservaDetalleBean.llenar()}" update="timeline" />
+            </p:selectOneMenu>
+            </p:panelGrid>
             <br/>
             <p:timeline id="timeline" value="#{reservaDetalleBean.model}" var="booking"  
                            timeZone="#{reservaDetalleBean.timeZone}"    min="#{reservaDetalleBean.start}"
@@ -142,9 +154,13 @@
 
                     <h:panelGrid columns="2" columnClasses="bookingDetails1,bookingDetails2"> 
                         <h:outputText value="Fecha Entrada :" />
-                        <h:outputText value="#{reservaDetalleBean.start.date}/#{reservaDetalleBean.start.month}/#{reservaDetalleBean.start.year}" />
+                        <h:outputText value="#{reservaDetalleBean.start}" >
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
                         <h:outputText value="Fecha Salida :" />
-                        <h:outputText value="#{reservaDetalleBean.end.date}/#{reservaDetalleBean.end.month}/#{reservaDetalleBean.end.year}" />
+                        <h:outputText value="#{reservaDetalleBean.end}" >
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
                         <h:outputText value="Motivo "/>
                         <p:inputTextarea value="#{reservaDetalleBean.motivo}" />
                         

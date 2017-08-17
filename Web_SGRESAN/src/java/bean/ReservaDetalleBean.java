@@ -93,12 +93,13 @@ public class ReservaDetalleBean {
      * Creates a new instance of ReservaDetalleBean
      */
     private String tipohab;
+    private String estado;
     private String nombreC;
 
     public ReservaDetalleBean() {
         zoomMax = 600000001;
         event = new TimelineEvent();
-        tipohab = "";
+        tipohab = "";estado="";
         costo = 0;
         editable = false;
         igv = 0.0;
@@ -210,7 +211,9 @@ public class ReservaDetalleBean {
         System.out.println("Editando...");
         event = e.getTimelineEvent();
         reserva1 = (TimelineReserva) event.getData();
-
+        if(reserva1.getEstado().equals("pre-reserva-cv")){
+            reserva1.setEstado("pre-reserva");
+        }
         /*reserva =((TReservadetalle)event.getData());
            startm=reserva.getTReserva().getFechaEntrada().getDate()+"/"+(reserva.getTReserva().getFechaEntrada().getMonth()+1)+"/"+(reserva.getTReserva().getFechaEntrada().getYear()+1900);
            endm=reserva.getTReserva().getFechaSalida().getDate()+"/"+(reserva.getTReserva().getFechaSalida().getMonth()+1)+"/"+(reserva.getTReserva().getFechaSalida().getYear()+1900);
@@ -446,13 +449,19 @@ public class ReservaDetalleBean {
         //cli.setIdCliente(reserv.getTCliente().getIdCliente());
         reserv.setIdReserva(dao.PK());
         reserv.setUsuario(((TUsuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario")).getNombreUsuario());
-        if (reserv.getModalidadPago().equals("Efectivo")) {
+        reserv.setFechaRegistro(new Date());
+        
+        String fec_reg = (reserv.getFechaRegistro().getYear() + 1900) + "/" + (reserv.getFechaRegistro().getMonth() + 1) + "/" + reserv.getFechaRegistro().getDate();
+        String fec_ent = (reserv.getFechaEntrada().getYear() + 1900) + "/" + (reserv.getFechaEntrada().getMonth() + 1) + "/" + reserv.getFechaEntrada().getDate();
+        if (fec_reg.equals(fec_ent)) {
+            reserv.setEstado("hospedado");
+        } else if (reserv.getModalidadPago().equals("Efectivo")) {
             reserv.setEstado("reservado");
         } else {
             reserv.setEstado("pre-reserva");
         }
-        reserv.setFechaRegistro(new Date());
-
+      
+        
         //reserv.setPrecio(costoTotal);
         reserv.setTCliente(cli);
         dao.InsetartReserva(reserv);
@@ -499,7 +508,7 @@ public class ReservaDetalleBean {
         
             System.out.println("N°" + i);}
          }  */
-        listareservas = dao.SP_listareservafiltrosF(tipohab);
+        listareservas = dao.SP_listareservafiltrosF_EST(tipohab,estado);
         for (int i = 0; i < listareservas.size(); i++) {
             if (!"cancelado".equals(listareservas.get(i).getEstado())) {
                 model.add(new TimelineEvent(listareservas.get(i).getTimelinereserva(), listareservas.get(i).getFecha_entrada(),
@@ -760,4 +769,13 @@ public class ReservaDetalleBean {
         this.rutaImagen = rutaImagen;
     }
 
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    
 }

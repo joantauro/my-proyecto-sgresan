@@ -51,6 +51,11 @@ div.pre-reserva {
     background: #FFA500 none !important;  /* orange */  
     border-color: #cc8100 !important;     /* orange */  
 }  
+
+div.pre-reserva-cv {  
+    background: plum none !important;  /* orange */  
+    border-color: #cc8100 !important;     /* orange */  
+}  
   
 div.timeline-event-selected {  
     background: #BECEFE none !important;  

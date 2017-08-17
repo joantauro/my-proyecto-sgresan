@@ -117,6 +117,46 @@ public class ReservaDao {
         }
           return lista;
     }   
+    
+        public List<TimelineDetalleReserva> SP_listareservafiltrosF_EST(String valor,String est)
+    {
+          List<TimelineDetalleReserva> lista= new ArrayList<TimelineDetalleReserva>();
+                Session session = HibernateUtil.getSessionFactory().openSession();
+                 try {
+          
+             Query q = session.createSQLQuery("{ CALL SP_TimelineFiltro_Estado(:filtro,:est) }");
+             q.setParameter("filtro", valor);
+             q.setParameter("est", est);
+         
+			List<Object[]> d=q.list();
+			for (Object[] result : d) {
+				
+                        String idReserva = (String)result[0];
+                        String cliente = (String)result[1];
+                        String descripcion =(String)result[2];
+                         double subtotal =Double.parseDouble(result[3].toString());
+                         double igv =Double.parseDouble(result[4].toString());
+                         double monto=Double.parseDouble(result[5].toString());
+                          Date fecha_entrada = (Date) result[6];
+                          Date fecha_salida = (Date) result[7];
+                          boolean booleano=  Boolean.parseBoolean(result[8].toString());
+                          String habitacion= ((String) result[9]) ;
+                          String estado= ((String) result[10] );
+
+                        
+                        lista.add(new TimelineDetalleReserva(
+                                new TimelineReserva(idReserva, cliente, fecha_entrada, fecha_salida, descripcion, subtotal, igv, monto,estado),
+                                fecha_entrada, fecha_salida, booleano, habitacion, estado));
+                       // lista.add(new PacientePresencial(posicion, paciente,fecha, cod_cli, cod_vis, cod_ter));
+			}
+        } catch (Exception e) {
+            System.out.println("Error SP_listareservafiltrosF_EST : "+e.getMessage());
+        } finally {
+            session.flush();
+            session.close();
+        }
+          return lista;
+    } 
 
      public List<THabitacion> listarhabitacionesconfiltros(String id,String fecEnt,String fecSal)
     {
