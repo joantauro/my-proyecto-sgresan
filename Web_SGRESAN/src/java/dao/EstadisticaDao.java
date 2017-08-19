@@ -74,7 +74,7 @@ public class EstadisticaDao {
 			List<Object[]> d=q.list();
 			for (Object[] result : d) {
 				
-				BigInteger CANTIDAD = ((BigInteger) result[0]);
+				BigInteger CANTIDAD = BigInteger.valueOf(((BigDecimal) result[0]).intValue());
 				String NOMBRE = (String) result[1];
 				lista.add(new Estadistica(CANTIDAD, NOMBRE));
 			}
