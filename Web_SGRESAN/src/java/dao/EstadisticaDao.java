@@ -21,18 +21,20 @@ import util.HibernateUtil;
 public class EstadisticaDao {
     
     
-     public List<Estadistica> visitaMesActual() {
+     public List<Estadistica> visitaMesActual(int accion) {
         List<Estadistica> lista= new ArrayList<Estadistica>();
                 Session session = HibernateUtil.getSessionFactory().openSession();
                  try {
        
-             Query q = session.createSQLQuery("{ CALL SP_EstadisticaMesActual() }");
+             Query q = session.createSQLQuery("{ CALL SP_EstadisticaMesActual(:accion) }");
+             q.setParameter("accion", accion);
 			List<Object[]> d=q.list();
 			for (Object[] result : d) {
 				
 				BigInteger CANTIDAD = BigInteger.valueOf(((BigDecimal) result[0]).intValue());
 				String NOMBRE = (String) result[1];
-				lista.add(new Estadistica(CANTIDAD, NOMBRE));
+                                String TEXTO = (String) result[2];
+				lista.add(new Estadistica(CANTIDAD, NOMBRE,TEXTO));
 			}
         } catch (Exception e) {
             System.out.println("Error : "+e.getMessage());
@@ -43,18 +45,20 @@ public class EstadisticaDao {
           return lista;      
     } 
      
-     public List<Estadistica> visitaMeses() {
+     public List<Estadistica> visitaMeses(int accion) {
         List<Estadistica> lista= new ArrayList<Estadistica>();
                 Session session = HibernateUtil.getSessionFactory().openSession();
                  try {
        
-             Query q = session.createSQLQuery("{ CALL SP_EstadisticaMesesNuevo() }");
+             Query q = session.createSQLQuery("{ CALL SP_EstadisticaMesesNuevo(:accion) }");
+             q.setParameter("accion", accion);
 			List<Object[]> d=q.list();
 			for (Object[] result : d) {
 				
 				BigInteger CANTIDAD = BigInteger.valueOf(((BigDecimal) result[0]).intValue());
 				String NOMBRE = (String) result[1];
-				lista.add(new Estadistica(CANTIDAD, NOMBRE));
+                                String TEXTO = (String) result[2];
+				lista.add(new Estadistica(CANTIDAD, NOMBRE,TEXTO));
 			}
         } catch (Exception e) {
             System.out.println("Error : "+e.getMessage());
@@ -65,18 +69,20 @@ public class EstadisticaDao {
           return lista;      
     }  
      
-     public List<Estadistica> visitaAnual() {
+     public List<Estadistica> visitaAnual(int accion) {
         List<Estadistica> lista= new ArrayList<Estadistica>();
                 Session session = HibernateUtil.getSessionFactory().openSession();
                  try {
        
-             Query q = session.createSQLQuery("{ CALL SP_EstadisticaAnual() }");
+             Query q = session.createSQLQuery("{ CALL SP_EstadisticaAnual(:accion) }");
+             q.setParameter("accion", accion);
 			List<Object[]> d=q.list();
 			for (Object[] result : d) {
 				
 				BigInteger CANTIDAD = BigInteger.valueOf(((BigDecimal) result[0]).intValue());
 				String NOMBRE = (String) result[1];
-				lista.add(new Estadistica(CANTIDAD, NOMBRE));
+                                String TEXTO = (String) result[2];
+				lista.add(new Estadistica(CANTIDAD, NOMBRE,TEXTO));
 			}
         } catch (Exception e) {
             System.out.println("Error : "+e.getMessage());

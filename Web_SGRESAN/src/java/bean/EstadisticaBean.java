@@ -7,14 +7,17 @@ package bean;
 
 import Entidad.Estadistica;
 import dao.EstadisticaDao;
+import dao.HabitacionDao;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import model.TTipohabitacion;
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.BarChartModel;
 import org.primefaces.model.chart.ChartSeries;
+import org.primefaces.model.chart.LegendPlacement;
 
 /**
  *
@@ -28,17 +31,21 @@ private List<Estadistica> lista;
 private List<Estadistica> listaMeses;
 private List<Estadistica> listaAnual;
 
+private List<TTipohabitacion> listaTipoHab;
 
 private BarChartModel barra;
 private BarChartModel barraMeses;
 private BarChartModel barraAnual;
 
     EstadisticaDao eDao;
+    HabitacionDao hDao;
     private int valor;
+    private int accion;
 
     public EstadisticaBean() {
         eDao = new EstadisticaDao();
-        valor=1;
+        hDao = new HabitacionDao();
+        valor=1;accion=1;
         createAnimatedModels(); 
         createAnimatedModelsMeses();
         createAnimatedModelsAnual();
@@ -62,7 +69,9 @@ private BarChartModel barraAnual;
         setBarra(initBarModel());
         getBarra().setTitle("Reservas del Mes");
         getBarra().setAnimate(true);
-        getBarra().setLegendPosition("ne");
+        getBarra().setLegendPosition("s");
+        getBarra().setLegendRows(1);
+        getBarra().setLegendPlacement(LegendPlacement.OUTSIDEGRID);
        // getBarra().setBarMargin(80);
         //getBarra().setBarPadding(100);
     }
@@ -73,7 +82,9 @@ private BarChartModel barraAnual;
         setBarraMeses(initBarModelMeses());
         getBarraMeses().setTitle("Reservas de los Meses del Año");
         getBarraMeses().setAnimate(true);
-        getBarraMeses().setLegendPosition("ne");
+        getBarraMeses().setLegendPosition("s");
+        getBarraMeses().setLegendRows(1);
+        getBarraMeses().setLegendPlacement(LegendPlacement.OUTSIDEGRID);
        // getBarra().setBarMargin(80);
         //getBarra().setBarPadding(100);
     }
@@ -84,7 +95,9 @@ private BarChartModel barraAnual;
         setBarraAnual(initBarModelAnual());
         getBarraAnual().setTitle("Reservas por Años");
         getBarraAnual().setAnimate(true);
-        getBarraAnual().setLegendPosition("ne");
+        getBarraAnual().setLegendPosition("s");
+        getBarraAnual().setLegendRows(1);
+        getBarraAnual().setLegendPlacement(LegendPlacement.OUTSIDEGRID);
        // getBarra().setBarMargin(80);
         //getBarraAnual().setBarPadding(100);
         getBarraAnual().setBarWidth(20);
@@ -94,39 +107,96 @@ private BarChartModel barraAnual;
     private BarChartModel initBarModel() {
         BarChartModel model = new BarChartModel();
  
+        
+         Axis xAxis = model.getAxis(AxisType.X);
+         xAxis.setTickAngle(-60);
+         lista=new ArrayList<Estadistica>();
+        lista.addAll(eDao.visitaMesActual(accion));
+        
+        if(accion!=3){
         ChartSeries est = new ChartSeries();
         est.setLabel("Reservas");
-     Axis xAxis = model.getAxis(AxisType.X);
-     xAxis.setTickAngle(-60);
-        lista=new ArrayList<Estadistica>();
-        lista.addAll(eDao.visitaMesActual());
-
+   
         for(int i=0;i<lista.size();i++)
         {
         	est.set(lista.get(i).getFECHA(), lista.get(i).getCANTIDAD());
         	//est.set(x, y);
         }
         model.addSeries(est);
+        }else
+        {
+            List<ChartSeries> listaBarra = new ArrayList<ChartSeries>() ;
+            listaTipoHab = hDao.listarTipoHabitacion();
+                    for (int i = 0; i < listaTipoHab.size(); i++) {
+            listaBarra.add(new ChartSeries());
+            listaBarra.get(i).setLabel(listaTipoHab.get(i).getNombre());
+            for (int j = 0; j < lista.size(); j++) {
+                if(lista.get(j).getTEXTO().equals(listaTipoHab.get(i).getNombre())){
+                    listaBarra.get(i).set(lista.get(j).getFECHA(), lista.get(j).getCANTIDAD());
+                }
+            }
+            model.addSeries(listaBarra.get(i));
+        }
+            
+        }
          
         return model;
     }
     
-    private BarChartModel initBarModelMeses() {
+    public void prueba(){
         BarChartModel model = new BarChartModel();
+        ChartSeries est = new ChartSeries();
+        List<ChartSeries> listaBarra = new ArrayList<ChartSeries>() ;
+        Axis xAxis = model.getAxis(AxisType.X);
+        xAxis.setTickAngle(-90);
+         lista=new ArrayList<Estadistica>();
+        lista.addAll(eDao.visitaMesActual(accion));
+        for (int i = 0; i < listaTipoHab.size(); i++) {
+            listaBarra.add(new ChartSeries());
+            listaBarra.get(i).setLabel(listaTipoHab.get(i).getNombre());
+            for (int j = 0; j < lista.size(); j++) {
+                if(lista.get(j).getTEXTO().equals(listaTipoHab.get(i).getNombre())){
+                    listaBarra.get(i).set(lista.get(j).getFECHA(), lista.get(j).getCANTIDAD());
+                }
+            }
+            model.addSeries(listaBarra.get(i));
+        }
+    }
+    private BarChartModel initBarModelMeses() {
+         BarChartModel model = new BarChartModel();
  
+        
+         Axis xAxis = model.getAxis(AxisType.X);
+         xAxis.setTickAngle(-60);
+         lista=new ArrayList<Estadistica>();
+        lista.addAll(eDao.visitaMeses(accion));
+        
+        if(accion!=3){
         ChartSeries est = new ChartSeries();
         est.setLabel("Reservas");
-     /*Axis xAxis = model.getAxis(AxisType.X);
-     xAxis.setTickAngle(-60);*/
-        listaMeses=new ArrayList<Estadistica>();
-        listaMeses.addAll(eDao.visitaMeses());
-
-        for(int i=0;i<listaMeses.size();i++)
+   
+        for(int i=0;i<lista.size();i++)
         {
-        	est.set(listaMeses.get(i).getFECHA(), listaMeses.get(i).getCANTIDAD());
+        	est.set(lista.get(i).getFECHA(), lista.get(i).getCANTIDAD());
         	//est.set(x, y);
         }
         model.addSeries(est);
+        }else
+        {
+            List<ChartSeries> listaBarra = new ArrayList<ChartSeries>() ;
+            listaTipoHab = hDao.listarTipoHabitacion();
+                    for (int i = 0; i < listaTipoHab.size(); i++) {
+            listaBarra.add(new ChartSeries());
+            listaBarra.get(i).setLabel(listaTipoHab.get(i).getNombre());
+            for (int j = 0; j < lista.size(); j++) {
+                if(lista.get(j).getTEXTO().equals(listaTipoHab.get(i).getNombre())){
+                    listaBarra.get(i).set(lista.get(j).getFECHA(), lista.get(j).getCANTIDAD());
+                }
+            }
+            model.addSeries(listaBarra.get(i));
+        }
+            
+        }
          
         return model;
     }
@@ -134,20 +204,35 @@ private BarChartModel barraAnual;
     private BarChartModel initBarModelAnual() {
         BarChartModel model = new BarChartModel();
  
+         listaAnual=new ArrayList<Estadistica>();
+        listaAnual.addAll(eDao.visitaAnual(accion));
+        
+        if(accion!=3){
         ChartSeries est = new ChartSeries();
         est.setLabel("Reservas");
-     /*Axis xAxis = model.getAxis(AxisType.X);
-     xAxis.setTickAngle(-60);*/
-        listaAnual=new ArrayList<Estadistica>();
-        listaAnual.addAll(eDao.visitaAnual());
-
+   
         for(int i=0;i<listaAnual.size();i++)
         {
         	est.set(listaAnual.get(i).getFECHA(), listaAnual.get(i).getCANTIDAD());
         	//est.set(x, y);
         }
         model.addSeries(est);
-         
+        }else
+        {
+            List<ChartSeries> listaBarra = new ArrayList<ChartSeries>() ;
+            listaTipoHab = hDao.listarTipoHabitacion();
+                    for (int i = 0; i < listaTipoHab.size(); i++) {
+            listaBarra.add(new ChartSeries());
+            listaBarra.get(i).setLabel(listaTipoHab.get(i).getNombre());
+            for (int j = 0; j < listaAnual.size(); j++) {
+                if(listaAnual.get(j).getTEXTO().equals(listaTipoHab.get(i).getNombre())){
+                    listaBarra.get(i).set(listaAnual.get(j).getFECHA(), listaAnual.get(j).getCANTIDAD());
+                }
+            }
+            model.addSeries(listaBarra.get(i));
+        }
+            
+        }
         return model;
     }
 
@@ -206,6 +291,19 @@ private BarChartModel barraAnual;
 
     public void setBarraAnual(BarChartModel barraAnual) {
         this.barraAnual = barraAnual;
+    }
+
+    public int getAccion() {
+        return accion;
+    }
+
+    public void setAccion(int accion) {
+        this.accion = accion;
+    }
+
+    public List<TTipohabitacion> getListaTipoHab() {
+        listaTipoHab = hDao.listarTipoHabitacion();
+        return listaTipoHab;
     }
     
     
