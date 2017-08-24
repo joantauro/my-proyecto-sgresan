@@ -63,10 +63,10 @@ public class ReservaDao {
                           boolean booleano=  Boolean.parseBoolean(result[8].toString());
                           String habitacion= ((String) result[9]) ;
                           String estado= ((String) result[10] );
-
+                          int cantTotal= Integer.parseInt(result[11].toString());
                         
                         lista.add(new TimelineDetalleReserva(
-                                new TimelineReserva(idReserva, cliente, fecha_entrada, fecha_salida, descripcion, subtotal, igv, monto,estado),
+                                new TimelineReserva(idReserva, cliente, fecha_entrada, fecha_salida, descripcion, subtotal, igv, monto,estado,cantTotal),
                                 fecha_entrada, fecha_salida, booleano, habitacion, estado));
                        // lista.add(new PacientePresencial(posicion, paciente,fecha, cod_cli, cod_vis, cod_ter));
 			}
@@ -102,10 +102,10 @@ public class ReservaDao {
                           boolean booleano=  Boolean.parseBoolean(result[8].toString());
                           String habitacion= ((String) result[9]) ;
                           String estado= ((String) result[10] );
-
+                          int cantTotal= Integer.parseInt(result[11].toString());    
                         
                         lista.add(new TimelineDetalleReserva(
-                                new TimelineReserva(idReserva, cliente, fecha_entrada, fecha_salida, descripcion, subtotal, igv, monto,estado),
+                                new TimelineReserva(idReserva, cliente, fecha_entrada, fecha_salida, descripcion, subtotal, igv, monto,estado,cantTotal),
                                 fecha_entrada, fecha_salida, booleano, habitacion, estado));
                        // lista.add(new PacientePresencial(posicion, paciente,fecha, cod_cli, cod_vis, cod_ter));
 			}
@@ -142,10 +142,11 @@ public class ReservaDao {
                           boolean booleano=  Boolean.parseBoolean(result[8].toString());
                           String habitacion= ((String) result[9]) ;
                           String estado= ((String) result[10] );
+                          int cantTotal= Integer.parseInt(result[11].toString());
 
                         
                         lista.add(new TimelineDetalleReserva(
-                                new TimelineReserva(idReserva, cliente, fecha_entrada, fecha_salida, descripcion, subtotal, igv, monto,estado),
+                                new TimelineReserva(idReserva, cliente, fecha_entrada, fecha_salida, descripcion, subtotal, igv, monto,estado,cantTotal),
                                 fecha_entrada, fecha_salida, booleano, habitacion, estado));
                        // lista.add(new PacientePresencial(posicion, paciente,fecha, cod_cli, cod_vis, cod_ter));
 			}
@@ -221,13 +222,16 @@ public class ReservaDao {
         boolean resultado = false;
          Session session = HibernateUtil.getSessionFactory().openSession();
          try {
-             Query q = session.createSQLQuery("{ CALL SP_ModificarReserva(:accion,:reserva,:flag,:motivo,:inicio,:fin) }");
+             Query q = session.createSQLQuery("{ CALL SP_ModificarReserva(:accion,:reserva,:flag,:motivo,:inicio,:fin,:cst,:igv_n,:cst_t) }");
              q.setParameter("accion", accion);
              q.setParameter("reserva", reserva.getIdReserva());
              q.setParameter("flag", reserva.getEstado());
              q.setParameter("motivo", reserva.getDescripcion());
              q.setParameter("inicio", reserva.getFecha_entrada());
              q.setParameter("fin", reserva.getFecha_salida());
+             q.setParameter("cst", reserva.getSubtotal());
+             q.setParameter("igv_n", reserva.getIgv());
+             q.setParameter("cst_t", reserva.getTotal());
              q.executeUpdate();
              resultado = true;
          }
