@@ -11,6 +11,7 @@ import dao.ReservaDao;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -38,12 +39,15 @@ private TReserva reserva;
 private List<TReserva> reservas;
 private List<TReserva> reservasALL;
  private StreamedContent imagem;
+ 
+ private int accion;
     /**
      * Creates a new instance of ArchivoBean
      */
     public ArchivoBean() {
         reserva = new TReserva();
         reserva.setTCliente(new TCliente());
+        accion=1;
     }
 
     public void AGREGAR_BOLETA()
@@ -65,8 +69,9 @@ private List<TReserva> reservasALL;
                byte[] bytes = IOUtils.toByteArray(file.getInputstream());
                reserva.setVoucher(bytes);
                //reserva.setDescripcion(file.getFileName());
-               System.out.println(file.getFileName());
-               reserva.setEstado("pre-reserva-cv");
+               if(reserva.getEstado().equals("pre-reserva") || reserva.getEstado().equals("pre-reserva-cv")){
+                   reserva.setEstado("pre-reserva-cv");
+               }
                ar.ModificarReserva(reserva);
            }else
            {
@@ -144,6 +149,23 @@ private List<TReserva> reservasALL;
 //        output.write(reserva.getVoucher(),0, reserva.getVoucher().length);
         //fc.responseComplete();
   
+    }
+    
+    public void VisualizarImagen(byte[] img){
+        imagem =new DefaultStreamedContent(new ByteArrayInputStream(img));
+    }
+    
+    public void CAMBIARTABLA(){
+       	
+        if(accion==1){
+            ReservaDao dao = new ReservaDao();
+        reservasALL = dao.listarestadoreserva();
+         
+        } else{
+            ReservaVoucherBean managedBean = new ReservaVoucherBean();
+           managedBean.CargarTabla();
+        }
+        
     }
     
     public void ACTUALIZAR(String id)
@@ -229,5 +251,13 @@ private List<TReserva> reservasALL;
 public void setImagem(StreamedContent imagem) {
  this.imagem = imagem;
  }
+
+    public int getAccion() {
+        return accion;
+    }
+
+    public void setAccion(int accion) {
+        this.accion = accion;
+    }
  
 }

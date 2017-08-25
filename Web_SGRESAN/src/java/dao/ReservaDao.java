@@ -177,8 +177,48 @@ public class ReservaDao {
     public List<TReserva> listarestadoreserva()
     {
         Session session = HibernateUtil.getSessionFactory().openSession();
-        return session.createQuery("from TReserva where Estado='pre-reserva'").list();
+        return session.createQuery("from TReserva where Estado in ('pre-reserva','pre-reserva-cv') ").list();
     }
+    
+        public List<TReserva> listarestadoreservaVouchers()
+    {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        return session.createQuery("from TReserva where FechaSalida>now()").list();
+    }
+        
+        public List<TReserva> SP_listareservaVouchers(String valor)
+    {
+          List<TReserva> lista= new ArrayList<TReserva>();
+                Session session = HibernateUtil.getSessionFactory().openSession();
+                 try {
+          
+             Query q = session.createSQLQuery("{ CALL SP_VisualizarVouchers(:cod) }");
+             q.setParameter("cod", valor);
+         
+			List<Object[]> d=q.list();
+			for (Object[] result : d) {
+				
+                        String idReserva = (String)result[0];
+                          String estado= ((String) result[1] );
+                          byte[] voucher = (byte[]) result[2];
+                          double v1 = Double.parseDouble(result[3].toString());
+                          double v2 = Double.parseDouble(result[4].toString());
+                          double v3 = Double.parseDouble(result[5].toString());
+                          Date fec = (Date) result[6];
+                  
+
+                        
+                        lista.add(new TReserva(idReserva, null, estado, fec, null, null, null, null, voucher, v1, v2, v3, null, 0, 0, 0));
+                       // lista.add(new PacientePresencial(posicion, paciente,fecha, cod_cli, cod_vis, cod_ter));
+			}
+        } catch (Exception e) {
+            System.out.println("Error SP_VisualizarVouchers : "+e.getMessage());
+        } finally {
+            session.flush();
+            session.close();
+        }
+          return lista;
+    } 
     
     public void InsetartReserva(TReserva reserva)
     { 
