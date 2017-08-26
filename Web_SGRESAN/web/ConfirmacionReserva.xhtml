@@ -90,7 +90,7 @@
                     </p:column>
 
                     <p:rowExpansion   >
-                        <p:dataTable var="val" value="#{reservaVoucherBean.reservasByID}" rowIndexVar="valor2" id="tablag2" style="width: 500px;" >
+                        <p:dataTable var="val" value="#{reservaVoucherBean.reservasByID}" rowIndexVar="valor2" id="tablag2" style="width: 100%;" >
                             <f:facet name="header">
                                 Fechas de Pago de Reserva
                             </f:facet>
@@ -112,7 +112,7 @@
                             <p:column headerText="Opciones" >
                                 <p:commandButton rendered="#{val.voucher ne null}"   oncomplete="PF('infoDialog').show();" 
                                                  actionListener="#{archivoBean.VisualizarImagen(val.voucher)}" icon="ui-icon-image" title="Ver"
-                                                 update="valor" />
+                                                 update=":from:valor" />
                                 <p:spacer width="20" />
                                 <p:commandButton rendered="#{inte2.voucher ne null}"  icon="icon-aceptar" title="Aprobar"  
                                                  />
